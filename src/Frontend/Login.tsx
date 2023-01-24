@@ -12,6 +12,10 @@ function Login() {
                 <input type="text"/>
                 <h4>Password</h4>
                 <input type="password"/>
+                <hr/>
+                <p>or</p>
+                <hr/>
+                <h5><u>Register</u></h5>
             </div>
         </div>
     );

@@ -18,8 +18,7 @@
 
 .App {
   text-align: center;
-  background-color: #454545;
-  background-image: linear-gradient(to right, #365D73 15%, #FFFFFF, #365D73 15%);
+  background-image: linear-gradient(to right, #365D73 0, #365D73 2%, #FFFFFF 2%, #FFFFFF 98%, #365D73 98%, #365D73 2%);
 }
 
 .App-header {
