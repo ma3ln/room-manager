@@ -1,0 +1,46 @@
+.root{
+    --black: #000000;
+    --white: #FFFFFF;
+    --light_blue: #4292c7;
+    --dark_blue: #0a0d63;
+    --blue: #1b56b5;
+    --green: #18a11d;
+    --light_green: #61ab37;
+    --dark_green: #1a611d;
+    --yellow: #e7eb2d;
+    --orange: #f29018;
+    --red: #d6321c;
+    --magenta: #e629d9;
+    --grey: #454545;
+    --dark_grey: #252525;
+    --light_grey: #606060;
+}
+
+.Login {
+    text-align: center;
+}
+
+.loginPage {
+    background-color: #FFFFFF;
+}
+
+h2 {
+    color: black;
+    font-family: Roboto;
+    margin-bottom: 80px;
+}
+
+h4 {
+    color: black;
+    font-family: Roboto;
+    text-align: left;
+}
+
+.LoginSquare {
+    background-color: white;
+    border: black 3px solid;
+    padding-bottom: 70px;
+    padding-left: 150px;
+    padding-top: 40px;
+    padding-right: 150px;
+}
