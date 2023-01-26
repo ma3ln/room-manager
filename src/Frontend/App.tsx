@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../logo.svg';
 import './CSS/App.css';
 import Login from './Login';
 import Dashboard from "./Dashboard";
