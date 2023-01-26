@@ -1,5 +1,7 @@
 import React from 'react';
 import "./CSS/Login.css";
+import Dashboard from "./Dashboard";
+import {Link} from "react-router-dom";
 
 function Login() {
     return(
