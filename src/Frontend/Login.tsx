@@ -1,9 +1,16 @@
 import React from 'react';
 import "./CSS/Login.css";
 import Dashboard from "./Dashboard";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 function Login() {
+
+    const navigate = useNavigate();
+
+    function handleClick() {
+        navigate("/dashboard");
+    }
+
     return(
         <div className="loginPage">
             <header className="loginHeader">
@@ -19,6 +26,7 @@ function Login() {
                 <hr/>
                 <h5><u>Register</u></h5>
             </div>
+            <button onClick={handleClick}>Route Test</button>
         </div>
     );
 }
