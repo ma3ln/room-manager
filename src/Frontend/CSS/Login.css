@@ -66,14 +66,11 @@ input {
 }
 
 .elementLogin {
-    width: 500px;
-    align-self: center;
-    display: flex;
-    margin-top: 50px;
+    margin-top: 10%;
 }
 
 .loginButton {
-    align-self: center;
+    align-content: center;
 }
 
 .user-login input {
