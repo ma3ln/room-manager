@@ -1,0 +1,53 @@
+.root{
+    --black: #000000;
+    --white: #FFFFFF;
+    --light_blue: #4292c7;
+    --dark_blue: #0a0d63;
+    --blue: #1b56b5;
+    --green: #18a11d;
+    --light_green: #61ab37;
+    --dark_green: #1a611d;
+    --yellow: #e7eb2d;
+    --orange: #f29018;
+    --red: #d6321c;
+    --magenta: #e629d9;
+    --grey: #454545;
+    --dark_grey: #252525;
+    --light_grey: #606060;
+}
+
+#registerBox {
+    border: #000000 solid 1px;
+    height: 200%;
+    width: 150%;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    align-items: center;
+    background-color: #F2ECEC;
+}
+
+#welcome-box {
+    background-image: linear-gradient(to right, #4292c7, #1b56b5, #365D73 , #1b56b5, #4292c7);
+}
+
+.close {
+    position: absolute;
+    right: 5%;
+    top: 0;
+    color: #000000;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.inputContainer {
+    align-items: center;
+}
+
+.user-login input {
+
+}
+
+.registerButton {
+    margin-top: 10%;
+    margin-bottom: 10%;
+}

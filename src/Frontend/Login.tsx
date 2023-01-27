@@ -1,28 +1,26 @@
 import React from 'react';
 import "./CSS/Login.css";
 import {Button} from "@mui/material";
-import {Box} from "@mui/material";
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import {AccountCircle} from "@mui/icons-material";
 import {Lock} from "@mui/icons-material";
 
-import Dashboard from "./Dashboard";
 import {Link, useNavigate} from "react-router-dom";
+import Popup from "reactjs-popup";
+import Register from "./Popup/Register";
 
 function Login() {
 
     const navigate = useNavigate();
+    const [open, setOpen] = React.useState(false);
+    const closeModal = () => setOpen(false);
 
     function handleClick() {
         navigate("/dashboard");
     }
 
     function handleLogin() {
-
-    }
-
-    function handleRegister() {
 
     }
 
@@ -64,7 +62,13 @@ function Login() {
                 <p>or</p>
                 <hr/>
                 <div className="registerElement">
-                    <Button onClick={handleRegister} className="registerButton" sx={{ width: 300, padding: 1, margin: 2}} variant="outlined">Register</Button>
+                    <Button onClick={() => setOpen(true)} className="registerButton" sx={{ width: 300, padding: 1, margin: 2}} variant="outlined">Register</Button>
+                </div>
+                <div id="modal">
+                    <Popup open ={open} closeOnDocumentClick onClose={closeModal}
+                    >
+                        <Register/>
+                    </Popup>
                 </div>
             </div>
             <div className="elementLogin">

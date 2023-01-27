@@ -18,16 +18,6 @@
 
 .App {
   text-align: center;
-  background-image: linear-gradient(to right, #365D73 0, #365D73 2%, #FFFFFF 2%, #FFFFFF 98%, #365D73 98%, #365D73 2%);
-}
-
-.App-header {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
 }
 
 .circle {
