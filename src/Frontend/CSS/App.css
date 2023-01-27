@@ -29,3 +29,11 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
 }
+
+.circle {
+  position: absolute;
+  width: 30%;
+  padding-bottom: 60%;
+  height: auto;
+  border-radius: 50%;
+}
