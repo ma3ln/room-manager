@@ -43,6 +43,14 @@ function Login() {
             .catch(error => console.log('error', error));
     }
 
+    function handleLogin() {
+
+    }
+
+    function handleRegister() {
+
+    }
+
     return(
         <div className="loginPage">
             <header className="loginHeader">
@@ -81,11 +89,11 @@ function Login() {
                 <p>or</p>
                 <hr/>
                 <div className="registerElement">
-                    <Button className="registerButton" variant="outlined">Register</Button>
+                    <Button onClick={handleRegister} className="registerButton" sx={{ width: 300, padding: 1, margin: 2}} variant="outlined">Register</Button>
                 </div>
             </div>
             <div className="elementLogin">
-                <Button className="loginButton" variant="contained">Log In</Button>
+                <Button onClick={handleLogin} className="loginButton" sx={{ width: 300, padding: 1, margin: 2}} variant="contained">Log In</Button>
             </div>
             <button onClick={handleClick}>Route Test</button>
         </div>
