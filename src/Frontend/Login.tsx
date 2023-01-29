@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import "./CSS/Login.css";
 import {Button, Popover} from "@mui/material";
 import InputAdornment from '@mui/material/InputAdornment';
@@ -12,7 +12,11 @@ import Register from "./Popup/Register";
 import ErrorLogin from "./Popup/ErrorLogin";
 import Circles from "./Background/Circles";
 
+
 function Login() {
+
+    const [postId, setPostId] = useState(0);
+
 
     const navigate = useNavigate();
     const [openPopup, setOpen] = React.useState(false);
@@ -22,7 +26,19 @@ function Login() {
     const openPopover = Boolean(anchorEl);
 
     function handleClick() {
-        navigate("/dashboard");
+        const formdata = new FormData();
+        formdata.append("user", "TestUser1");
+        formdata.append("password", "123456");
+
+
+        fetch("http://localhost:8081/login", {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        })
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
     }
 
     function handleClose() {

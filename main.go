@@ -12,10 +12,15 @@ type Termin struct {
 	Raum         string `json:"Raum"`
 	Beschreibung string `json:"Beschreibung"`
 }
-
+type Login struct {
+	user     string
+	password string
+}
 type Termine []Termin
 
 func alleTermine(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	termine := Termine{
 		Termin{
 			Zeit:         "09.01.2022",
@@ -23,8 +28,25 @@ func alleTermine(w http.ResponseWriter, r *http.Request) {
 			Beschreibung: "Normaler Raum",
 		},
 	}
-	fmt.Println("Endpoint Hit: Alle Termine Endpoint")
 	json.NewEncoder(w).Encode(termine)
+}
+
+func login(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	user := r.FormValue("user")
+	password := r.FormValue("password")
+	log.Println(user)
+	log.Println(password)
+	//w.WriteHeader(http.StatusOK)
+
+	if user == "TestUser1" && password == "123456" {
+		w.WriteHeader(http.StatusOK)
+		return
+	} else {
+		http.Error(w, "Fehler!!!", http.StatusBadRequest)
+	}
+
 }
 
 func homePage(w http.ResponseWriter, r *http.Request) {
@@ -32,8 +54,9 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleRequests() {
-	http.HandleFunc("/", alleTermine)
-	log.Fatal(http.ListenAndServe(":8081", nil))
+	http.HandleFunc("/login", login)
+	http.HandleFunc("/Termine", alleTermine)
+	http.ListenAndServe(":8081", nil)
 }
 
 func main() {
