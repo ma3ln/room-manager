@@ -19,15 +19,6 @@ function Login() {
     const navigate = useNavigate();
 
     function handleClick() {
-/*        //navigate("/dashboard");
-
-        fetch('http://localhost:8081/login', {
-            mode: "cors",
-            method: "POST",
-            body: JSON.stringify({user: 'User123', password: '123456'})
-        }).catch((error) => {
-            console.log(error)
-        });*/
         const formdata = new FormData();
         formdata.append("user", "TestUser1");
         formdata.append("password", "123456");
