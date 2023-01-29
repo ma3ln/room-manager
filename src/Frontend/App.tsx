@@ -4,18 +4,23 @@ import Login from './Login';
 import Dashboard from "./Dashboard";
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Sidebars from "./Sidebars";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-          <BrowserRouter>
+        <BrowserRouter>
+            <div className={"Sidebare"}>
+                <Sidebars />
+            </div>
+            <header className="App-header">
               <Routes>
-                  <Route path={"/"} element={<Login />}></Route>
-                  <Route path={"dashboard"} element={<Dashboard />}></Route>
+              <Route path={"/"} element={<Login />}></Route>
+              <Route path={"dashboard"} element={<Dashboard />}></Route>
               </Routes>
-          </BrowserRouter>
-      </header>
+            </header>
+
+        </BrowserRouter>
     </div>
   );
 }

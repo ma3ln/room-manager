@@ -21,7 +21,15 @@
   background-image: linear-gradient(to right, #365D73 0, #365D73 2%, #FFFFFF 2%, #FFFFFF 98%, #365D73 98%, #365D73 2%);
 }
 
+.Sidebare{
+  left: 2%;
+  float: left;
+  width: 18%;
+}
+
 .App-header {
+  float: right;
+  width: 80%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
