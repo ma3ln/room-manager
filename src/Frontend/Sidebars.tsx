@@ -31,6 +31,7 @@ export default function Sidebars() {
         <Box
             sx={{
                 flexGrow: 1,
+                left: '4%',
                 right: '2%',
                 top: '10%',
                 height: '100%',
