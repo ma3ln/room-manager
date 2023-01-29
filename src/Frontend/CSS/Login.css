@@ -29,6 +29,7 @@
     font-size: calc(10px + 2vmin);
     text-align: center;
     background-image: linear-gradient(to right, #365D73 0, #365D73 2%, #FFFFFF 2%, #FFFFFF 98%, #365D73 98%, #365D73 2%);
+    overflow-y: hidden;
 }
 
 .loginHeader {
@@ -56,9 +57,10 @@ h5 {
 
 .LoginSquare {
     background-color: #F2ECEC;
-    padding: 50px 150px 50px;
+    padding: 50px 100px 50px;
     box-shadow: 1px 0px 17px 0px #000000;
     height: 100%;
+    width: 25%;
 }
 
 hr {
@@ -91,4 +93,57 @@ hr {
 
 #modal {
     align-items: center;
+}
+
+#errorLogin {
+    color: #d6321c;
+    font-size: small;
+}
+
+.css-3bmhjh-MuiPaper-root-MuiPopover-paper {
+    height: 20%;
+    width: 27%;
+    border: #d6321c 2px solid;
+    text-align: center;
+    overflow: hidden;
+    background-color: #F2ECEC !important;
+    padding: 0;
+    margin: 0;
+}
+
+#closeRegisterPopup {
+    position: absolute;
+    left: 45%;
+    top: 100%;
+    margin-top: 3%;
+}
+
+#hr-lines:before {
+    content: " ";
+    display: block;
+    height: 1px;
+    width: 150px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    background: black;
+}
+
+#hr-lines {
+    position: relative;
+    max-width: 500px;
+    margin: 50px auto;
+    text-align: center;
+    font-family: Roboto;
+}
+
+#hr-lines:after {
+    content: " ";
+    height: 1px;
+    width: 150px;
+    background: black;
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 0;
 }

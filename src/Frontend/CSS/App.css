@@ -18,12 +18,10 @@
 
 .App {
   text-align: center;
+  overflow-y: hidden;
 }
 
-.circle {
-  position: absolute;
-  width: 30%;
-  padding-bottom: 60%;
-  height: auto;
-  border-radius: 50%;
+body {
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
