@@ -38,9 +38,9 @@ func login(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 	log.Println(user)
 	log.Println(password)
+	//w.WriteHeader(http.StatusOK)
 
 	if user == "TestUser1" && password == "123456" {
-		fmt.Fprintf(w, "Login Succesful")
 		w.WriteHeader(http.StatusOK)
 		return
 	} else {
@@ -49,8 +49,13 @@ func login(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func homePage(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Homepage Endpoint Hit")
+}
+
 func handleRequests() {
 	http.HandleFunc("/login", login)
+	http.HandleFunc("/Termine", alleTermine)
 	http.ListenAndServe(":8081", nil)
 }
 
