@@ -59,6 +59,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 	//w.WriteHeader(http.StatusOK)
 
 	if password == userFiltered[0]["password"] {
+		fmt.Fprintf(w, "Login Succesful")
 		w.WriteHeader(http.StatusOK)
 		return
 	} else {
@@ -67,13 +68,8 @@ func login(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func homePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Homepage Endpoint Hit")
-}
-
 func handleRequests() {
 	http.HandleFunc("/login", login)
-	http.HandleFunc("/Termine", alleTermine)
 	http.ListenAndServe(":8081", nil)
 }
 
