@@ -31,6 +31,22 @@ function Login() {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
     const openPopover = Boolean(anchorEl);
 
+    function handleClick() {
+        const formdata = new FormData();
+        formdata.append("user", "TestUser1");
+        formdata.append("password", (document.getElementById("input-with-password-icon")! as HTMLInputElement).value);
+
+
+        fetch("http://localhost:8081/login", {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        })
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+    }
+
     function handleClose() {
         setShow(prevState => !prevState);
         setShowWrongLogin(false);
