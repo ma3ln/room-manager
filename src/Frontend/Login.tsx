@@ -36,8 +36,8 @@ function Login() {
 
     function handleClick() {
         const formdata = new FormData();
-        formdata.append("user", "TestUser1");
-        formdata.append("password", "123456");
+        formdata.append("user", ((document.getElementById("input-with-account-icon")! as HTMLInputElement).value));
+        formdata.append("password", ((document.getElementById("input-with-password-icon")! as HTMLInputElement).value));
 
 
         fetch("http://localhost:8081/login", {
@@ -64,8 +64,8 @@ function Login() {
 
     function handleLogin(event: React.MouseEvent<HTMLButtonElement>) {
         const formdata = new FormData();
-        formdata.append("user", "TestUser1")
-        formdata.append("password", "123456")
+        formdata.append("user", ((document.getElementById("input-with-account-icon")! as HTMLInputElement).value))
+        formdata.append("password", ((document.getElementById("input-with-password-icon")! as HTMLInputElement).value))
         if (((document.getElementById("input-with-account-icon")! as HTMLInputElement).value === "") || ((document.getElementById("input-with-password-icon")! as HTMLInputElement).value === "")) {
             setAnchorEl(event.currentTarget);
             setShow(prevState => !prevState);
@@ -84,9 +84,13 @@ function Login() {
                     }
                 })
                 .then(result => console.log("result", result))
-                .catch(error => {console.log('error', error)
-                                setShow(true);
-                                setShowWrongLogin(true)});
+                .catch(error => {
+                    if(error.response.status === 400) {
+                        setAnchorEl(event.currentTarget);
+                        setShowNoInputError(false);
+                        setShow(prevState => !prevState);
+                    }
+                });
         }
     }
 
@@ -162,7 +166,7 @@ function Login() {
                     }}
                     open={openPopover}
                     onClose={handleClose}>
-                    {showNoInputError ? < NoInputError/> : showNoInputError ? <WrongLogin/> : <div></div> }
+                    {showNoInputError ? < NoInputError/> : <WrongLogin/>  }
                 </Popover>}
             </div>
             <button onClick={handleClick}>Route Test</button>

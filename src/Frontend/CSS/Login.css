@@ -113,9 +113,9 @@ hr {
 
 #closeRegisterPopup {
     position: absolute;
-    left: 45%;
+    left: 10%;
     top: 100%;
-    margin-top: 3%;
+    margin-top: 5%;
 }
 
 #hr-lines:before {
