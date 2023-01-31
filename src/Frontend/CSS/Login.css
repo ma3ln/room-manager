@@ -32,10 +32,6 @@
     overflow-y: hidden;
 }
 
-.loginHeader {
-    margin-bottom: 2%;
-}
-
 h2 {
     color: black;
     font-family: "Roboto";
@@ -132,7 +128,7 @@ hr {
 #hr-lines {
     position: relative;
     max-width: 500px;
-    margin: 50px auto;
+    margin: 20px auto;
     text-align: center;
     font-family: Roboto;
 }
@@ -152,4 +148,8 @@ hr {
     position: absolute;
     left: 0;
     top: 0;
+}
+
+.registerButton {
+
 }

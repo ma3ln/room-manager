@@ -1,7 +1,7 @@
 import React from "react";
-import "../CSS/Background.css";
+import "../CSS/BackgroundLogin.css";
 
-function Circles() {
+function CirclesLogin() {
     return (
         <div>
             <div id="circle1"></div>
@@ -17,4 +17,4 @@ function Circles() {
     );
 }
 
-export default Circles;
+export default CirclesLogin;
