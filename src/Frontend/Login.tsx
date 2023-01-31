@@ -5,12 +5,15 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import {AccountCircle} from "@mui/icons-material";
 import {Lock} from "@mui/icons-material";
-
+import {Md5} from 'ts-md5';
 import {Link, useNavigate} from "react-router-dom";
 import Popup from "reactjs-popup";
 import Register from "./Popup/Register";
-import ErrorLogin from "./Popup/ErrorLogin";
+import NoInputError from "./Popup/NoInputError";
 import Circles from "./Background/Circles";
+import Sidebars from "./Sidebars";
+import {Simulate} from "react-dom/test-utils";
+import WrongLogin from "./Popup/WrongLogin";
 
 
 function Login() {
@@ -20,15 +23,18 @@ function Login() {
 
     const navigate = useNavigate();
     const [openPopup, setOpen] = React.useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [show, setShow] = React.useState(false);
+    const [showNoInputError, setShowNoInputError] = React.useState(false);
+    const [showWrongLogin, setShowWrongLogin] = React.useState(false);
     const closeModal = () => setOpen(false);
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
     const openPopover = Boolean(anchorEl);
 
     function handleClick() {
         const formdata = new FormData();
-        formdata.append("user", "TestUser1");
-        formdata.append("password", (document.getElementById("input-with-password-icon")! as HTMLInputElement).value);
+        formdata.append("user", ((document.getElementById("input-with-account-icon")! as HTMLInputElement).value));
+        formdata.append("password", ((document.getElementById("input-with-password-icon")! as HTMLInputElement).value));
 
 
         fetch("http://localhost:8081/login", {
@@ -43,6 +49,8 @@ function Login() {
 
     function handleClose() {
         setShow(prevState => !prevState);
+        setShowWrongLogin(false);
+        setShowNoInputError(false);
         setAnchorEl(null);
     }
 
@@ -52,9 +60,41 @@ function Login() {
 
 
     function handleLogin(event: React.MouseEvent<HTMLButtonElement>) {
+        var username = (document.getElementById("input-with-account-icon")! as HTMLInputElement).value
+        var password = (document.getElementById("input-with-password-icon")! as HTMLInputElement).value
+
+        console.log(username);
+        console.log(password);
+        console.log(Md5.hashStr(password));
+
+        const formdata = new FormData();
+        formdata.append("user", username);
+        formdata.append("password", Md5.hashStr(password));
         if (((document.getElementById("input-with-account-icon")! as HTMLInputElement).value === "") || ((document.getElementById("input-with-password-icon")! as HTMLInputElement).value === "")) {
             setAnchorEl(event.currentTarget);
             setShow(prevState => !prevState);
+            setShowNoInputError(prevState => !prevState);
+        } else {
+            fetch("http://localhost:8081/login", {
+                method: 'POST',
+                body: formdata,
+                redirect: "follow"
+                })
+                .then(response => {
+                    response.text()
+                    if(response.ok) {
+                        setIsLoggedIn(true);
+                        navigate("/dashboard");
+                    }
+                })
+                .then(result => console.log("result", result))
+                .catch(error => {
+                    if(error.response.status === 400) {
+                        setAnchorEl(event.currentTarget);
+                        setShowNoInputError(false);
+                        setShow(prevState => !prevState);
+                    }
+                });
         }
     }
 
@@ -65,6 +105,9 @@ function Login() {
     return(
         <div className="loginPage">
             <Circles/>
+            <div id="SidebareLogin">
+                <Sidebars />
+            </div>
             <header className="loginHeader">
                 <h2>Login</h2>
             </header>
@@ -87,6 +130,7 @@ function Login() {
                     <TextField id="input-with-password-icon"
                                label="Password"
                                margin="dense"
+                               type="password"
                                InputProps={{
                                    startAdornment: (
                                        <InputAdornment position="start">
@@ -126,7 +170,7 @@ function Login() {
                     }}
                     open={openPopover}
                     onClose={handleClose}>
-                    <ErrorLogin/>
+                    {showNoInputError ? < NoInputError/> : <WrongLogin/>  }
                 </Popover>}
             </div>
             <button onClick={handleClick}>Route Test</button>

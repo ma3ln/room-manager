@@ -19,7 +19,8 @@
 .App {
   text-align: center;
   overflow-y: hidden;
-  background-image: linear-gradient(to right, #365D73 0, #365D73 2%, #FFFFFF 2%, #FFFFFF 98%, #365D73 98%, #365D73 2%);
+  height: 100%;
+  width: 100%;
 }
 
 .Sidebare{
@@ -39,4 +40,14 @@
 body {
   overflow-y: hidden;
   overflow-x: hidden;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
 }

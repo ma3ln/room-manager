@@ -1,4 +1,57 @@
 
 .Dashboard{
+    height: 100%;
+    width: 100%;
     background: #454545;
+    display: grid;
+    grid-column: auto;
+    grid-row: auto;
+    grid-template-columns: 15% 50% 35%;
+    grid-template-rows: 9% 70% 21%;
 }
+
+.header {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    background-color: #365D73;
+}
+
+.sidebar {
+    grid-column-start: 1;
+    grid-row-start: 2;
+    grid-row-end: 4;
+    background-color: #404040;
+}
+
+.content {
+    grid-column-start: 2;
+    grid-row-start: 2;
+    grid-column-end: 4;
+    grid-row-end: 4;
+    background-color: #F2ECEC;
+}
+
+.verticalLine {
+    position: absolute;
+    left: 15%;
+    top: 20%;
+    border-left: 2px solid black;
+    height: 60%;
+}
+
+.css-11b3ww9-MuiPaper-root-MuiAppBar-root {
+    height: 9%;
+    background-color: #365D73 !important;
+}
+
+.css-hyum1k-MuiToolbar-root {
+    position: absolute;
+    left: 16%;
+}
+
+#SidebareDashboard {
+    position: absolute;
+    margin-top: 4%;
+    width: 15%;
+}
+

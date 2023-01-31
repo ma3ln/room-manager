@@ -2,7 +2,7 @@ import React from 'react';
 import "../CSS/Login.css";
 import {Typography} from "@mui/material";
 
-function ErrorLogin() {
+function NoInputError() {
 
 
     return(
@@ -12,4 +12,4 @@ function ErrorLogin() {
     )
 }
 
-export default ErrorLogin;
+export default NoInputError;

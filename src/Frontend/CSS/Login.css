@@ -113,9 +113,9 @@ hr {
 
 #closeRegisterPopup {
     position: absolute;
-    left: 45%;
+    left: 10%;
     top: 100%;
-    margin-top: 3%;
+    margin-top: 5%;
 }
 
 #hr-lines:before {
@@ -146,4 +146,10 @@ hr {
     position: absolute;
     top: 50%;
     right: 0;
+}
+
+#SidebareLogin {
+    position: absolute;
+    left: 0;
+    top: 0;
 }

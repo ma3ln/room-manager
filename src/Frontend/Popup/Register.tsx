@@ -5,7 +5,6 @@ import TextField from '@mui/material/TextField';
 import {AccountCircle} from "@mui/icons-material";
 import {Lock} from "@mui/icons-material";
 import "../CSS/Register.css"
-import Login from "../Login";
 
 function Register() {
 
@@ -20,7 +19,19 @@ function Register() {
             </div>
             <div>
                 <div className="inputContainer">
-                    <div className="user-login">
+                    <div id="name-register">
+                        <TextField id="input-for-first-name"
+                                   label="Vorname"
+                                   margin="dense"
+                                   required
+                            />
+                        <TextField id="input-forsecond-name"
+                                   label="Nachname"
+                                   margin="dense"
+                                   required
+                                   />
+                    </div>
+                    <div id="user-register">
                         <TextField id="input-with-account-icon"
                                    label="User"
                                    margin="dense"
@@ -34,7 +45,7 @@ function Register() {
                                    variant="standard"
                         />
                     </div>
-                    <div className="password-login">
+                    <div id="password-register">
                         <TextField id="input-with-password-icon"
                                    label="Password"
                                    margin="dense"
