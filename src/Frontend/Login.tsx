@@ -5,7 +5,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import {AccountCircle} from "@mui/icons-material";
 import {Lock} from "@mui/icons-material";
-
+import {Md5} from 'ts-md5';
 import {Link, useNavigate} from "react-router-dom";
 import Popup from "reactjs-popup";
 import Register from "./Popup/Register";
@@ -52,11 +52,26 @@ function Login() {
 
 
     function handleLogin(event: React.MouseEvent<HTMLButtonElement>) {
-        //@ts-ignore
-        if ((document.getElementById("input-with-account-icon").value === "") || (document.getElementById("input-with-password-icon").value === "")) {
-            setAnchorEl(event.currentTarget);
-            setShow(prevState => !prevState);
-        }
+        var username = (document.getElementById("input-with-account-icon")! as HTMLInputElement).value
+        var password = (document.getElementById("input-with-password-icon")! as HTMLInputElement).value
+
+        console.log(username);
+        console.log(password);
+        console.log(Md5.hashStr(password));
+
+        const formdata = new FormData();
+        formdata.append("user", username);
+        formdata.append("password", Md5.hashStr(password));
+
+        fetch("http://localhost:8081/login", {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        })
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+
     }
 
     function handleBackground() {

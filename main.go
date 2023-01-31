@@ -3,8 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"go.mongodb.org/mongo-driver/bson"
 	"log"
 	"net/http"
+	dbcon "room-manager/src/Backend"
 )
 
 type Termin struct {
@@ -38,9 +40,25 @@ func login(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 	log.Println(user)
 	log.Println(password)
+	client, ctx := dbcon.Dbconect()
+
+	roommanager := client.Database("roomManager")
+	userColl := roommanager.Collection("User")
+
+	filterCursor, err := userColl.Find(ctx, bson.M{"username": user})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var userFiltered []bson.M
+	if err = filterCursor.All(ctx, &userFiltered); err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(userFiltered[0]["password"])
+
 	//w.WriteHeader(http.StatusOK)
 
-	if user == "TestUser1" && password == "123456" {
+	if password == userFiltered[0]["password"] {
 		w.WriteHeader(http.StatusOK)
 		return
 	} else {
