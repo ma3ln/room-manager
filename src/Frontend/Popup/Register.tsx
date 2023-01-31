@@ -5,7 +5,6 @@ import TextField from '@mui/material/TextField';
 import {AccountCircle} from "@mui/icons-material";
 import {Lock} from "@mui/icons-material";
 import "../CSS/Register.css"
-import Login from "../Login";
 
 function Register() {
 

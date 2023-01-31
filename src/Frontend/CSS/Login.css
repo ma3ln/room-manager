@@ -147,3 +147,9 @@ hr {
     top: 50%;
     right: 0;
 }
+
+#SidebareLogin {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
