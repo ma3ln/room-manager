@@ -10,7 +10,7 @@ import {Link, useNavigate} from "react-router-dom";
 import Popup from "reactjs-popup";
 import Register from "./Popup/Register";
 import NoInputError from "./Popup/NoInputError";
-import Circles from "./Background/Circles";
+import CirclesLogin from "./Background/CirclesLogin";
 import Sidebars from "./Sidebars";
 import {Simulate} from "react-dom/test-utils";
 import WrongLogin from "./Popup/WrongLogin";
@@ -30,22 +30,6 @@ function Login() {
     const closeModal = () => setOpen(false);
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
     const openPopover = Boolean(anchorEl);
-
-    function handleClick() {
-        const formdata = new FormData();
-        formdata.append("user", ((document.getElementById("input-with-account-icon")! as HTMLInputElement).value));
-        formdata.append("password", ((document.getElementById("input-with-password-icon")! as HTMLInputElement).value));
-
-
-        fetch("http://localhost:8081/login", {
-            method: 'POST',
-            body: formdata,
-            redirect: 'follow'
-        })
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
-    }
 
     function handleClose() {
         setShow(prevState => !prevState);
@@ -104,7 +88,7 @@ function Login() {
 
     return(
         <div className="loginPage">
-            <Circles/>
+            <CirclesLogin/>
             <div id="SidebareLogin">
                 <Sidebars />
             </div>
@@ -141,9 +125,27 @@ function Login() {
                                variant="standard"
                     />
                 </div>
+                <div className="elementLogin">
+                    <Button onClick={handleLogin} className="loginButton" sx={{ width: 300, padding: 1, margin: 2}} variant="contained">Login</Button>
+                    {show && <Popover
+                        anchorReference="anchorPosition"
+                        anchorPosition={{ top: 0, left: 1000 }}
+                        anchorOrigin={{
+                            vertical: 'center',
+                            horizontal: 'center',
+                        }}
+                        transformOrigin={{
+                            vertical: 'center',
+                            horizontal: 'center',
+                        }}
+                        open={openPopover}
+                        onClose={handleClose}>
+                        {showNoInputError ? < NoInputError/> : <WrongLogin/>  }
+                    </Popover>}
+                </div>
                 <p id="hr-lines">or</p>
                 <div className="registerElement">
-                    <Button onClick={() => {setOpen(true); handleBackground()}} className="registerButton" sx={{ width: 300, padding: 1, margin: 2}} variant="outlined">Register</Button>
+                    <Button onClick={() => {setOpen(true); handleBackground()}} className="registerButton" sx={{ width: 300, padding: 1, margin: 2}} variant="contained">Register</Button>
                 </div>
                 <div id="modal">
                     <Popup open ={openPopup} closeOnDocumentClick onClose={closeModal}
@@ -155,25 +157,6 @@ function Login() {
                     </Popup>
                 </div>
             </div>
-            <div className="elementLogin">
-                <Button onClick={handleLogin} className="loginButton" sx={{ width: 300, padding: 1, margin: 2}} variant="contained">Login</Button>
-                {show && <Popover
-                    anchorReference="anchorPosition"
-                    anchorPosition={{ top: 0, left: 1000 }}
-                    anchorOrigin={{
-                        vertical: 'center',
-                        horizontal: 'center',
-                    }}
-                    transformOrigin={{
-                        vertical: 'center',
-                        horizontal: 'center',
-                    }}
-                    open={openPopover}
-                    onClose={handleClose}>
-                    {showNoInputError ? < NoInputError/> : <WrongLogin/>  }
-                </Popover>}
-            </div>
-            <button onClick={handleClick}>Route Test</button>
         </div>
     );
 }
