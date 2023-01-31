@@ -28,7 +28,7 @@ function Login() {
     function handleClick() {
         const formdata = new FormData();
         formdata.append("user", "TestUser1");
-        formdata.append("password", "123456");
+        formdata.append("password", (document.getElementById("input-with-password-icon")! as HTMLInputElement).value);
 
 
         fetch("http://localhost:8081/login", {
@@ -52,8 +52,7 @@ function Login() {
 
 
     function handleLogin(event: React.MouseEvent<HTMLButtonElement>) {
-        //@ts-ignore
-        if ((document.getElementById("input-with-account-icon").value === "") || (document.getElementById("input-with-password-icon").value === "")) {
+        if (((document.getElementById("input-with-account-icon")! as HTMLInputElement).value === "") || ((document.getElementById("input-with-password-icon")! as HTMLInputElement).value === "")) {
             setAnchorEl(event.currentTarget);
             setShow(prevState => !prevState);
         }
