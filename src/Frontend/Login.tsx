@@ -5,7 +5,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import {AccountCircle} from "@mui/icons-material";
 import {Lock} from "@mui/icons-material";
-
+import {Md5} from 'ts-md5';
 import {Link, useNavigate} from "react-router-dom";
 import Popup from "reactjs-popup";
 import Register from "./Popup/Register";
@@ -13,8 +13,6 @@ import NoInputError from "./Popup/NoInputError";
 import Circles from "./Background/Circles";
 import Sidebars from "./Sidebars";
 import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
-import {constants} from "http2";
 import WrongLogin from "./Popup/WrongLogin";
 
 
@@ -24,7 +22,6 @@ function Login() {
 
 
     const navigate = useNavigate();
-    const [error, setError] = useState(null);
     const [openPopup, setOpen] = React.useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [show, setShow] = React.useState(false);
@@ -63,9 +60,16 @@ function Login() {
 
 
     function handleLogin(event: React.MouseEvent<HTMLButtonElement>) {
+        var username = (document.getElementById("input-with-account-icon")! as HTMLInputElement).value
+        var password = (document.getElementById("input-with-password-icon")! as HTMLInputElement).value
+
+        console.log(username);
+        console.log(password);
+        console.log(Md5.hashStr(password));
+
         const formdata = new FormData();
-        formdata.append("user", ((document.getElementById("input-with-account-icon")! as HTMLInputElement).value))
-        formdata.append("password", ((document.getElementById("input-with-password-icon")! as HTMLInputElement).value))
+        formdata.append("user", username);
+        formdata.append("password", Md5.hashStr(password));
         if (((document.getElementById("input-with-account-icon")! as HTMLInputElement).value === "") || ((document.getElementById("input-with-password-icon")! as HTMLInputElement).value === "")) {
             setAnchorEl(event.currentTarget);
             setShow(prevState => !prevState);
