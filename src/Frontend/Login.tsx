@@ -12,6 +12,10 @@ import Register from "./Popup/Register";
 import NoInputError from "./Popup/NoInputError";
 import Circles from "./Background/Circles";
 import Sidebars from "./Sidebars";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
+import {constants} from "http2";
+import WrongLogin from "./Popup/WrongLogin";
 
 
 function Login() {
@@ -20,7 +24,9 @@ function Login() {
 
 
     const navigate = useNavigate();
+    const [error, setError] = useState(null);
     const [openPopup, setOpen] = React.useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [show, setShow] = React.useState(false);
     const [showNoInputError, setShowNoInputError] = React.useState(false);
     const [showWrongLogin, setShowWrongLogin] = React.useState(false);
@@ -46,6 +52,8 @@ function Login() {
 
     function handleClose() {
         setShow(prevState => !prevState);
+        setShowWrongLogin(false);
+        setShowNoInputError(false);
         setAnchorEl(null);
     }
 
@@ -58,19 +66,27 @@ function Login() {
         const formdata = new FormData();
         formdata.append("user", "TestUser1")
         formdata.append("password", "123456")
-        //@ts-ignore
-        if ((document.getElementById("input-with-account-icon").value === "") || (document.getElementById("input-with-password-icon").value === "")) {
+        if (((document.getElementById("input-with-account-icon")! as HTMLInputElement).value === "") || ((document.getElementById("input-with-password-icon")! as HTMLInputElement).value === "")) {
             setAnchorEl(event.currentTarget);
             setShow(prevState => !prevState);
+            setShowNoInputError(prevState => !prevState);
         } else {
             fetch("http://localhost:8081/login", {
                 method: 'POST',
                 body: formdata,
                 redirect: "follow"
                 })
-                .then(response => response.text())
-                .then(result => console.log(result))
-                .catch(error => console.log('error', error));
+                .then(response => {
+                    response.text()
+                    if(response.ok) {
+                        setIsLoggedIn(true);
+                        navigate("/dashboard");
+                    }
+                })
+                .then(result => console.log("result", result))
+                .catch(error => {console.log('error', error)
+                                setShow(true);
+                                setShowWrongLogin(true)});
         }
     }
 
@@ -146,7 +162,7 @@ function Login() {
                     }}
                     open={openPopover}
                     onClose={handleClose}>
-                    { }
+                    {showNoInputError ? < NoInputError/> : showNoInputError ? <WrongLogin/> : <div></div> }
                 </Popover>}
             </div>
             <button onClick={handleClick}>Route Test</button>
