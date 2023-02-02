@@ -152,7 +152,7 @@ function Login() {
                     >
                         <Register/>
                         <div>
-                            <Button onClick={handlePopupClose} id="closeRegisterPopup" variant="outlined">Close</Button>
+                            <Button onClick={handlePopupClose} id="closeRegisterPopup" variant="contained">Close</Button>
                         </div>
                     </Popup>
                 </div>
