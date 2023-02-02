@@ -109,8 +109,8 @@ hr {
 
 #closeRegisterPopup {
     position: absolute;
-    left: 10%;
-    top: 100%;
+    right: 35%;
+    top: 112%;
     margin-top: 5%;
 }
 
@@ -150,6 +150,7 @@ hr {
     top: 0;
 }
 
-.registerButton {
-
+.css-1qff88w-MuiButtonBase-root-MuiButton-root {
+    background-color: #365D73 !important;
+    opacity: 0.8;
 }
