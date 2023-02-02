@@ -68,13 +68,8 @@ func login(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func homePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Homepage Endpoint Hit")
-}
-
 func handleRequests() {
 	http.HandleFunc("/login", login)
-	http.HandleFunc("/Termine", alleTermine)
 	http.ListenAndServe(":8081", nil)
 }
 
