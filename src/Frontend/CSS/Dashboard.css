@@ -7,7 +7,7 @@
     grid-column: auto;
     grid-row: auto;
     grid-template-columns: 15% 50% 35%;
-    grid-template-rows: 9% 70% 21%;
+    grid-template-rows: 7% 70% 21%;
 }
 
 .header {
@@ -20,7 +20,7 @@
     grid-column-start: 1;
     grid-row-start: 2;
     grid-row-end: 4;
-    background-color: #404040;
+    background-color: #bac6ce;
 }
 
 .content {
@@ -31,16 +31,45 @@
     background-color: #F2ECEC;
 }
 
-.verticalLine {
+.verticalLine1 {
     position: absolute;
     left: 15%;
     top: 20%;
-    border-left: 2px solid black;
+    border-left: 2px solid #454545;
     height: 60%;
 }
 
+.verticalLine2 {
+    position: absolute;
+    border-left: 2px solid #454545;
+    height: 90%;
+    left: 30%;
+    top: 7%;
+}
+
+#iconButtonHelp:after {
+    background-color: #454545;
+    content: " ";
+    display: inline-block;
+    height: 41px;
+    position: relative;
+    left: 50%;
+    vertical-align: middle;
+    width: 2px;
+}
+
+#spaceInToolBar {
+    margin-left: 650px;
+    margin-right: 650px;
+}
+
+#rightAlignToolbarButtons {
+    position: relative;
+    align-items: flex-end;
+}
+
 .css-11b3ww9-MuiPaper-root-MuiAppBar-root {
-    height: 9%;
+    height: 7%;
     background-color: #365D73 !important;
 }
 
@@ -53,5 +82,9 @@
     position: absolute;
     margin-top: 4%;
     width: 15%;
+}
+
+#dashboardWelcome {
+    margin-top: 5%;
 }
 
