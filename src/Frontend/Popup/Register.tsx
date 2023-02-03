@@ -23,7 +23,7 @@ function Register() {
 
         const nextIndex = activeIndex + 1 <= flipcard.length - 1 ? activeIndex + 1 : 0;
 
-        const currentFlipcard = document.querySelector('[data-index="${activeIndex}"]'),
+        const currentFlipcard = document.querySelector('.flip-card[data-index=""]'),
             nextFlipcard = document.querySelector('[data-index="${nextIndex}"]');
 
         //@ts-ignore
@@ -73,7 +73,7 @@ function Register() {
                     </p>
                 </div>
                 <div className="box-flip-card">
-                    <div className="flip-card" id="flip-card-lisa" data-status="active">
+                    <div className="flip-card" id="flip-card-lisa" data-status="active" data-index="0">
                         <div className="flip-card-inner">
                             <div className="flip-card-front" id="flip-front-lisa">
                             </div>
@@ -84,7 +84,7 @@ function Register() {
                             </div>
                         </div>
                     </div>
-                    <div className="flip-card" id="flip-card-marlon" data-status="unknown">
+                    <div className="flip-card" id="flip-card-marlon" data-status="unknown" data-index="1">
                         <div className="flip-card-inner">
                             <div className="flip-card-front" id="flip-front-marlon">
                                 <div className="flip-card-back">
@@ -95,7 +95,7 @@ function Register() {
                             </div>
                         </div>
                     </div>
-                    <div className="flip-card" id="flip-card-justus" data-status="unknown">
+                    <div className="flip-card" id="flip-card-justus" data-status="unknown" data-index="2">
                         <div className="flip-card-inner">
                             <div className="flip-card-front" id="flip-front-justus">
                             </div>
@@ -108,10 +108,10 @@ function Register() {
                     </div>
                 </div>
                 <div className="swipe-button">
-                    <IconButton onClick={handleSwipeRight} id="swipe-right" sx={{ height: 50, width: 50, padding: 1, margin: 2}}>
+                    <IconButton onClick={handleSwipeLeft} id="swipe-right" sx={{ height: 50, width: 50, padding: 1, margin: 2}}>
                         <ArrowBack/>
                     </IconButton>
-                    <IconButton onClick={handleSwipeLeft} id="swipe-left" sx={{ height: 50, width: 50, padding: 1, margin: 2}}>
+                    <IconButton onClick={handleSwipeRight} id="swipe-left" sx={{ height: 50, width: 50, padding: 1, margin: 2}}>
                         <ArrowForward/>
                     </IconButton>
                 </div>
