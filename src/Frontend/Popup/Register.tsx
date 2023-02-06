@@ -23,8 +23,9 @@ function Register() {
 
         const nextIndex = activeIndex + 1 <= flipcard.length - 1 ? activeIndex + 1 : 0;
 
-        const currentFlipcard = document.querySelector('.flip-card[data-index=""]'),
-            nextFlipcard = document.querySelector('[data-index="${nextIndex}"]');
+
+        const currentFlipcard = document.querySelector('[data-index="' + activeIndex + '"]'),
+            nextFlipcard = document.querySelector('[data-index="' + nextIndex + '"]');
 
         //@ts-ignore
         currentFlipcard.dataset.status = "after";
@@ -44,8 +45,8 @@ function Register() {
     function handleSwipeLeft() {
         const nextIndex = activeIndex - 1 >= 0 ? activeIndex - 1 : flipcard.length - 1;
 
-        const currentFlipcard = document.querySelector('[data-index="${activeIndex}"]'),
-            nextFlipcard = document.querySelector('[data-index="${nextIndex}"]');
+        const currentFlipcard = document.querySelector('[data-index="' + activeIndex + '"]'),
+            nextFlipcard = document.querySelector('[data-index="' + nextIndex + '"]');
 
         //@ts-ignore
         currentFlipcard.dataset.status = "before";
@@ -69,7 +70,7 @@ function Register() {
                 </div>
                 <div>
                     <p id="welcome-text">
-                        <b>Thank you for considering to use this Application and making an Account. For further information to the people who made this Application, you can hover over the pictures bellow.</b>
+                        <b>Thank you for considering to use this Application and making an Account. For further information on the people who made this Application, you can hover over the pictures below.</b>
                     </p>
                 </div>
                 <div className="box-flip-card">
@@ -87,20 +88,20 @@ function Register() {
                     <div className="flip-card" id="flip-card-marlon" data-status="unknown" data-index="1">
                         <div className="flip-card-inner">
                             <div className="flip-card-front" id="flip-front-marlon">
+                            </div>
                                 <div className="flip-card-back">
-                                    <h1>Marlon Nobis</h1>
+                                    <h1 className="name">Marlon Nobis</h1>
                                     <p>Developer of Room Manager</p>
                                     <p>Database Lead <br/>Help for Backend and Front-End</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <div className="flip-card" id="flip-card-justus" data-status="unknown" data-index="2">
                         <div className="flip-card-inner">
                             <div className="flip-card-front" id="flip-front-justus">
                             </div>
                             <div className="flip-card-back">
-                                <h1>Justus Marx</h1>
+                                <h1 className="name">Justus Marx</h1>
                                 <p>Developer of Room Manager</p>
                                 <p>Backend Lead</p>
                             </div>

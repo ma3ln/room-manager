@@ -16,6 +16,10 @@
     transform: translateX(50%) scale(0);
 }
 
+.flip-card[data-status="before"] {
+    transform: translateX(-50%) scale(0);
+}
+
 .flip-card[data-status="active"] {
     transition-delay: 300ms;
 }
@@ -104,6 +108,32 @@ p {
     height: 100%;
     width: 100%;
     background-image: url(https://i.pinimg.com/564x/ff/c8/4c/ffc84cf8242ae0289512fdaba3e0e72b.jpg);
+    backface-visibility: hidden;
+    background-position: 50% 50%;
+    background-size: cover;
+    position: absolute;
+}
+
+#flip-front-justus {
+    background-color: #365D73;
+    color: black;
+    border-radius: 30%;
+    height: 100%;
+    width: 100%;
+    background-image: url(https://cdn.discordapp.com/avatars/200581635672899584/175571563afabe72e7fe7c442a74cfd9.webp?size=128);
+    backface-visibility: hidden;
+    background-position: 50% 50%;
+    background-size: cover;
+    position: absolute;
+}
+
+#flip-front-marlon {
+    background-color: #365D73;
+    color: black;
+    border-radius: 30%;
+    height: 100%;
+    width: 100%;
+    background-image: url(https://i.pinimg.com/originals/5c/4c/7e/5c4c7ee71d7ed570227c435784106c39.jpg);
     backface-visibility: hidden;
     background-position: 50% 50%;
     background-size: cover;

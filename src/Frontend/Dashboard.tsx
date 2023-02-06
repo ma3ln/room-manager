@@ -9,19 +9,23 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Sidebars from "./Sidebars";
 import SidebarBackground from "./Background/SidebarBackground";
 import {QuestionMark} from "@mui/icons-material";
+import Login from "./Login";
 import Box from "@mui/material/Box";
+import {EVENTS} from "./resources/events";
+import {Scheduler} from "@aldabil/react-scheduler";
 
 function Dashboard(){
 
     const menuSettings = ['']
     const accountSettigns = ['Profile', 'Logout']
-    const username = "Lisa";
+    const username = (document.getElementById("input-with-account-icon")! as HTMLInputElement).value;
     const styles = {
         toolbarButtons: {
             marginLeft: 'auto',
         },
     };
 
+    // @ts-ignore
     return(
         <div className="Dashboard">
             <AppBar className="header">
@@ -66,8 +70,15 @@ function Dashboard(){
                     <h1>Welcome {username}!</h1>
                 </div>
                 <div id="contentBoxes">
-                    <div></div>
-                    <div></div>
+                    <div id="buchungenDiv">
+                        <h2 id="titleBuchungen">Buchungen</h2>
+                        <div id="squareForBuchungen">
+
+                        </div>
+                    </div>
+                    <div id="calender">
+                        <Scheduler events={EVENTS}/>
+                    </div>
                 </div>
             </div>
         </div>
