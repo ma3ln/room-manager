@@ -48,13 +48,12 @@ h4 {
 h5 {
     color: #4292c7;
     padding: 5px 5px 5px 5px;
-    box-shadow: 1px 0px 8px 0px #000000;
 }
 
 .LoginSquare {
-    background-color: #F2ECEC;
+    background-color: #fefdfa;
     padding: 50px 100px 50px;
-    box-shadow: 1px 0px 17px 0px #000000;
+    box-shadow: 1px 0px 17px 0px #606060;
     height: 100%;
     width: 25%;
 }
