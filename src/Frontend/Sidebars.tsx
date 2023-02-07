@@ -21,6 +21,10 @@ export default function Sidebars() {
         navigate("/");
     }
 
+    function handleNewRooms() {
+        navigate("/newrooms");
+    }
+
     const [value, setValue] = React.useState(3);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -48,7 +52,7 @@ export default function Sidebars() {
                 sx={{ borderRight: 1, borderColor: 'divider' }}
             >
                 <Tab onClick={handleDashboard} label="Dashboard" {...a11yProps(0)} />
-                <Tab label="Meine Raumbuchungen" {...a11yProps(1)} />
+                <Tab onClick={handleNewRooms} label="Meine Raumbuchungen" {...a11yProps(1)} />
                 <Tab label="Raumplan" {...a11yProps(2)} />
                 <Tab onClick={handleLogin} label="Login" {...a11yProps(3)} />
             </Tabs>

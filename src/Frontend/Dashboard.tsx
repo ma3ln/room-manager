@@ -15,7 +15,8 @@ function Dashboard(){
 //    const [ name, date ] = props;
     const menuSettings = [''];
     const accountSettigns = ['Profile', 'Logout'];
-    const username = (document.getElementById("input-with-account-icon")! as HTMLInputElement).value;
+//    const username = (document.getElementById("input-with-account-icon")! as HTMLInputElement).value;
+    const username = "TestUser!";
     const styles = {
         toolbarButtons: {
             marginLeft: 'auto',
@@ -43,6 +44,13 @@ function Dashboard(){
                     "date": "Random Date",
                     "time-start": "15:00",
                     "time-end": "17:30"
+                },
+                {
+                    "id": "004",
+                    "name": "R001",
+                    "date": "Random Date",
+                    "time-start": "09:00",
+                    "time-end": "11:00"
                 }
             ]
 
@@ -78,7 +86,7 @@ function Dashboard(){
                         >
                             <QuestionMark/>
                         </IconButton>
-                        <Button color="inherit" startIcon={<AccountCircle />}>{username}</Button>
+                        <Button id="usernameToolbar" color="inherit" startIcon={<AccountCircle />}>{username}</Button>
                     </div>
                 </Toolbar>
 
@@ -92,10 +100,15 @@ function Dashboard(){
                 </div>
             </div>
             <div className="content">
-                <div id="dashboardWelcome">
-                    <h1>Welcome {username}!</h1>
-                </div>
                 <div id="contentBoxes">
+                    <div id="personal-information">
+                        <div id="dashboardWelcome">
+                            <h1>Welcome {username}!</h1>
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
                     <div id="buchungenDiv">
                         <div id="boxTitleBuchungen">
                             <h2 id="titleBuchungen">Buchungen</h2>
@@ -111,9 +124,6 @@ function Dashboard(){
                                 ))}
                             </ul>
                         </div>
-                    </div>
-                    <div id="calender">
-
                     </div>
                 </div>
             </div>

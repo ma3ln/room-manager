@@ -1,0 +1,117 @@
+
+#NewRooms {
+    height: 100%;
+    width: 100%;
+    background: #454545;
+    display: grid;
+    grid-column: auto;
+    grid-row: auto;
+    grid-template-columns: 15% 50% 35%;
+    grid-template-rows: 7% 70% 21%;
+}
+
+#contentBoxesNewRooms {
+    position: absolute;
+    top: 15%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80%;
+    height: 80%;
+}
+
+.header {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    background-color: #365D73;
+}
+
+.sidebar {
+    grid-column-start: 1;
+    grid-row-start: 2;
+    grid-row-end: 4;
+    background-color: #bac6ce;
+}
+
+.content {
+    grid-column-start: 2;
+    grid-row-start: 2;
+    grid-column-end: 4;
+    grid-row-end: 4;
+    background-color: #fffafa;
+}
+
+.css-1hcuyf4-MuiButtonBase-root-MuiIconButton-root #addNewRoom {
+    position: relative;
+    left: -40%;
+    border: #252525 solid 1px !important;
+    border-radius: 1%;
+    margin-top: 50px !important;
+}
+
+.css-1hcuyf4-MuiButtonBase-root-MuiIconButton-root .css-i4bv87-MuiSvgIcon-root #addNewRoom {
+    font-size: 250%;
+}
+
+#filterTextBox {
+    margin-top: 2%;
+    margin-left: 10%;
+    margin-bottom: 5%;
+    height: 20%;
+    border-radius: 15px;
+    width: 80%;
+    border: white solid 2px;
+    text-align: left;
+}
+
+#filterText {
+    font-size: 40px;
+    font-family: Roboto;
+    position: relative;
+    left: 5%;
+}
+
+#textNeueBuchungen {
+    text-align: left;
+    margin-left: 7%;
+}
+
+#boxRoomInput {
+    height: 85%;
+    align-items: flex-start;
+    display: flex;
+}
+
+#newBuchungen {
+    margin-left: 10%;
+    width: 40%;
+    height: 90%;
+}
+
+#newRoomInput {
+    background-color: #dce2e6;
+    border-radius: 15px;
+    width: 100%;
+    height: 84%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: baseline;
+}
+
+#boxKapazität {
+    margin-bottom: 2%;
+}
+
+#boxAttribute {
+    margin-bottom: 2%;
+}
+
+.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+    margin-left: 10%;
+}
+
+#boxAttribut {
+
+}
