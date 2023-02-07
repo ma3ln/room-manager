@@ -1,29 +1,55 @@
 import "./CSS/Dashboard.css"
-import React from "react";
-import {AppBar, Button, IconButton} from "@mui/material";
+import "./CSS/DashboardBuchungen.css"
+import React, {useState} from "react";
+import {AppBar, Button, IconButton, List, ListItem} from "@mui/material";
 import {Toolbar} from "@mui/material";
 import {AccountCircle} from "@mui/icons-material";
-import {MenuItem} from "@mui/material";
-import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Sidebars from "./Sidebars";
 import SidebarBackground from "./Background/SidebarBackground";
 import {QuestionMark} from "@mui/icons-material";
-import Login from "./Login";
-import Box from "@mui/material/Box";
-import {EVENTS} from "./resources/events";
-import {Scheduler} from "@aldabil/react-scheduler";
+import {AssignmentTurnedIn} from "@mui/icons-material";
 
 function Dashboard(){
 
-    const menuSettings = ['']
-    const accountSettigns = ['Profile', 'Logout']
+//    const [ name, date ] = props;
+    const menuSettings = [''];
+    const accountSettigns = ['Profile', 'Logout'];
     const username = (document.getElementById("input-with-account-icon")! as HTMLInputElement).value;
     const styles = {
         toolbarButtons: {
             marginLeft: 'auto',
         },
     };
+    const buchung =
+            [
+                {
+                    "id": "001",
+                    "name": "R66",
+                    "date": "Random Date",
+                    "time-start": "12:00",
+                    "time-end": "13:00"
+                },
+                {
+                    "id": "002",
+                    "name": "A654",
+                    "date": "Random Date",
+                    "time-start": "11:00",
+                    "time-end": "16:00"
+                },
+                {
+                    "id": "003",
+                    "name": "A061",
+                    "date": "Random Date",
+                    "time-start": "15:00",
+                    "time-end": "17:30"
+                }
+            ]
+
+
+    function handlePopupBuchung() {
+
+    }
 
     // @ts-ignore
     return(
@@ -71,13 +97,23 @@ function Dashboard(){
                 </div>
                 <div id="contentBoxes">
                     <div id="buchungenDiv">
-                        <h2 id="titleBuchungen">Buchungen</h2>
-                        <div id="squareForBuchungen">
-
+                        <div id="boxTitleBuchungen">
+                            <h2 id="titleBuchungen">Buchungen</h2>
+                        </div>
+                        <div className="list-group">
+                            <ul id="listBuchungen">
+                                {buchung.map((data) => (
+                                    <li id="oneBuchungItem" key={data.id} onClick={handlePopupBuchung}>
+                                        <AssignmentTurnedIn />
+                                        <span><strong>{data.name}</strong></span>
+                                        <p>Date: {data.date}</p>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     </div>
                     <div id="calender">
-                        <Scheduler events={EVENTS}/>
+
                     </div>
                 </div>
             </div>
