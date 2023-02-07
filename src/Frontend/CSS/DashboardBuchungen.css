@@ -1,0 +1,80 @@
+#listBuchungen {
+    list-style: none;
+    width: 90%;
+}
+
+#oneBuchungItem {
+    width: 90%;
+    border: #FFFFFF 2px solid;
+    border-radius: 18px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+#buchungenDiv {
+    border-radius: 15%;
+    background-color: #bac6ce;
+}
+
+.list-group {
+    align-items: center;
+    overflow-y: scroll;
+    display: flex;
+    width: 90%;
+}
+
+.list-group::-webkit-scrollbar {
+    display: none;
+}
+
+#boxTitleBuchungen {
+    width: 100%;
+    height: 15%;
+    background-color: #365D73;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+#oneBuchungItem:before, #oneBuchungItem:after {
+    content: "";
+    width: 0;
+    height: 2px;
+    position: absolute;
+    transition: all 0.2s linear;
+    background-color: #252525;
+}
+
+#oneBuchungItem:before, #oneBuchungItem:after {
+    transition-delay: 0s;
+}
+
+#oneBuchungItem:before {
+    right: 0;
+    bottom: 0;
+}
+
+#oneBuchungItem:after {
+    left: 0;
+    top: 0;
+}
+
+#oneBuchungItem:before {
+    left: 0;
+    top: 0;
+}
+
+#oneBuchungItem:after {
+    right: 0;
+    bottom: 0;
+}
+
+#oneBuchungItem:hover:before, #oneBuchungItem:hover:after {
+    transition-delay: 0.2s;
+}
+
+#titleBuchungen {
+    margin-top: 5%;
+    margin-bottom: 2%;
+    opacity: 0.7;
+}
+

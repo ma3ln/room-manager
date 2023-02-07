@@ -167,6 +167,7 @@ function Register() {
                             <TextField id="input-with-password-icon-register"
                                        label="Password"
                                        margin="dense"
+                                       type="password"
                                        required
                                        InputProps={{
                                            startAdornment: (
