@@ -36,7 +36,7 @@
     align-items: center;
     box-shadow: 1px 0px 8px 0px #000000;
     background-color: #7890a0;
-    height: 72%;
+    height: 67%;
 }
 #inputBox {
     grid-column-start: 2;
@@ -49,7 +49,7 @@
     align-items: center;
     background-color: #F2ECEC;
     box-shadow: 1px 0px 8px 0px #000000;
-    height: 72%;
+    height: 67%;
 }
 
 #aboutBoxWelcome {
@@ -78,10 +78,6 @@
 .inputContainer {
     align-items: center;
     margin: 5% 5%;
-}
-
-#user-login input {
-
 }
 
 .registerButton {
