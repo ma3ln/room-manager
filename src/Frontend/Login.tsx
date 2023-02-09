@@ -93,7 +93,7 @@ function Login() {
                 <Sidebars />
             </div>
             <header className="loginHeader">
-                <h2>Login</h2>
+                <h2 id="headLoginText">Login</h2>
             </header>
             <div className="LoginSquare">
                 <div className="user-login">

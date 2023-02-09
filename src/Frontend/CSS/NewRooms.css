@@ -38,7 +38,7 @@
     grid-row-start: 2;
     grid-column-end: 4;
     grid-row-end: 4;
-    background-color: #fffafa;
+    background-color: #FAFAFB;
 }
 
 .css-1hcuyf4-MuiButtonBase-root-MuiIconButton-root #addNewRoom {
@@ -68,12 +68,19 @@
     font-size: 40px;
     font-family: Roboto;
     position: relative;
+    opacity: 0.7;
     left: 5%;
 }
 
 #textNeueBuchungen {
     text-align: left;
     margin-left: 7%;
+}
+
+#boxNewRoomButton {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
 }
 
 #boxRoomInput {
@@ -89,11 +96,12 @@
 }
 
 #newRoomInput {
-    background-color: #dce2e6;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-top: #365D73 solid 7px;
     border-radius: 15px;
     width: 100%;
     height: 84%;
-    display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -112,6 +120,93 @@
     margin-left: 10%;
 }
 
-#boxAttribut {
+#dateForRoom {
+    margin-bottom: 2%;
+    width: 100%;
+    max-width: 150%;
+    margin-left: 5%;
+}
 
+#startTimeForRoom {
+    margin-bottom: 2%;
+    width: 100%;
+    max-width: 150%;
+    margin-left: 5%;
+}
+
+#endTimeForRoom {
+    margin-bottom: 2%;
+    width: 100%;
+    max-width: 150%;
+    margin-left: 5%;
+}
+
+#boxFilterButton {
+    margin-top: 5%;
+    width: 80%;
+    margin-bottom: 5%;
+}
+
+#newBuchungenBoxes {
+    width: 50%;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+#newBuchungenBoxes::-webkit-scrollbar {
+    display: none;
+}
+
+#filter {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    position: relative;
+    left: -7%;
+}
+
+#buchungRaumColumns {
+    display: flex;
+    margin-left: 3%;
+    flex-flow: column wrap;
+    list-style: none;
+}
+
+#headerWithRoomTitle {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    justify-content: center;
+    background-size: cover;
+    opacity: 0.6;
+    background: linear-gradient(rgba(54, 93, 115,.5), rgba(114, 141, 157,.5)), url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRCDvmu5WA17GNPWOtZDk3F0S9A2QYdtIJcg&usqp=CAU);
+}
+
+#textRoomName {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 200%;
+    font-family: Roboto, serif;
+    opacity: 1;
+}
+
+#raum {
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 15px;
+    margin-bottom: 4%;
+}
+
+#raum:hover {
+    background-color: #e9e9e9;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    transition: 0.5s;
 }

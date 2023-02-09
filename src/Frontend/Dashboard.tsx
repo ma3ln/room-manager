@@ -22,6 +22,16 @@ function Dashboard(){
             marginLeft: 'auto',
         },
     };
+
+    const user = [
+        {
+            "vorname": "Katja",
+            "nachname": "Imagine",
+            "email": "katja.imagine@gmail.com",
+            "role": "Lehrer"
+        }
+    ]
+
     const buchung =
             [
                 {
@@ -69,7 +79,7 @@ function Dashboard(){
                             size="large"
                             color="inherit"
                             aria-label="menu"
-                            sx={{ mr: 2}}
+                            sx={{position: 'relative', mr: 2}}
                         >
                             <MenuIcon />
                         </IconButton>
@@ -82,11 +92,11 @@ function Dashboard(){
                             aria-label="Help"
                             aria-haspopup="true"
                             aria-controls="menu-appbar"
-                            sx={{ mr: 2  }}
+                            sx={{ mr: 2, display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}
                         >
                             <QuestionMark/>
                         </IconButton>
-                        <Button id="usernameToolbar" color="inherit" startIcon={<AccountCircle />}>{username}</Button>
+                        <Button sx={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}} id="usernameToolbar" color="inherit" startIcon={<AccountCircle />}>{username}</Button>
                     </div>
                 </Toolbar>
 
@@ -105,8 +115,23 @@ function Dashboard(){
                         <div id="dashboardWelcome">
                             <h1>Welcome {username}!</h1>
                         </div>
-                        <div>
-
+                        <div id="informationAboutUser">
+                            <div id="picPersonalData"/>
+                            {user.map((user) => (
+                                <>
+                                    <div id="boxInformation">
+                                        <div id="informationUserName">
+                                            <h2 id="textUserName">{user.vorname}  {user.nachname}</h2>
+                                        </div>
+                                        <div id="informationEmail">
+                                            <p id="textEmail">{user.email}</p>
+                                        </div>
+                                        <div id="informationRole">
+                                            <p id="textRole">{user.role}</p>
+                                        </div>
+                                    </div>
+                                </>
+                            ))}
                         </div>
                     </div>
                     <div id="buchungenDiv">

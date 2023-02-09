@@ -133,8 +133,8 @@ function Register() {
                             </div>
                             <div className="flip-card-back">
                                 <h1 className="name">Lisa Hellwage</h1>
-                                <p>Developer of Room Manager</p>
-                                <p>Front-End Lead</p>
+                                <p className="devTitle">Developer of Room Manager</p>
+                                <p className="devJob">Front-End Lead</p>
                             </div>
                         </div>
                     </div>
@@ -142,21 +142,21 @@ function Register() {
                         <div className="flip-card-inner">
                             <div className="flip-card-front" id="flip-front-marlon">
                             </div>
-                            <div className="flip-card-back">
-                                <h1 className="name">Marlon Nobis</h1>
-                                <p>Developer of Room Manager</p>
-                                <p>Database Lead <br/>Help for Backend and Front-End</p>
+                                <div className="flip-card-back">
+                                    <h1 className="name">Marlon Nobis</h1>
+                                    <p className="devTitle">Developer of Room Manager</p>
+                                    <p className="devJob">Database Lead <br/>Help for Backend and Front-End</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     <div className="flip-card" id="flip-card-justus" data-status="unknown" data-index="2">
                         <div className="flip-card-inner">
                             <div className="flip-card-front" id="flip-front-justus">
                             </div>
                             <div className="flip-card-back">
                                 <h1 className="name">Justus Marx</h1>
-                                <p>Developer of Room Manager</p>
-                                <p>Backend Lead</p>
+                                <p className="devTitle">Developer of Room Manager</p>
+                                <p className="devJob">Backend Lead</p>
                             </div>
                         </div>
                     </div>
@@ -188,11 +188,13 @@ function Register() {
                             <TextField id="input-for-first-name"
                                        label="Vorname"
                                        margin="dense"
+                                       sx={{width: '42.5%'}}
                                        required
                             />
                             <TextField id="input-forsecond-name"
                                        label="Nachname"
                                        margin="dense"
+                                       sx={{width: '42.5%', marginLeft: 2}}
                                        required
                             />
                         </div>
@@ -200,13 +202,14 @@ function Register() {
                             <TextField id="input-for-email"
                                        label="E-Mail"
                                        margin="dense"
+                                       sx={{width: '88%'}}
                                        required
                             />
                         </div>
                         <div id="user-register">
                             <TextField id="input-with-account-icon-register"
                                        label="User"
-
+                                       sx={{width: '88%'}}
                                        margin="dense"
                                        required
                                        InputProps={{
@@ -224,6 +227,7 @@ function Register() {
                                        label="Password"
                                        margin="dense"
                                        type="password"
+                                       sx={{width: '88%'}}
                                        required
                                        InputProps={{
                                            startAdornment: (
@@ -237,6 +241,7 @@ function Register() {
                         </div>
                     </div>
                     <div>
+                        <Button onClick={handleRegister} id="buttonToRegister" className="registerButton" sx={{ backgroundColor: '#365D73', opacity: 0.8, width: '60%', padding: 1, margin: 2, marginTop: '10%'}} variant="contained" >Register</Button>
                         <Button onClick={handleRegister} id="buttonToRegister" className="registerButton"
                                 sx={{width: 300, padding: 1, margin: 2}} variant="contained">Register</Button>
                     </div>

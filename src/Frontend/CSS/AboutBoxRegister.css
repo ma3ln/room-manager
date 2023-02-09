@@ -38,21 +38,23 @@
     position: relative;
     top: 5%;
     left: 31%;
-    height: 33%;
+    height: 51%;
     width: 83%;
     aspect-ratio: 5/7;
 }
 
 #aboutBoxWelcome {
-    margin-top: 40px;
-    margin-bottom: 20px;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
 #welcome-text {
-    opacity: 0.7;
-    font-size: 20px;
-    margin-top: 10px;
+    opacity: 0.6;
+    font-size: 140%;
+    margin-top: 2%;
     margin-bottom: 0;
+    font-family: Roboto, serif;
+    padding-top: 3%;
 }
 
 .pic {
@@ -62,14 +64,30 @@
 }
 
 .name {
-    padding-top:30px;
-    font-family: Roboto;
+    padding-top: 10%;
+    font-family: Roboto, serif;
+    font-size: 190%;
 }
 
-p {
-    font-family: Roboto;
-    padding-top: 30px;
-    opacity: 0.7;
+.devTitle {
+    padding-top: 10%;
+    font-size: 100%;
+}
+
+.devJob {
+    padding-top: 2%;
+    font-size: 100%;
+}
+
+
+#boxInformationDevs {
+    height: 61%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: center;
 }
 
 .flip-card-inner {
@@ -175,8 +193,8 @@ h1 {
 }
 
 .swipe-button {
-    position: absolute;
-    top: 77%;
+    position: relative;
+    top: 10%;
     left: 37%;
 }
 
