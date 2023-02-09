@@ -12,10 +12,14 @@ import {Stack} from "@mui/material";
 import {LocalizationProvider, TimePicker} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DesktopDatePicker} from "@mui/x-date-pickers";
+import Popup from "reactjs-popup";
+import RoomInformation from "./Popup/RoomInformation";
 
 function NewRooms() {
 
     const username = "TestUser!";
+    const [openRoomPopup, setOpenRoomPopup] = React.useState(false);
+    const closeRoomPopup = () => setOpenRoomPopup(false);
     const attributes = [
         {
             name: 'Tafel'
@@ -88,8 +92,16 @@ function NewRooms() {
 
     )
 
+    function handleRoomPopupClose() {
+
+    }
+
     function handleChange(newValue: Dayjs | null) {
         setValue(newValue);
+    }
+
+    function handleShowRoomInformation() {
+
     }
 
 
@@ -237,7 +249,7 @@ function NewRooms() {
                 <div id="newBuchungenBoxes" hidden={true}>
                     <ul id="buchungRaumColumns">
                         {rooms.map((rooms) => (
-                            <li id="raum" key={rooms.id}>
+                            <li id="raum" key={rooms.id} onClick={() => {setOpenRoomPopup(true)}}>
                                 <div id="headerWithRoomTitle">
                                     <h3 id="textRoomName">{rooms.name}</h3>
                                 </div>
@@ -247,6 +259,15 @@ function NewRooms() {
                             </li>
                         ))}
                     </ul>
+                    <div id="modal">
+                        <Popup open ={openRoomPopup} closeOnDocumentClick onClose={closeRoomPopup}
+                        >
+                            <RoomInformation/>
+                            <div>
+                                <Button onClick={handleRoomPopupClose} id="closeRoomPopup" variant="contained">Close</Button>
+                            </div>
+                        </Popup>
+                    </div>
                 </div>
             </div>
         </div>

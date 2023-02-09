@@ -35,6 +35,8 @@
     position: relative;
     border-left: 2px solid #454545;
     height: 60%;
+    display: flex;
+    flex-direction: row;
 }
 
 .verticalLine2 {
@@ -55,13 +57,13 @@
 }
 
 #spaceInToolBar {
-    margin-left: 650px;
-    margin-right: 650px;
+    width: 85%;
 }
 
 #rightAlignToolbarButtons {
     position: relative;
-    align-items: flex-end;
+    align-items: center;
+    display: flex;
 }
 
 .css-11b3ww9-MuiPaper-root-MuiAppBar-root {

@@ -92,11 +92,11 @@ function Dashboard(){
                             aria-label="Help"
                             aria-haspopup="true"
                             aria-controls="menu-appbar"
-                            sx={{ mr: 2  }}
+                            sx={{ mr: 2, display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}
                         >
                             <QuestionMark/>
                         </IconButton>
-                        <Button id="usernameToolbar" color="inherit" startIcon={<AccountCircle />}>{username}</Button>
+                        <Button sx={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}} id="usernameToolbar" color="inherit" startIcon={<AccountCircle />}>{username}</Button>
                     </div>
                 </Toolbar>
 
