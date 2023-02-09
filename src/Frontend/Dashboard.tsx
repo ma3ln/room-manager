@@ -9,6 +9,9 @@ import Sidebars from "./Sidebars";
 import SidebarBackground from "./Background/SidebarBackground";
 import {QuestionMark} from "@mui/icons-material";
 import {AssignmentTurnedIn} from "@mui/icons-material";
+import {useNavigate} from "react-router-dom";
+import ReactDOM from "react-dom";
+
 
 function Dashboard(){
 
@@ -16,12 +19,15 @@ function Dashboard(){
     const menuSettings = [''];
     const accountSettigns = ['Profile', 'Logout'];
 //    const username = (document.getElementById("input-with-account-icon")! as HTMLInputElement).value;
-    const username = "TestUser!";
+    const username = localStorage.getItem("username");
     const styles = {
         toolbarButtons: {
             marginLeft: 'auto',
         },
     };
+
+
+
 
     const user = [
         {
@@ -69,7 +75,27 @@ function Dashboard(){
 
     }
 
-    // @ts-ignore
+    const navigate = useNavigate();
+
+    console.log(localStorage.getItem("isLoggedIn"))
+
+    function handleLoad() {
+        if(localStorage.getItem("isLoggedIn") !== "1") {
+            navigate("/")
+            window.location.reload();
+        }
+    }
+
+    // if(localStorage.getItem("isLoggedIn") === null){
+    //     console.log("hier")
+    //     return <div onClick={handleLoad}>test</div>
+    // }
+
+    setInterval(() => {
+        handleLoad();
+    }, 10);
+
+
     return(
         <div className="Dashboard">
             <AppBar className="header">
