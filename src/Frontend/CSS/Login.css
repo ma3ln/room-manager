@@ -34,13 +34,13 @@
 
 #headLoginText {
     color: black;
-    font-family: "Roboto";
+    font-family: "Roboto", serif;
     margin-bottom: 80px;
 }
 
 h4 {
     color: black;
-    font-family: "Roboto";
+    font-family: "Roboto", serif;
     text-align: left;
     margin: 20px;
 }
@@ -110,7 +110,7 @@ hr {
     position: absolute;
     right: 35%;
     top: 112%;
-    margin-top: 15%;
+    margin-top: 8%;
 }
 
 #hr-lines:before {
@@ -129,7 +129,7 @@ hr {
     max-width: 500px;
     margin: 20px auto;
     text-align: center;
-    font-family: Roboto;
+    font-family: Roboto, serif;
 }
 
 #hr-lines:after {
