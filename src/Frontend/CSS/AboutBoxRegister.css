@@ -50,9 +50,11 @@
 
 #welcome-text {
     opacity: 0.7;
-    font-size: 20px;
-    margin-top: 10px;
+    font-size: 120%;
+    margin-top: 2%;
     margin-bottom: 0;
+    font-family: Roboto, serif;
+    padding-top: 3%;
 }
 
 .pic {
@@ -64,12 +66,6 @@
 .name {
     padding-top:30px;
     font-family: Roboto;
-}
-
-#welcome-text {
-    font-family: Roboto;
-    padding-top: 30px;
-    opacity: 0.7;
 }
 
 #boxInformationDevs {
