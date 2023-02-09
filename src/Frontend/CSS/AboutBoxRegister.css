@@ -194,8 +194,13 @@ h1 {
 
 .swipe-button {
     position: relative;
-    top: 10%;
-    left: 37%;
+    display: flex;
+    top: -25%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: flex-start;
+    align-content: center;
+    justify-content: center;
 }
 
 #github {

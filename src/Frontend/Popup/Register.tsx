@@ -18,19 +18,14 @@ function Register() {
     var activeIndex = 0;
     const flipcard = document.getElementsByClassName("flip-card");
 
-    function handleRegisters() {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const [show, setShow] = React.useState(false);
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const [showNoInputError, setShowNoInputError] = React.useState(false);
-
-        var activeIndex = 0;
-        const flipcard = document.getElementsByClassName("flip-card");
-    }
 
         function handleRegister(event: React.MouseEvent<HTMLButtonElement>) {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const [show, setShow] = React.useState(false);
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const [showNoInputError, setShowNoInputError] = React.useState(false);
             var username = (document.getElementById("input-with-account-icon-register")! as HTMLInputElement).value
             var password = (document.getElementById("input-with-password-icon-register")! as HTMLInputElement).value
             var mail = (document.getElementById("input-for-email")! as HTMLInputElement).value
@@ -126,6 +121,7 @@ function Register() {
                             below.</b>
                     </p>
                 </div>
+                <div id="boxInformationDevs">
                 <div className="box-flip-card">
                     <div className="flip-card" id="flip-card-lisa" data-status="active" data-index="0">
                         <div className="flip-card-inner">
@@ -160,6 +156,7 @@ function Register() {
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
                 <div className="swipe-button">
                     <IconButton onClick={handleSwipeLeft} id="swipe-right"
@@ -241,9 +238,7 @@ function Register() {
                         </div>
                     </div>
                     <div>
-                        <Button onClick={handleRegister} id="buttonToRegister" className="registerButton" sx={{ backgroundColor: '#365D73', opacity: 0.8, width: '60%', padding: 1, margin: 2, marginTop: '10%'}} variant="contained" >Register</Button>
-                        <Button onClick={handleRegister} id="buttonToRegister" className="registerButton"
-                                sx={{width: 300, padding: 1, margin: 2}} variant="contained">Register</Button>
+                        <Button onClick={handleRegister} id="buttonToRegister" className="registerButton" sx={{ backgroundColor: '#365D73', opacity: 0.8, width: '60%', padding: 1, margin: 2, marginTop: '5%'}} variant="contained" >Register</Button>
                     </div>
                 </div>
             </div>
