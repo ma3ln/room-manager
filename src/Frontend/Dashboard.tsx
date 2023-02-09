@@ -86,11 +86,6 @@ function Dashboard(){
         }
     }
 
-    // if(localStorage.getItem("isLoggedIn") === null){
-    //     console.log("hier")
-    //     return <div onClick={handleLoad}>test</div>
-    // }
-
     setInterval(() => {
         handleLoad();
     }, 10);

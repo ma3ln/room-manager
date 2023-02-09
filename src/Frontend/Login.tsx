@@ -39,6 +39,7 @@ function Login() {
         setShowWrongLogin(false);
         setShowNoInputError(false);
         setAnchorEl(null);
+        window.location.reload();
     }
 
     function handlePopupClose() {
@@ -86,6 +87,7 @@ function Login() {
                         localStorage.setItem("isLoggedIn", "null")
                         localStorage.setItem("username", "null")
                         setShow(prevState => !prevState);
+                        window.location.reload();
                     }
                 });
         }
@@ -98,9 +100,6 @@ function Login() {
     return(
         <div className="loginPage">
             <CirclesLogin/>
-            <div id="SidebareLogin">
-                <Sidebars />
-            </div>
             <header className="loginHeader">
                 <h2 id="headLoginText">Login</h2>
             </header>

@@ -14,6 +14,7 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DesktopDatePicker} from "@mui/x-date-pickers";
 import Popup from "reactjs-popup";
 import RoomInformation from "./Popup/RoomInformation";
+import {useNavigate} from "react-router-dom";
 
 function NewRooms() {
 
@@ -28,6 +29,21 @@ function NewRooms() {
             name: 'Beamer'
         }
     ]
+
+    const navigate = useNavigate();
+
+    console.log(localStorage.getItem("isLoggedIn"))
+
+    function handleLoad() {
+        if(localStorage.getItem("isLoggedIn") !== "1") {
+            navigate("/")
+            window.location.reload();
+        }
+    }
+
+    setInterval(() => {
+        handleLoad();
+    }, 10);
 
     const rooms = [
         {
