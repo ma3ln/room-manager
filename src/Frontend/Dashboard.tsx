@@ -9,9 +9,6 @@ import Sidebars from "./Sidebars";
 import SidebarBackground from "./Background/SidebarBackground";
 import {QuestionMark} from "@mui/icons-material";
 import {AssignmentTurnedIn} from "@mui/icons-material";
-import {useNavigate} from "react-router-dom";
-import ReactDOM from "react-dom";
-
 
 function Dashboard(){
 
@@ -19,14 +16,21 @@ function Dashboard(){
     const menuSettings = [''];
     const accountSettigns = ['Profile', 'Logout'];
 //    const username = (document.getElementById("input-with-account-icon")! as HTMLInputElement).value;
-    const username = localStorage.getItem("username");
+    const username = "TestUser!";
     const styles = {
         toolbarButtons: {
             marginLeft: 'auto',
         },
     };
 
-
+    const user = [
+        {
+            "vorname": "Katja",
+            "nachname": "Imagine",
+            "email": "katja.imagine@gmail.com",
+            "role": "Lehrer"
+        }
+    ]
 
     const buchung =
             [
@@ -65,27 +69,7 @@ function Dashboard(){
 
     }
 
-    const navigate = useNavigate();
-
-    console.log(localStorage.getItem("isLoggedIn"))
-
-    function handleLoad() {
-        if(localStorage.getItem("isLoggedIn") !== "1") {
-            navigate("/")
-            window.location.reload();
-        }
-    }
-
-    // if(localStorage.getItem("isLoggedIn") === null){
-    //     console.log("hier")
-    //     return <div onClick={handleLoad}>test</div>
-    // }
-
-    setInterval(() => {
-        handleLoad();
-    }, 10);
-
-
+    // @ts-ignore
     return(
         <div className="Dashboard">
             <AppBar className="header">
@@ -131,8 +115,23 @@ function Dashboard(){
                         <div id="dashboardWelcome">
                             <h1>Welcome {username}!</h1>
                         </div>
-                        <div>
-
+                        <div id="informationAboutUser">
+                            <div id="picPersonalData"/>
+                            {user.map((user) => (
+                                <>
+                                    <div id="boxInformation">
+                                        <div id="informationUserName">
+                                            <h2 id="textUserName">{user.vorname}  {user.nachname}</h2>
+                                        </div>
+                                        <div id="informationEmail">
+                                            <p id="textEmail">{user.email}</p>
+                                        </div>
+                                        <div id="informationRole">
+                                            <p id="textRole">{user.role}</p>
+                                        </div>
+                                    </div>
+                                </>
+                            ))}
                         </div>
                     </div>
                     <div id="buchungenDiv">

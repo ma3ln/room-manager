@@ -32,7 +32,7 @@
     overflow-y: hidden;
 }
 
-h2 {
+#headLoginText {
     color: black;
     font-family: "Roboto";
     margin-bottom: 80px;

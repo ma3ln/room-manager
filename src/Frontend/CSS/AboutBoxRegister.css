@@ -38,7 +38,7 @@
     position: relative;
     top: 5%;
     left: 31%;
-    height: 33%;
+    height: 51%;
     width: 83%;
     aspect-ratio: 5/7;
 }
@@ -66,10 +66,20 @@
     font-family: Roboto;
 }
 
-p {
+#welcome-text {
     font-family: Roboto;
     padding-top: 30px;
     opacity: 0.7;
+}
+
+#boxInformationDevs {
+    height: 61%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: center;
 }
 
 .flip-card-inner {
@@ -175,8 +185,8 @@ h1 {
 }
 
 .swipe-button {
-    position: absolute;
-    top: 77%;
+    position: relative;
+    top: 10%;
     left: 37%;
 }
 
