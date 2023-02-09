@@ -20,6 +20,7 @@ function Login() {
 
     const [postId, setPostId] = useState(0);
 
+    localStorage.setItem("test", "123456")
 
     const navigate = useNavigate();
     const [openPopup, setOpen] = React.useState(false);
@@ -32,6 +33,8 @@ function Login() {
     const openPopover = Boolean(anchorEl);
 
     function handleClose() {
+        localStorage.setItem("isLoggedIn", "null")
+        localStorage.setItem("username", "null")
         setShow(prevState => !prevState);
         setShowWrongLogin(false);
         setShowNoInputError(false);
@@ -68,14 +71,20 @@ function Login() {
                     response.text()
                     if(response.ok) {
                         setIsLoggedIn(true);
+                        localStorage.setItem("isLoggedIn", "1")
+                        localStorage.setItem("username", username)
                         navigate("/dashboard");
                     }
                 })
-                .then(result => console.log("result", result))
+                .then(result => {
+                    console.log("result", result)
+                })
                 .catch(error => {
                     if(error.response.status === 400) {
                         setAnchorEl(event.currentTarget);
                         setShowNoInputError(false);
+                        localStorage.setItem("isLoggedIn", "null")
+                        localStorage.setItem("username", "null")
                         setShow(prevState => !prevState);
                     }
                 });

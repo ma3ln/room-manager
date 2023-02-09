@@ -9,11 +9,11 @@ import Sidebars from "./Sidebars";
 
 function App() {
 
-  return (
+    return (
     <div className="App">
         <BrowserRouter>
               <Routes>
-                  <Route path={"/"} element={<Login />}></Route>
+                  <Route path={"/"} element={<Login/>} />
                   <Route path={"/dashboard"} element={<Dashboard />}></Route>
                   <Route path={"/newrooms"} element={<NewRooms />}></Route>
               </Routes>
