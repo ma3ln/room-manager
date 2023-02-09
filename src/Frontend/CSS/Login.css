@@ -28,7 +28,7 @@
     justify-content: center;
     font-size: calc(10px + 2vmin);
     text-align: center;
-    background-image: linear-gradient(to right, #365D73 0, #365D73 2%, #FFFFFF 2%, #FFFFFF 98%, #365D73 98%, #365D73 2%);
+    background-image: linear-gradient(to right, #365D73 0, #365D73 2%, #F7F7F5 2%, #F7F7F5 98%, #365D73 98%, #365D73 2%);
     overflow-y: hidden;
 }
 
