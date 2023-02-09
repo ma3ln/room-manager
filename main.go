@@ -68,8 +68,63 @@ func login(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func register(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	firstname := r.FormValue("firstname")
+	lastname := r.FormValue("lastname")
+	mail := r.FormValue("mail")
+	user := r.FormValue("user")
+	password := r.FormValue("password")
+
+	fmt.Println(user)
+
+	client, ctx := dbcon.Dbconect()
+
+	roommanager := client.Database("roomManager")
+	userColl := roommanager.Collection("User")
+
+	filterCursor, err := userColl.Find(ctx, bson.M{"username": user})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var userFiltered []bson.M
+	if err = filterCursor.All(ctx, &userFiltered); err != nil {
+		log.Fatal(err)
+	}
+
+	mailCursor, err := userColl.Find(ctx, bson.M{"mail": mail})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var mailFiltered []bson.M
+	if err = mailCursor.All(ctx, &mailFiltered); err != nil {
+		log.Fatal(err)
+	}
+
+	if len(mailFiltered) > 0 || len(userFiltered) > 0 {
+		fmt.Println("fail")
+		http.Error(w, "Fehler!!!", http.StatusBadRequest)
+	} else {
+		_, err := userColl.InsertOne(ctx, bson.D{
+			{Key: "username", Value: user},
+			{Key: "password", Value: password},
+			{Key: "mail", Value: mail},
+			{Key: "firstname", Value: firstname},
+			{Key: "lastname", Value: lastname},
+		})
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+}
+
 func handleRequests() {
 	http.HandleFunc("/login", login)
+	http.HandleFunc("/register", register)
 	http.ListenAndServe(":8081", nil)
 }
 

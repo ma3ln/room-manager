@@ -9,14 +9,55 @@ import {ArrowBack} from "@mui/icons-material";
 import {ArrowForward} from "@mui/icons-material";
 import "../CSS/InputBoxRegister.css";
 import "../CSS/AboutBoxRegister.css";
+import {Md5} from "ts-md5";
 
 function Register() {
+
+    const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
+    const [show, setShow] = React.useState(false);
+    const [showNoInputError, setShowNoInputError] = React.useState(false);
 
     var activeIndex = 0;
     const flipcard = document.getElementsByClassName("flip-card");
 
-    function handleRegister() {
+    function handleRegister(event: React.MouseEvent<HTMLButtonElement>) {
+        var username = (document.getElementById("input-with-account-icon-register")! as HTMLInputElement).value
+        var password = (document.getElementById("input-with-password-icon-register")! as HTMLInputElement).value
+        var mail = (document.getElementById("input-for-email")! as HTMLInputElement).value
+        var firstname = (document.getElementById("input-for-first-name")! as HTMLInputElement).value
+        var lastname = (document.getElementById("input-forsecond-name")! as HTMLInputElement).value
 
+        console.log(username);
+        console.log(password);
+        console.log(Md5.hashStr(password));
+
+        const formdata = new FormData();
+        formdata.append("password", Md5.hashStr(password));
+        formdata.append("user", username);
+        formdata.append("mail", mail);
+        formdata.append("lastname", lastname);
+        formdata.append("firstname", firstname);
+
+        if (!((document.getElementById(String(username === "" || password === "" || mail === "" || firstname === "" || lastname === ""))))) {
+            fetch("http://localhost:8081/register", {
+                method: 'POST',
+                body: formdata,
+                redirect: "follow"
+            })
+                .then(response => {
+                    response.text()
+                })
+                .then(result => console.log("result", result))
+                .catch(error => {
+                    if (error.response.status === 400) {
+                        setAnchorEl(event.currentTarget);
+                    }
+                });
+        } else {
+            setAnchorEl(event.currentTarget);
+            setShow(prevState => !prevState);
+            setShowNoInputError(prevState => !prevState);
+        }
     }
 
     function handleSwipeRight()  {

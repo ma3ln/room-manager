@@ -12,12 +12,12 @@ import (
 
 func check(e error) {
 	if e != nil {
-		panic(e)
+		log.Fatal(e)
 	}
 }
 
 func Dbconect() (*mongo.Client, context.Context) {
-	dat, err := os.ReadFile("C:/Users/Lisa/DbCon.con")
+	dat, err := os.ReadFile("C:/Users/nobis/OneDrive/Desktop/DbCon.con")
 	check(err)
 	s := string(dat)
 	a := strings.Split(s, " ")
