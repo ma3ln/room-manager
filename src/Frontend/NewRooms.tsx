@@ -168,7 +168,7 @@ function NewRooms() {
                     <h1>Neue Raumbuchung</h1>
                 </div>
                 <div id="boxNewRoomButton">
-                    <IconButton onClick={handleNewRoom} id="addNewRoom" sx={{ height: 70, width: 70, padding: 1, margin: '2%', marginLeft: '5%', marginTop: '5%'}} >
+                    <IconButton onClick={handleNewRoom} id="addNewRoom" sx={{ height: 70, width: 70, padding: 1, margin: '2%', marginLeft: '2%', marginTop: '5%'}} >
                         <Add sx={{height: '120%', width: '120%'}}/>
                     </IconButton>
                 </div>
@@ -184,7 +184,7 @@ function NewRooms() {
                                     <TextField
                                         id="numberPeopleInRoom"
                                         label="Kapazität"
-                                        sx={{width: '105%'}}
+                                        sx={{width: '105%', maxWidth: '105', minWidth: '60%'}}
                                         type="number"
                                     ></TextField>
                                 </div>
@@ -223,7 +223,7 @@ function NewRooms() {
                                 <div id="boxDatum">
                                     <div id="dateForRoom">
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <DesktopDatePicker label="Datum" inputFormat="MM/DD/YYYY" onChange={handleChange} value={value} renderInput={(params) => <TextField {...params} sx={{width: '60%', maxWidth: '100%'}} />} />
+                                            <DesktopDatePicker label="Datum" inputFormat="MM/DD/YYYY" onChange={handleChange} value={value} renderInput={(params) => <TextField {...params} sx={{width: '60%', maxWidth: '100%'}}/>} />
                                         </LocalizationProvider>
                                     </div>
                                     <div id="startTimeForRoom">
@@ -242,7 +242,7 @@ function NewRooms() {
                             </div>
                         </div>
                         <div id="boxFilterButton">
-                            <Button id="buttonRoomFilter" variant="contained" sx={{ backgroundColor: '#365D73', opacity: 0.8, width: '60%', padding: 1, margin: 2}}>Nach Raum filtern</Button>
+                            <Button id="buttonRoomFilter" variant="contained" sx={{ backgroundColor: '#365D73', opacity: 0.8, width: '60%', padding: 1, bottomMargin: '2%'}}>Nach Raum filtern</Button>
                         </div>
                     </div>
                 </div>
