@@ -22,6 +22,16 @@ function Dashboard(){
             marginLeft: 'auto',
         },
     };
+
+    const user = [
+        {
+            "vorname": "Katja",
+            "nachname": "Imagine",
+            "email": "katja.imagine@gmail.com",
+            "role": "Lehrer"
+        }
+    ]
+
     const buchung =
             [
                 {
@@ -105,8 +115,23 @@ function Dashboard(){
                         <div id="dashboardWelcome">
                             <h1>Welcome {username}!</h1>
                         </div>
-                        <div>
-
+                        <div id="informationAboutUser">
+                            <div id="picPersonalData"/>
+                            {user.map((user) => (
+                                <>
+                                    <div id="boxInformation">
+                                        <div id="informationUserName">
+                                            <h2 id="textUserName">{user.vorname}  {user.nachname}</h2>
+                                        </div>
+                                        <div id="informationEmail">
+                                            <p id="textEmail">{user.email}</p>
+                                        </div>
+                                        <div id="informationRole">
+                                            <p id="textRole">{user.role}</p>
+                                        </div>
+                                    </div>
+                                </>
+                            ))}
                         </div>
                     </div>
                     <div id="buchungenDiv">

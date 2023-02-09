@@ -73,6 +73,7 @@ function Register() {
                         <b>Thank you for considering to use this Application and making an Account. For further information on the people who made this Application, you can hover over the pictures below.</b>
                     </p>
                 </div>
+                <div id="boxInformationDevs">
                 <div className="box-flip-card">
                     <div className="flip-card" id="flip-card-lisa" data-status="active" data-index="0">
                         <div className="flip-card-inner">
@@ -116,6 +117,7 @@ function Register() {
                         <ArrowForward/>
                     </IconButton>
                 </div>
+            </div>
                 <div>
                     <a href="https://github.com/ma3ln/room-manager.git">
                         <img id="github" src="https://1000logos.net/wp-content/uploads/2021/05/GitHub-logo.png" alt="Github"/>
@@ -132,11 +134,13 @@ function Register() {
                             <TextField id="input-for-first-name"
                                        label="Vorname"
                                        margin="dense"
+                                       sx={{width: '42.5%'}}
                                        required
                             />
                             <TextField id="input-forsecond-name"
                                        label="Nachname"
                                        margin="dense"
+                                       sx={{width: '42.5%', marginLeft: 2}}
                                        required
                             />
                         </div>
@@ -144,13 +148,14 @@ function Register() {
                             <TextField id="input-for-email"
                                        label="E-Mail"
                                        margin="dense"
+                                       sx={{width: '88%'}}
                                        required
                                        />
                         </div>
                         <div id="user-register">
                             <TextField id="input-with-account-icon-register"
                                        label="User"
-
+                                       sx={{width: '88%'}}
                                        margin="dense"
                                        required
                                        InputProps={{
@@ -168,6 +173,7 @@ function Register() {
                                        label="Password"
                                        margin="dense"
                                        type="password"
+                                       sx={{width: '88%'}}
                                        required
                                        InputProps={{
                                            startAdornment: (
@@ -181,7 +187,7 @@ function Register() {
                         </div>
                     </div>
                     <div>
-                        <Button onClick={handleRegister} id="buttonToRegister" className="registerButton" sx={{ width: 300, padding: 1, margin: 2}} variant="contained" >Register</Button>
+                        <Button onClick={handleRegister} id="buttonToRegister" className="registerButton" sx={{ backgroundColor: '#365D73', opacity: 0.8, width: '60%', padding: 1, margin: 2}} variant="contained" >Register</Button>
                     </div>
                 </div>
             </div>
