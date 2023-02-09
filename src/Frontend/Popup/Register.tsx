@@ -81,8 +81,8 @@ function Register() {
                             </div>
                             <div className="flip-card-back" >
                                 <h1 className="name">Lisa Hellwage</h1>
-                                <p>Developer of Room Manager</p>
-                                <p>Front-End Lead</p>
+                                <p className="devTitle">Developer of Room Manager</p>
+                                <p className="devJob">Front-End Lead</p>
                             </div>
                         </div>
                     </div>
@@ -92,8 +92,8 @@ function Register() {
                             </div>
                                 <div className="flip-card-back">
                                     <h1 className="name">Marlon Nobis</h1>
-                                    <p>Developer of Room Manager</p>
-                                    <p>Database Lead <br/>Help for Backend and Front-End</p>
+                                    <p className="devTitle">Developer of Room Manager</p>
+                                    <p className="devJob">Database Lead <br/>Help for Backend and Front-End</p>
                                 </div>
                             </div>
                         </div>
@@ -103,8 +103,8 @@ function Register() {
                             </div>
                             <div className="flip-card-back">
                                 <h1 className="name">Justus Marx</h1>
-                                <p>Developer of Room Manager</p>
-                                <p>Backend Lead</p>
+                                <p className="devTitle">Developer of Room Manager</p>
+                                <p className="devJob">Backend Lead</p>
                             </div>
                         </div>
                     </div>
@@ -187,7 +187,7 @@ function Register() {
                         </div>
                     </div>
                     <div>
-                        <Button onClick={handleRegister} id="buttonToRegister" className="registerButton" sx={{ backgroundColor: '#365D73', opacity: 0.8, width: '60%', padding: 1, margin: 2}} variant="contained" >Register</Button>
+                        <Button onClick={handleRegister} id="buttonToRegister" className="registerButton" sx={{ backgroundColor: '#365D73', opacity: 0.8, width: '60%', padding: 1, margin: 2, marginTop: '10%'}} variant="contained" >Register</Button>
                     </div>
                 </div>
             </div>

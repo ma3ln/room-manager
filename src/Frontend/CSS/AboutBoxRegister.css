@@ -44,13 +44,13 @@
 }
 
 #aboutBoxWelcome {
-    margin-top: 40px;
-    margin-bottom: 20px;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
 #welcome-text {
-    opacity: 0.7;
-    font-size: 120%;
+    opacity: 0.6;
+    font-size: 140%;
     margin-top: 2%;
     margin-bottom: 0;
     font-family: Roboto, serif;
@@ -64,9 +64,21 @@
 }
 
 .name {
-    padding-top:30px;
-    font-family: Roboto;
+    padding-top: 10%;
+    font-family: Roboto, serif;
+    font-size: 190%;
 }
+
+.devTitle {
+    padding-top: 10%;
+    font-size: 100%;
+}
+
+.devJob {
+    padding-top: 2%;
+    font-size: 100%;
+}
+
 
 #boxInformationDevs {
     height: 61%;
