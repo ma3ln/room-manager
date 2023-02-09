@@ -211,18 +211,18 @@ function NewRooms() {
                                 <div id="boxDatum">
                                     <div id="dateForRoom">
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <DesktopDatePicker label="Datum" inputFormat="MM/DD/YYYY" onChange={handleChange} value={value} renderInput={(params) => <TextField {...params} />} />
+                                            <DesktopDatePicker label="Datum" inputFormat="MM/DD/YYYY" onChange={handleChange} value={value} renderInput={(params) => <TextField {...params} sx={{width: '60%', maxWidth: '100%'}} />} />
                                         </LocalizationProvider>
                                     </div>
                                     <div id="startTimeForRoom">
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <TimePicker label="Start Time" onChange={handleChange} value={value} renderInput={(params) => <TextField {...params} />}
+                                            <TimePicker label="Start Time" onChange={handleChange} value={value} renderInput={(params) => <TextField {...params} sx={{width: '60%', maxWidth: '100%'}}/>}
                                             />
                                         </LocalizationProvider>
                                     </div>
                                     <div id="endTimeForRoom">
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <TimePicker label="End Time" onChange={handleChange} value={value} renderInput={(params) => <TextField {...params} />}
+                                            <TimePicker label="End Time" onChange={handleChange} value={value} renderInput={(params) => <TextField {...params} sx={{width: '60%', maxWidth: '100%'}}/>}
                                             />
                                         </LocalizationProvider>
                                     </div>

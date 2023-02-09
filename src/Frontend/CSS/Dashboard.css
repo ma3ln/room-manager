@@ -28,23 +28,19 @@
     grid-row-start: 2;
     grid-column-end: 4;
     grid-row-end: 4;
-    background-color: #FAFAFB;
+    background-color: #FAFAFB !important;
 }
 
 .verticalLine1 {
-    position: absolute;
-    left: 15%;
-    top: 20%;
+    position: relative;
     border-left: 2px solid #454545;
     height: 60%;
 }
 
 .verticalLine2 {
-    position: absolute;
+    position: relative;
     border-left: 2px solid #454545;
     height: 90%;
-    left: 30%;
-    top: 7%;
 }
 
 #iconButtonHelp:after {
@@ -71,11 +67,6 @@
 .css-11b3ww9-MuiPaper-root-MuiAppBar-root {
     height: 7%;
     background-color: #365D73 !important;
-}
-
-.css-hyum1k-MuiToolbar-root {
-    position: absolute;
-    left: 16%;
 }
 
 #SidebareDashboard {

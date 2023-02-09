@@ -79,7 +79,7 @@ function Dashboard(){
                             size="large"
                             color="inherit"
                             aria-label="menu"
-                            sx={{ mr: 2}}
+                            sx={{position: 'relative', mr: 2}}
                         >
                             <MenuIcon />
                         </IconButton>
