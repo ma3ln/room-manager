@@ -9,9 +9,6 @@ import {ArrowBack} from "@mui/icons-material";
 import {ArrowForward} from "@mui/icons-material";
 import "../CSS/InputBoxRegister.css";
 import "../CSS/AboutBoxRegister.css";
-import {IconButton} from "@mui/material";
-import {ArrowBack} from "@mui/icons-material";
-import {ArrowForward} from "@mui/icons-material";
 import "../CSS/InputBoxRegister.css";
 import "../CSS/AboutBoxRegister.css";
 import {Md5} from "ts-md5";
@@ -21,141 +18,102 @@ function Register() {
     var activeIndex = 0;
     const flipcard = document.getElementsByClassName("flip-card");
 
-    function handleRegister() {
-    const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
-    const [show, setShow] = React.useState(false);
-    const [showNoInputError, setShowNoInputError] = React.useState(false);
+    function handleRegisters() {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const [show, setShow] = React.useState(false);
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const [showNoInputError, setShowNoInputError] = React.useState(false);
 
-    var activeIndex = 0;
-    const flipcard = document.getElementsByClassName("flip-card");
+        var activeIndex = 0;
+        const flipcard = document.getElementsByClassName("flip-card");
+    }
 
-    function handleRegister(event: React.MouseEvent<HTMLButtonElement>) {
-        var username = (document.getElementById("input-with-account-icon-register")! as HTMLInputElement).value
-        var password = (document.getElementById("input-with-password-icon-register")! as HTMLInputElement).value
-        var mail = (document.getElementById("input-for-email")! as HTMLInputElement).value
-        var firstname = (document.getElementById("input-for-first-name")! as HTMLInputElement).value
-        var lastname = (document.getElementById("input-forsecond-name")! as HTMLInputElement).value
+        function handleRegister(event: React.MouseEvent<HTMLButtonElement>) {
+            var username = (document.getElementById("input-with-account-icon-register")! as HTMLInputElement).value
+            var password = (document.getElementById("input-with-password-icon-register")! as HTMLInputElement).value
+            var mail = (document.getElementById("input-for-email")! as HTMLInputElement).value
+            var firstname = (document.getElementById("input-for-first-name")! as HTMLInputElement).value
+            var lastname = (document.getElementById("input-forsecond-name")! as HTMLInputElement).value
 
-        console.log(username);
-        console.log(password);
-        console.log(Md5.hashStr(password));
+            console.log(username);
+            console.log(password);
+            console.log(Md5.hashStr(password));
 
-        const formdata = new FormData();
-        formdata.append("password", Md5.hashStr(password));
-        formdata.append("user", username);
-        formdata.append("mail", mail);
-        formdata.append("lastname", lastname);
-        formdata.append("firstname", firstname);
+            const formdata = new FormData();
+            formdata.append("password", Md5.hashStr(password));
+            formdata.append("user", username);
+            formdata.append("mail", mail);
+            formdata.append("lastname", lastname);
+            formdata.append("firstname", firstname);
 
-        if (!((document.getElementById(String(username === "" || password === "" || mail === "" || firstname === "" || lastname === ""))))) {
-            fetch("http://localhost:8081/register", {
-                method: 'POST',
-                body: formdata,
-                redirect: "follow"
-            })
-                .then(response => {
-                    response.text()
+            if (!((document.getElementById(String(username === "" || password === "" || mail === "" || firstname === "" || lastname === ""))))) {
+                fetch("http://localhost:8081/register", {
+                    method: 'POST',
+                    body: formdata,
+                    redirect: "follow"
                 })
-                .then(result => console.log("result", result))
-                .catch(error => {
-                    if (error.response.status === 400) {
-                        setAnchorEl(event.currentTarget);
-                    }
-                });
-        } else {
-            setAnchorEl(event.currentTarget);
-            setShow(prevState => !prevState);
-            setShowNoInputError(prevState => !prevState);
+                    .then(response => {
+                        response.text()
+                    })
+                    .then(result => console.log("result", result))
+                    .catch(error => {
+                        if (error.response.status === 400) {
+                            setAnchorEl(event.currentTarget);
+                        }
+                    });
+            } else {
+                setAnchorEl(event.currentTarget);
+                setShow(prevState => !prevState);
+                setShowNoInputError(prevState => !prevState);
+            }
         }
-    }
 
-    function handleSwipeRight()  {
+        function handleSwipeRight() {
 
-        const nextIndex = activeIndex + 1 <= flipcard.length - 1 ? activeIndex + 1 : 0;
+            const nextIndex = activeIndex + 1 <= flipcard.length - 1 ? activeIndex + 1 : 0;
 
 
-        const currentFlipcard = document.querySelector('[data-index="' + activeIndex + '"]'),
-            nextFlipcard = document.querySelector('[data-index="' + nextIndex + '"]');
+            const currentFlipcard = document.querySelector('[data-index="' + activeIndex + '"]'),
+                nextFlipcard = document.querySelector('[data-index="' + nextIndex + '"]');
 
-        //@ts-ignore
-        currentFlipcard.dataset.status = "after";
-
-        //@ts-ignore
-        nextFlipcard.dataset.status = "become-active-from-before";
-
-        setTimeout(() => {
             //@ts-ignore
-            nextFlipcard.dataset.status = "active";
+            currentFlipcard.dataset.status = "after";
 
-            activeIndex = nextIndex;
-        })
-
-    }
-
-    function handleSwipeLeft() {
-        const nextIndex = activeIndex - 1 >= 0 ? activeIndex - 1 : flipcard.length - 1;
-
-        const currentFlipcard = document.querySelector('[data-index="' + activeIndex + '"]'),
-            nextFlipcard = document.querySelector('[data-index="' + nextIndex + '"]');
-
-        //@ts-ignore
-        currentFlipcard.dataset.status = "before";
-
-        //@ts-ignore
-        nextFlipcard.dataset.status = "become-active-from-after";
-
-        setTimeout(() => {
             //@ts-ignore
-            nextFlipcard.dataset.status = "active";
+            nextFlipcard.dataset.status = "become-active-from-before";
 
-            activeIndex = nextIndex;
-        })
-    }
+            setTimeout(() => {
+                //@ts-ignore
+                nextFlipcard.dataset.status = "active";
 
-    function handleSwipeRight()  {
+                activeIndex = nextIndex;
+            })
 
-        const nextIndex = activeIndex + 1 <= flipcard.length - 1 ? activeIndex + 1 : 0;
+        }
 
+        function handleSwipeLeft() {
+            const nextIndex = activeIndex - 1 >= 0 ? activeIndex - 1 : flipcard.length - 1;
 
-        const currentFlipcard = document.querySelector('[data-index="' + activeIndex + '"]'),
-            nextFlipcard = document.querySelector('[data-index="' + nextIndex + '"]');
+            const currentFlipcard = document.querySelector('[data-index="' + activeIndex + '"]'),
+                nextFlipcard = document.querySelector('[data-index="' + nextIndex + '"]');
 
-        //@ts-ignore
-        currentFlipcard.dataset.status = "after";
-
-        //@ts-ignore
-        nextFlipcard.dataset.status = "become-active-from-before";
-
-        setTimeout(() => {
             //@ts-ignore
-            nextFlipcard.dataset.status = "active";
+            currentFlipcard.dataset.status = "before";
 
-            activeIndex = nextIndex;
-        })
-
-    }
-
-    function handleSwipeLeft() {
-        const nextIndex = activeIndex - 1 >= 0 ? activeIndex - 1 : flipcard.length - 1;
-
-        const currentFlipcard = document.querySelector('[data-index="' + activeIndex + '"]'),
-            nextFlipcard = document.querySelector('[data-index="' + nextIndex + '"]');
-
-        //@ts-ignore
-        currentFlipcard.dataset.status = "before";
-
-        //@ts-ignore
-        nextFlipcard.dataset.status = "become-active-from-after";
-
-        setTimeout(() => {
             //@ts-ignore
-            nextFlipcard.dataset.status = "active";
+            nextFlipcard.dataset.status = "become-active-from-after";
 
-            activeIndex = nextIndex;
-        })
-    }
+            setTimeout(() => {
+                //@ts-ignore
+                nextFlipcard.dataset.status = "active";
 
-    return(
+                activeIndex = nextIndex;
+            })
+        }
+
+    return (
         <div id="registerBox">
             <div id="aboutBox">
                 <div id="welcome-text">
@@ -163,7 +121,9 @@ function Register() {
                 </div>
                 <div>
                     <p id="welcome-text">
-                        <b>Thank you for considering to use this Application and making an Account. For further information on the people who made this Application, you can hover over the pictures below.</b>
+                        <b>Thank you for considering to use this Application and making an Account. For further
+                            information on the people who made this Application, you can hover over the pictures
+                            below.</b>
                     </p>
                 </div>
                 <div className="box-flip-card">
@@ -171,7 +131,7 @@ function Register() {
                         <div className="flip-card-inner">
                             <div className="flip-card-front" id="flip-front-lisa">
                             </div>
-                            <div className="flip-card-back" >
+                            <div className="flip-card-back">
                                 <h1 className="name">Lisa Hellwage</h1>
                                 <p>Developer of Room Manager</p>
                                 <p>Front-End Lead</p>
@@ -182,13 +142,13 @@ function Register() {
                         <div className="flip-card-inner">
                             <div className="flip-card-front" id="flip-front-marlon">
                             </div>
-                                <div className="flip-card-back">
-                                    <h1 className="name">Marlon Nobis</h1>
-                                    <p>Developer of Room Manager</p>
-                                    <p>Database Lead <br/>Help for Backend and Front-End</p>
-                                </div>
+                            <div className="flip-card-back">
+                                <h1 className="name">Marlon Nobis</h1>
+                                <p>Developer of Room Manager</p>
+                                <p>Database Lead <br/>Help for Backend and Front-End</p>
                             </div>
                         </div>
+                    </div>
                     <div className="flip-card" id="flip-card-justus" data-status="unknown" data-index="2">
                         <div className="flip-card-inner">
                             <div className="flip-card-front" id="flip-front-justus">
@@ -202,16 +162,19 @@ function Register() {
                     </div>
                 </div>
                 <div className="swipe-button">
-                    <IconButton onClick={handleSwipeLeft} id="swipe-right" sx={{ height: 50, width: 50, padding: 1, margin: 2}}>
+                    <IconButton onClick={handleSwipeLeft} id="swipe-right"
+                                sx={{height: 50, width: 50, padding: 1, margin: 2}}>
                         <ArrowBack/>
                     </IconButton>
-                    <IconButton onClick={handleSwipeRight} id="swipe-left" sx={{ height: 50, width: 50, padding: 1, margin: 2}}>
+                    <IconButton onClick={handleSwipeRight} id="swipe-left"
+                                sx={{height: 50, width: 50, padding: 1, margin: 2}}>
                         <ArrowForward/>
                     </IconButton>
                 </div>
                 <div>
                     <a href="https://github.com/ma3ln/room-manager.git">
-                        <img id="github" src="https://1000logos.net/wp-content/uploads/2021/05/GitHub-logo.png" alt="Github"/>
+                        <img id="github" src="https://1000logos.net/wp-content/uploads/2021/05/GitHub-logo.png"
+                             alt="Github"/>
                     </a>
                 </div>
             </div>
@@ -238,7 +201,7 @@ function Register() {
                                        label="E-Mail"
                                        margin="dense"
                                        required
-                                       />
+                            />
                         </div>
                         <div id="user-register">
                             <TextField id="input-with-account-icon-register"
@@ -249,7 +212,7 @@ function Register() {
                                        InputProps={{
                                            startAdornment: (
                                                <InputAdornment position="start">
-                                                   <AccountCircle />
+                                                   <AccountCircle/>
                                                </InputAdornment>
                                            ),
                                        }}
@@ -265,7 +228,7 @@ function Register() {
                                        InputProps={{
                                            startAdornment: (
                                                <InputAdornment position="start">
-                                                   <Lock />
+                                                   <Lock/>
                                                </InputAdornment>
                                            ),
                                        }}
@@ -274,12 +237,26 @@ function Register() {
                         </div>
                     </div>
                     <div>
-                        <Button onClick={handleRegister} id="buttonToRegister" className="registerButton" sx={{ width: 300, padding: 1, margin: 2}} variant="contained" >Register</Button>
+                        <Button onClick={handleRegister} id="buttonToRegister" className="registerButton"
+                                sx={{width: 300, padding: 1, margin: 2}} variant="contained">Register</Button>
                     </div>
                 </div>
             </div>
         </div>
     );
+
 }
 
 export default Register;
+
+function setAnchorEl(currentTarget: EventTarget & HTMLButtonElement) {
+    throw new Error('Function not implemented.');
+}
+function setShow(arg0: (prevState: any) => boolean) {
+    throw new Error('Function not implemented.');
+}
+
+function setShowNoInputError(arg0: (prevState: any) => boolean) {
+    throw new Error('Function not implemented.');
+}
+
