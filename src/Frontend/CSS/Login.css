@@ -58,10 +58,6 @@ h5 {
     width: 34%;
 }
 
-hr {
-    width: 200px;
-}
-
 .elementLogin {
     margin-top: 5%;
 }
@@ -126,10 +122,14 @@ hr {
 
 #hr-lines {
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: center;
     max-width: 500px;
     margin: 20px auto;
     text-align: center;
-    font-family: Roboto;
+    font-family: Roboto, serif;
 }
 
 #hr-lines:after {

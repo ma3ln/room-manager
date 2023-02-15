@@ -2,7 +2,7 @@ import React from "react";
 import "./CSS/NewRooms.css";
 import {AppBar, Button, IconButton, MenuItem, Toolbar} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import {AccountCircle, AssignmentTurnedIn, QuestionMark} from "@mui/icons-material";
+import {AccountCircle, AssignmentTurnedIn, QuestionMark, PersonAddAlt, Category, HouseSiding} from "@mui/icons-material";
 import Sidebars from "./Sidebars";
 import SidebarBackground from "./Background/SidebarBackground";
 import {Add} from "@mui/icons-material";
@@ -139,7 +139,7 @@ function NewRooms() {
     }
 
     return(
-        <div id="NewRooms">
+        <div>
             <AppBar className="header">
             <div className="verticalLine1"></div>
             <Toolbar>
@@ -269,9 +269,20 @@ function NewRooms() {
                                 <div id="headerWithRoomTitle">
                                     <h3 id="textRoomName">{rooms.name}</h3>
                                 </div>
-                                <p>Kapazität: {rooms.kapazitat}</p>
-                                <p>Der Raum enthält: {rooms.attribut}</p>
-                                <p>Hausflur: {rooms.haus}</p>
+                                <div className="informationRoomInList ">
+                                    <div>
+                                        <PersonAddAlt />
+                                        <p className="informationTextForRoomInList">Kapazität: {rooms.kapazitat}</p>
+                                    </div>
+                                    <div>
+                                        <Category />
+                                        <p className="informationTextForRoomInList">{rooms.attribut}</p>
+                                    </div>
+                                    <div>
+                                        <HouseSiding />
+                                        <p className="informationTextForRoomInList">Hausflur: {rooms.haus}</p>
+                                    </div>
+                                </div>
                             </li>
                         ))}
                     </ul>

@@ -17,8 +17,7 @@
 }
 
 #registerBox {
-    height: 250%;
-    width: 350%;
+    height: 74vh;
     position: relative;
     display: grid;
     grid-template-columns: 50% 50%;
@@ -36,7 +35,7 @@
     align-items: center;
     box-shadow: 1px 0px 8px 0px #000000;
     background-color: #7890a0;
-    height: 67%;
+    height: 74vh;
 }
 #inputBox {
     grid-column-start: 2;
@@ -49,7 +48,7 @@
     align-items: center;
     background-color: #F2ECEC;
     box-shadow: 1px 0px 8px 0px #000000;
-    height: 67%;
+    height: 74vh;
 }
 
 #aboutBoxWelcome {
@@ -86,15 +85,18 @@
 }
 
 .popup-content {
-    width: 60%;
-    height: 30%;
+    width: 60vw;
+    height: 74vh;
     align-items: center;
     display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
 }
 
 #welcome {
     margin: 0;
-    font-size: 250%;
+    font-size: 200%;
     opacity: 0.7;
 }
 
@@ -123,6 +125,12 @@
 
 #name-register {
     margin-bottom: 1%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 #email-input {

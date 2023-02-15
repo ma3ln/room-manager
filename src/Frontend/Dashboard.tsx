@@ -92,10 +92,9 @@ function Dashboard(){
 
 
     return(
-        <div className="Dashboard">
-            <AppBar className="header">
-                <div className="verticalLine1"></div>
-                <Toolbar>
+        <div>
+            <div className="header">
+                <Toolbar className="toolbar">
                         <IconButton
                             size="large"
                             color="inherit"
@@ -120,8 +119,7 @@ function Dashboard(){
                         <Button sx={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}} id="usernameToolbar" color="inherit" startIcon={<AccountCircle />}>{username}</Button>
                     </div>
                 </Toolbar>
-
-            </AppBar>
+            </div>
             <div className="sidebar">
                 <div id="SidebareDashboard">
                     <Sidebars />

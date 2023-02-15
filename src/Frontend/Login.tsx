@@ -134,7 +134,7 @@ function Login() {
                     />
                 </div>
                 <div className="elementLogin">
-                    <Button onClick={handleLogin} className="loginButton" sx={{ width: 300, padding: 1, margin: 2}} variant="contained">Login</Button>
+                    <Button onClick={handleLogin} className="loginButton" sx={{ backgroundColor: '#365D73',  width: '45%', padding: 1, margin: 2}} variant="contained">Login</Button>
                     {show && <Popover
                         anchorReference="anchorPosition"
                         anchorPosition={{ top: 0, left: 1000 }}
@@ -151,9 +151,9 @@ function Login() {
                         {showNoInputError ? < NoInputError/> : <WrongLogin/>  }
                     </Popover>}
                 </div>
-                <p id="hr-lines">or</p>
+                <p id="hr-lines"></p>
                 <div className="registerElement">
-                    <Button onClick={() => {setOpen(true); handleBackground()}} className="registerButton" sx={{ width: 300, padding: 1, margin: 2}} variant="contained">Register</Button>
+                    <Button onClick={() => {setOpen(true); handleBackground()}} className="registerButton" sx={{backgroundColor: '#365D73',  width: '45%', padding: 1, margin: 2}} variant="contained">Register</Button>
                 </div>
                 <div id="modal">
                     <Popup open ={openPopup} closeOnDocumentClick onClose={closeModal}
