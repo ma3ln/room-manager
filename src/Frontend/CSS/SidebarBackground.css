@@ -1,23 +1,23 @@
  #sidebarcircle1 {
      background-color: #365D73;
-     opacity: 0.9;
+      border: #7890a0 dotted 2px;
      border-radius: 30%;
-     height:10%;
-     width: 5%;
+     height: 10vh;
+     width: 5vw;
      position: absolute;
-     right: 97%;
-     bottom: 2%;
+     bottom: -3%;
+      left: -1%;
      transform: rotate(0);
  }
 
  #sidebarcircle2 {
       background-color: #365D73;
-      opacity: 0.7;
+      border: #7890a0 dotted 2px;
       border-radius: 30%;
-      height: 5%;
-      width: 2.5%;
+      height: 5vh;
+      width: 2.5vw;
       position: absolute;
-      right: 95%;
-      bottom: 2%;
+      left: 3%;
+      bottom: -2%;
       transform: rotate(40deg);
  }

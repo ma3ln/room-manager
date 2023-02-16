@@ -1,6 +1,18 @@
 
+.mainDashboard {
+    display: flex;
+    flex-direction: row;
+    height: 90vh;
+}
 
-.header {
+.layoutDashboard {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
+.headerDashboard {
     width: 100vw;
     height: 7vh;
     background-color: #365D73;
@@ -16,20 +28,30 @@
     align-items: center;
 }
 
-.sidebar {
-    position: absolute;
+.mainDashboard {
     display: flex;
-    width: 15vw;
-    height: 100vh;
-    flex-direction: column;
+    flex-direction: row;
+    height: 90vh;
+}
+
+.sidebarDashboard {
+    display: block;
+    width: 18vw;
+    height: 90vh;
     background-color: #bac6ce;
 }
 
-.content {
-    height: 100vh;
-    margin-left: 15%;
-    margin-top: 3%;
+
+.contentDashboard {
+    height: 90vh;
+    width: 82vw;
     background-color: #FAFAFB !important;
+}
+
+.footerDashboard {
+    height: 4vh;
+    width: 100vw;
+    background-color: #252525;
 }
 
 #iconButtonHelp:after {
@@ -50,7 +72,7 @@
 
 #SidebareDashboard {
     position: relative;
-    width: 17rem;
+    width: 100%;
     display: flex;
     top: 11rem;
     flex-direction: column;
@@ -71,8 +93,9 @@
     justify-content: space-around;
     flex-wrap: wrap;
     height: 100vh;
-    align-content: flex-start;
+    align-content: center;
     position: relative;
+    align-items: flex-start;
 }
 
 #squareForBuchungen {
@@ -84,7 +107,8 @@
 }
 
 #buchungenDiv {
-    width: 35%;
+    width: 45vw;
+    height: 75vh;
     display: flex;
     flex-direction: column;
     align-items: center;

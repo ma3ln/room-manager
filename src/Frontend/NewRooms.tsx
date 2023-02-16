@@ -18,8 +18,18 @@ import {useNavigate} from "react-router-dom";
 
 function NewRooms() {
 
+
     const username = "TestUser!";
+    let bookingId: string;
+    let bookingRoomName: string;
+    let bookingCapacity: string;
+    let bookingAttribute: string;
+    let bookingRoomLocation: string;
+    let bookingFloor: string;
+    let bookingInfo;
+    const [bookingInfoData, setBookingInfoData] = React.useState({id: '',name: '', capacity: '', attribut: '', haus: '', ebene: ''});
     const [openRoomPopup, setOpenRoomPopup] = React.useState(false);
+    const closeRoomBookingPopup = () => setOpenRoomPopup(false);
     const closeRoomPopup = () => setOpenRoomPopup(false);
     const attributes = [
         {
@@ -116,8 +126,24 @@ function NewRooms() {
         setValue(newValue);
     }
 
-    function handleShowRoomInformation() {
-
+    function saveSelectedRoomData(e : any) {
+        for (var i = 0; i < rooms.length; i++) {
+            if(e.id === rooms[i].id) {
+                bookingId = rooms[i].id;
+                bookingFloor = rooms[i].ebene;
+                bookingAttribute = rooms[i].attribut;
+                bookingCapacity = rooms[i].kapazitat;
+                bookingRoomName = rooms[i].name;
+                bookingRoomLocation = rooms[i].haus;
+            }
+        }
+        setBookingInfoData({
+            attribut: bookingAttribute,
+            ebene: bookingFloor,
+            haus: bookingRoomLocation,
+            id: bookingId,
+            capacity: bookingCapacity,
+            name: bookingRoomName});
     }
 
 
@@ -139,10 +165,9 @@ function NewRooms() {
     }
 
     return(
-        <div>
-            <AppBar className="header">
-            <div className="verticalLine1"></div>
-            <Toolbar>
+        <div className="layoutNewRooms">
+            <div className="headerNewRooms">
+            <Toolbar sx={{height: '100%'}} className="toolbar">
                 <IconButton
                     size="large"
                     color="inherit"
@@ -168,136 +193,138 @@ function NewRooms() {
                 </div>
             </Toolbar>
 
-        </AppBar>
-    <div className="sidebar">
-        <div id="SidebareDashboard">
-            <Sidebars />
         </div>
-        <div>
-            <SidebarBackground />
-        </div>
-    </div>
-    <div className="content">
-        <div id="contentBoxesNewRooms">
-            <div id="newBuchungen">
-                <div id="textNeueBuchungen">
-                    <h1>Neue Raumbuchung</h1>
-                </div>
-                <div id="boxNewRoomButton">
-                    <IconButton onClick={handleNewRoom} id="addNewRoom" sx={{ height: 70, width: 70, padding: 1, margin: '2%', marginLeft: '5%', marginTop: '5%'}} >
-                        <Add sx={{height: '120%', width: '120%'}}/>
-                    </IconButton>
-                </div>
-                    <div id="newRoomInput" hidden={true}>
-                        <div id="filterTextBox">
-                            <h2 id="filterText">
-                                Filter
-                            </h2>
-                        </div>
-                        <div id="filter">
-                            <div id="leftFilter">
-                                <div id="boxKapazität">
-                                    <TextField
-                                        id="numberPeopleInRoom"
-                                        label="Kapazität"
-                                        sx={{width: '105%'}}
-                                        type="number"
-                                    ></TextField>
-                                </div>
-                                <div id="boxAttribute">
-                                    <TextField
-                                        id="roomAttributes"
-                                        label="Attribute"
-                                        sx={{width: '105%'}}
-                                        select
-                                    >
-                                        {attributes.map((option) => (
-                                            <MenuItem key="option.name" value="option.name">
-                                                {option.name}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-                                </div>
-                                <div>
-                                    <TextField
-                                        id="building"
-                                        label="Haus"
-                                        sx={{width: '105%', marginBottom: '2%'}}
-                                        select
-                                        ></TextField>
-                                </div>
-                                <div>
-                                    <TextField
-                                        id="floor"
-                                        label="Ebene"
-                                        sx={{width: '105%', marginBottom: '2%'}}
-                                        select
-                                        ></TextField>
-                                </div>
-                            </div>
-                            <div id="rightFilter">
-                                <div id="boxDatum">
-                                    <div id="dateForRoom">
-                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <DesktopDatePicker label="Datum" inputFormat="MM/DD/YYYY" onChange={handleChange} value={value} renderInput={(params) => <TextField {...params} sx={{width: '60%', maxWidth: '100%'}} />} />
-                                        </LocalizationProvider>
-                                    </div>
-                                    <div id="startTimeForRoom">
-                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <TimePicker label="Start Time" onChange={handleChange} value={value} renderInput={(params) => <TextField {...params} sx={{width: '60%', maxWidth: '100%'}}/>}
-                                            />
-                                        </LocalizationProvider>
-                                    </div>
-                                    <div id="endTimeForRoom">
-                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <TimePicker label="End Time" onChange={handleChange} value={value} renderInput={(params) => <TextField {...params} sx={{width: '60%', maxWidth: '100%'}}/>}
-                                            />
-                                        </LocalizationProvider>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="boxFilterButton">
-                            <Button id="buttonRoomFilter" variant="contained" sx={{ backgroundColor: '#365D73', opacity: 0.8, width: '60%', padding: 1, margin: 2}}>Nach Raum filtern</Button>
-                        </div>
+            <div className="mainNewRooms">
+                <div className="sidebarNewRooms">
+                    <div id="SidebareDashboard">
+                        <Sidebars />
+                    </div>
+                    <div>
+                        <SidebarBackground />
                     </div>
                 </div>
-                <div id="newBuchungenBoxes" hidden={true}>
-                    <ul id="buchungRaumColumns">
-                        {rooms.map((rooms) => (
-                            <li id="raum" key={rooms.id} onClick={() => {setOpenRoomPopup(true)}}>
-                                <div id="headerWithRoomTitle">
-                                    <h3 id="textRoomName">{rooms.name}</h3>
-                                </div>
-                                <div className="informationRoomInList ">
-                                    <div>
-                                        <PersonAddAlt />
-                                        <p className="informationTextForRoomInList">Kapazität: {rooms.kapazitat}</p>
-                                    </div>
-                                    <div>
-                                        <Category />
-                                        <p className="informationTextForRoomInList">{rooms.attribut}</p>
-                                    </div>
-                                    <div>
-                                        <HouseSiding />
-                                        <p className="informationTextForRoomInList">Hausflur: {rooms.haus}</p>
-                                    </div>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                    <div id="modal">
-                        <Popup open ={openRoomPopup} closeOnDocumentClick onClose={closeRoomPopup}
-                        >
-                            <RoomInformation/>
-                            <div>
-                                <Button onClick={handleRoomPopupClose} id="closeRoomPopup" variant="contained">Close</Button>
+                <div className="contentNewRooms">
+                    <div id="contentBoxesNewRooms">
+                        <div id="newBuchungen">
+                            <div id="textNeueBuchungen">
+                                <h1>Neue Raumbuchung</h1>
                             </div>
-                        </Popup>
+                            <div id="boxNewRoomButton">
+                                <IconButton onClick={handleNewRoom} id="addNewRoom" sx={{ height: 70, width: 70, padding: 1, margin: '2%', marginLeft: '5%', marginTop: '5%'}} >
+                                    <Add sx={{height: '120%', width: '120%'}}/>
+                                </IconButton>
+                            </div>
+                            <div id="newRoomInput" hidden={true}>
+                                <div id="filterTextBox">
+                                    <h2 id="filterText">
+                                        Filter
+                                    </h2>
+                                </div>
+                                <div id="filter">
+                                    <div id="leftFilter">
+                                        <div className="leftBoxFilter">
+                                            <TextField
+                                                id="numberPeopleInRoom"
+                                                label="Kapazität"
+                                                sx={{width: '100%'}}
+                                                type="number"
+                                            ></TextField>
+                                        </div>
+                                        <div className="leftBoxFilter">
+                                            <TextField
+                                                id="roomAttributes"
+                                                label="Attribute"
+                                                sx={{width: '100%'}}
+                                                select
+                                            >
+                                                {attributes.map((option) => (
+                                                    <MenuItem key="option.name" value="option.name">
+                                                        {option.name}
+                                                    </MenuItem>
+                                                ))}
+                                            </TextField>
+                                        </div>
+                                        <div className="leftBoxFilter">
+                                            <TextField
+                                                id="building"
+                                                label="Haus"
+                                                sx={{width: '100%'}}
+                                                select
+                                            ></TextField>
+                                        </div>
+                                        <div className="leftBoxFilter">
+                                            <TextField
+                                                id="floor"
+                                                label="Ebene"
+                                                sx={{width: '100%'}}
+                                                select
+                                            ></TextField>
+                                        </div>
+                                    </div>
+                                    <div id="rightFilter">
+                                        <div id="boxDatum">
+                                            <div className="rightBoxFilter">
+                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                    <DesktopDatePicker className="datum" label="Datum" inputFormat="MM/DD/YYYY" onChange={handleChange} value={value} renderInput={(params) => <TextField {...params} sx={{width: '100%'}} />} />
+                                                </LocalizationProvider>
+                                            </div>
+                                            <div className="rightBoxFilter">
+                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                    <TimePicker label="Start Time" onChange={handleChange} value={value} renderInput={(params) => <TextField {...params} sx={{width: '100%'}}/>}
+                                                    />
+                                                </LocalizationProvider>
+                                            </div>
+                                            <div className="rightBoxFilter">
+                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                    <TimePicker label="End Time" onChange={handleChange} value={value} renderInput={(params) => <TextField {...params} sx={{width: '100%'}}/>}
+                                                    />
+                                                </LocalizationProvider>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="boxFilterButton">
+                                    <Button id="buttonRoomFilter" variant="contained" sx={{width: '50%', backgroundColor: '#365D73'}}>Nach Raum filtern</Button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="newBuchungenBoxes" hidden={true}>
+                            <ul id="buchungRaumColumns">
+                                {rooms.map((rooms) => (
+                                    <li id="raum" key={rooms.id} onClick={(e) => {setOpenRoomPopup(true); saveSelectedRoomData(e)}}>
+                                        <div id="headerWithRoomTitle">
+                                            <h3 id="textRoomName">{rooms.name}</h3>
+                                        </div>
+                                        <div className="informationRoomInList ">
+                                            <div>
+                                                <PersonAddAlt />
+                                                <p className="informationTextForRoomInList">Kapazität: {rooms.kapazitat}</p>
+                                            </div>
+                                            <div>
+                                                <Category />
+                                                <p className="informationTextForRoomInList">{rooms.attribut}</p>
+                                            </div>
+                                            <div>
+                                                <HouseSiding />
+                                                <p className="informationTextForRoomInList">Hausflur: {rooms.haus}</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                            <div id="modal">
+                                <Popup open ={openRoomPopup} closeOnDocumentClick onClose={closeRoomPopup}
+                                >
+                                    <RoomInformation onBookingRoomItem={bookingInfoData} closeBookingPopup={handleRoomPopupClose()}/>
+                                </Popup>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div className="footerNewRooms">
+
+            </div>
     </div>
     )
 }
