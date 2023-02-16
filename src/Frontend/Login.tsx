@@ -158,10 +158,7 @@ function Login() {
                 <div id="modal">
                     <Popup open ={openPopup} closeOnDocumentClick onClose={closeModal}
                     >
-                        <Register/>
-                        <div>
-                            <Button onClick={handlePopupClose} id="closeRegisterPopup" variant="contained">Close</Button>
-                        </div>
+                        <Register />
                     </Popup>
                 </div>
             </div>

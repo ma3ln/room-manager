@@ -13,6 +13,7 @@ import "../CSS/InputBoxRegister.css";
 import "../CSS/AboutBoxRegister.css";
 import {Md5} from "ts-md5";
 
+
 function Register()  {
 
     var activeIndex = 0;
@@ -240,7 +241,6 @@ function Register()  {
                     <div>
                         <Button onClick={handleRegister} id="buttonToRegister" className="registerButton" sx={{ backgroundColor: '#365D73', opacity: 0.8, width: '60%', padding: 1, margin: 2, marginTop: '5%'}} variant="contained" >Register</Button>
                     </div>
-
                 </div>
             </div>
         </div>

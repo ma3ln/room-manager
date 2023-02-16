@@ -7,7 +7,7 @@ import Sidebars from "./Sidebars";
 import SidebarBackground from "./Background/SidebarBackground";
 import {Add} from "@mui/icons-material";
 import TextField from "@mui/material/TextField";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs, {Dayjs} from "dayjs";
 import {Stack} from "@mui/material";
 import {LocalizationProvider, TimePicker} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
@@ -20,23 +20,51 @@ function NewRooms() {
 
 
     const username = "TestUser!";
-    let bookingId: string;
-    let bookingRoomName: string;
-    let bookingCapacity: string;
-    let bookingAttribute: string;
-    let bookingRoomLocation: string;
-    let bookingFloor: string;
-    let bookingInfo;
+    let newId: string;
+    let bookingID;
+    let bookingName;
+    let bookingCapacity;
+    let bookingAttribut;
+    let bookingHaus;
+    let bookingEbene;
     const [bookingInfoData, setBookingInfoData] = React.useState({id: '',name: '', capacity: '', attribut: '', haus: '', ebene: ''});
     const [openRoomPopup, setOpenRoomPopup] = React.useState(false);
     const closeRoomBookingPopup = () => setOpenRoomPopup(false);
     const closeRoomPopup = () => setOpenRoomPopup(false);
-    const attributes = [
+    const haus = [
         {
-            name: 'Tafel'
+            "haus": "6A"
         },
         {
-            name: 'Beamer'
+            "haus": "6B"
+        },
+        {
+            "haus": "5C"
+        }
+    ]
+
+    const ebene = [
+        {
+            "ebene": "4"
+        },
+        {
+            "ebene": "1"
+        },
+        {
+            "ebene": "2"
+        },
+        {
+            "ebene": "3"
+        }
+    ]
+
+
+    const attributes = [
+        {
+            "attribute": "Tafel"
+        },
+        {
+            "attribute": "Beamer"
         }
     ]
 
@@ -126,24 +154,24 @@ function NewRooms() {
         setValue(newValue);
     }
 
-    function saveSelectedRoomData(e : any) {
-        for (var i = 0; i < rooms.length; i++) {
-            if(e.id === rooms[i].id) {
-                bookingId = rooms[i].id;
-                bookingFloor = rooms[i].ebene;
-                bookingAttribute = rooms[i].attribut;
+    function saveSelectedRoomData(id: string) {
+        for ( let i = 0; i< rooms.length; i++) {
+            if(id === rooms[i].id) {
+                bookingID = rooms[i].id;
+                bookingName = rooms[i].name;
                 bookingCapacity = rooms[i].kapazitat;
-                bookingRoomName = rooms[i].name;
-                bookingRoomLocation = rooms[i].haus;
+                bookingAttribut = rooms[i].attribut;
+                bookingHaus = rooms[i].haus;
+                bookingEbene = rooms[i].ebene;
+                setBookingInfoData({attribut: bookingAttribut, capacity: bookingCapacity, ebene: bookingEbene, haus: bookingHaus, id: bookingID, name: bookingName})
+                console.log(rooms[i].id)
+                console.log(rooms[i].haus)
+                console.log(rooms[i].name)
+                console.log(rooms[i].ebene)
+                console.log(rooms[i].attribut)
+                console.log(rooms[i].kapazitat)
             }
         }
-        setBookingInfoData({
-            attribut: bookingAttribute,
-            ebene: bookingFloor,
-            haus: bookingRoomLocation,
-            id: bookingId,
-            capacity: bookingCapacity,
-            name: bookingRoomName});
     }
 
 
@@ -164,6 +192,7 @@ function NewRooms() {
         }
     }
 
+    // @ts-ignore
     return(
         <div className="layoutNewRooms">
             <div className="headerNewRooms">
@@ -238,8 +267,8 @@ function NewRooms() {
                                                 select
                                             >
                                                 {attributes.map((option) => (
-                                                    <MenuItem key="option.name" value="option.name">
-                                                        {option.name}
+                                                    <MenuItem key={option.attribute} value={option.attribute}>
+                                                        {option.attribute}
                                                     </MenuItem>
                                                 ))}
                                             </TextField>
@@ -250,7 +279,13 @@ function NewRooms() {
                                                 label="Haus"
                                                 sx={{width: '100%'}}
                                                 select
-                                            ></TextField>
+                                            >
+                                                {haus.map((option) => (
+                                                    <MenuItem key={option.haus} value={option.haus}>
+                                                        {option.haus}
+                                                    </MenuItem>
+                                                ))}
+                                            </TextField>
                                         </div>
                                         <div className="leftBoxFilter">
                                             <TextField
@@ -258,7 +293,13 @@ function NewRooms() {
                                                 label="Ebene"
                                                 sx={{width: '100%'}}
                                                 select
-                                            ></TextField>
+                                            >
+                                                {ebene.map((option) => (
+                                                    <MenuItem key={option.ebene} value={option.ebene}>
+                                                        {option.ebene}
+                                                    </MenuItem>
+                                                ))}
+                                            </TextField>
                                         </div>
                                     </div>
                                     <div id="rightFilter">
@@ -291,7 +332,7 @@ function NewRooms() {
                         <div id="newBuchungenBoxes" hidden={true}>
                             <ul id="buchungRaumColumns">
                                 {rooms.map((rooms) => (
-                                    <li id="raum" key={rooms.id} onClick={(e) => {setOpenRoomPopup(true); saveSelectedRoomData(e)}}>
+                                    <li id="raum" key={rooms.id} onClick={event => {setOpenRoomPopup(true); saveSelectedRoomData(rooms.id)}}>
                                         <div id="headerWithRoomTitle">
                                             <h3 id="textRoomName">{rooms.name}</h3>
                                         </div>
@@ -315,7 +356,7 @@ function NewRooms() {
                             <div id="modal">
                                 <Popup open ={openRoomPopup} closeOnDocumentClick onClose={closeRoomPopup}
                                 >
-                                    <RoomInformation onBookingRoomItem={bookingInfoData} closeBookingPopup={handleRoomPopupClose()}/>
+                                    <RoomInformation onBookingRoomItem={bookingInfoData}/>
                                 </Popup>
                             </div>
                         </div>
