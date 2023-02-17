@@ -20,6 +20,7 @@ function Login() {
 
     const [postId, setPostId] = useState(0);
 
+    localStorage.setItem("test", "123456")
 
     const navigate = useNavigate();
     const [openPopup, setOpen] = React.useState(false);
@@ -32,10 +33,13 @@ function Login() {
     const openPopover = Boolean(anchorEl);
 
     function handleClose() {
+        localStorage.setItem("isLoggedIn", "null")
+        localStorage.setItem("username", "null")
         setShow(prevState => !prevState);
         setShowWrongLogin(false);
         setShowNoInputError(false);
         setAnchorEl(null);
+        window.location.reload();
     }
 
     function handlePopupClose() {
@@ -68,15 +72,22 @@ function Login() {
                     response.text()
                     if(response.ok) {
                         setIsLoggedIn(true);
+                        localStorage.setItem("isLoggedIn", "1")
+                        localStorage.setItem("username", username)
                         navigate("/dashboard");
                     }
                 })
-                .then(result => console.log("result", result))
+                .then(result => {
+                    console.log("result", result)
+                })
                 .catch(error => {
                     if(error.response.status === 400) {
                         setAnchorEl(event.currentTarget);
                         setShowNoInputError(false);
+                        localStorage.setItem("isLoggedIn", "null")
+                        localStorage.setItem("username", "null")
                         setShow(prevState => !prevState);
+                        window.location.reload();
                     }
                 });
         }
@@ -89,9 +100,6 @@ function Login() {
     return(
         <div className="loginPage">
             <CirclesLogin/>
-            <div id="SidebareLogin">
-                <Sidebars />
-            </div>
             <header className="loginHeader">
                 <h2 id="headLoginText">Login</h2>
             </header>
@@ -126,7 +134,7 @@ function Login() {
                     />
                 </div>
                 <div className="elementLogin">
-                    <Button onClick={handleLogin} className="loginButton" sx={{ width: 300, padding: 1, margin: 2}} variant="contained">Login</Button>
+                    <Button onClick={handleLogin} className="loginButton" sx={{ backgroundColor: '#365D73',  width: '45%', padding: 1, margin: 2}} variant="contained">Login</Button>
                     {show && <Popover
                         anchorReference="anchorPosition"
                         anchorPosition={{ top: 0, left: 1000 }}
@@ -143,17 +151,14 @@ function Login() {
                         {showNoInputError ? < NoInputError/> : <WrongLogin/>  }
                     </Popover>}
                 </div>
-                <p id="hr-lines">or</p>
+                <p id="hr-lines"></p>
                 <div className="registerElement">
-                    <Button onClick={() => {setOpen(true); handleBackground()}} className="registerButton" sx={{ width: 300, padding: 1, margin: 2}} variant="contained">Register</Button>
+                    <Button onClick={() => {setOpen(true); handleBackground()}} className="registerButton" sx={{backgroundColor: '#365D73',  width: '45%', padding: 1, margin: 2}} variant="contained">Register</Button>
                 </div>
                 <div id="modal">
                     <Popup open ={openPopup} closeOnDocumentClick onClose={closeModal}
                     >
-                        <Register/>
-                        <div>
-                            <Button onClick={handlePopupClose} id="closeRegisterPopup" variant="contained">Close</Button>
-                        </div>
+                        <Register />
                     </Popup>
                 </div>
             </div>

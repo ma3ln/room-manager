@@ -1,0 +1,112 @@
+
+
+#roomBookingInformation {
+    height: 79vh;
+    width: 50vw;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #FFFFFF;
+    box-shadow: 1px 0px 17px 0px #606060;
+    border-top: #365D73 solid 10px;
+    border-radius: 15px;
+}
+
+#headingForBooking {
+    align-items: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 20%;
+    background-color: #7890a0;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+#bodyForBooking {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 100%;
+    align-content: space-around;
+}
+
+#headBookingInfoPopup {
+    width: 100%;
+    position: relative;
+    margin-left: 0%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+#bookingInfoPreSelected {
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    align-content: space-between;
+    flex-wrap: wrap;
+}
+
+#leftBookingInfoPopup {
+    width: 50%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.leftBoxesRoomBooking {
+    margin-bottom: 3%;
+}
+
+#rightBookingInfoPopup {
+    width: 50%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.rightBoxesRoomBooking {
+    margin-bottom: 3%;
+}
+
+#classSelection {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.classBoxes {
+    width: 40%;
+}
+
+#clickToBookRoom {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 5%;
+    margin-top: 3%;
+}

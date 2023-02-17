@@ -1,80 +1,82 @@
 
-.Dashboard{
-    height: 100%;
-    width: 100%;
-    background: #454545;
-    display: grid;
-    grid-column: auto;
-    grid-row: auto;
-    grid-template-columns: 15% 50% 35%;
-    grid-template-rows: 7% 70% 21%;
+.mainDashboard {
+    display: flex;
+    flex-direction: row;
+    height: 90vh;
 }
 
-.header {
-    grid-column-start: 1;
-    grid-column-end: 4;
+.layoutDashboard {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
+.headerDashboard {
+    width: 100vw;
+    height: 7vh;
     background-color: #365D73;
 }
 
-.sidebar {
-    grid-column-start: 1;
-    grid-row-start: 2;
-    grid-row-end: 4;
+.toolbar {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.mainDashboard {
+    display: flex;
+    flex-direction: row;
+    height: 90vh;
+}
+
+.sidebarDashboard {
+    display: block;
+    width: 18vw;
+    height: 90vh;
     background-color: #bac6ce;
 }
 
-.content {
-    grid-column-start: 2;
-    grid-row-start: 2;
-    grid-column-end: 4;
-    grid-row-end: 4;
+
+.contentDashboard {
+    height: 90vh;
+    width: 82vw;
     background-color: #FAFAFB !important;
 }
 
-.verticalLine1 {
-    position: relative;
-    border-left: 2px solid #454545;
-    height: 60%;
-    display: flex;
-    flex-direction: row;
-}
-
-.verticalLine2 {
-    position: relative;
-    border-left: 2px solid #454545;
-    height: 90%;
+.footerDashboard {
+    height: 4vh;
+    width: 100vw;
+    background-color: #252525;
 }
 
 #iconButtonHelp:after {
-    background-color: #454545;
-    content: " ";
-    display: inline-block;
-    height: 41px;
-    position: relative;
-    left: 50%;
-    vertical-align: middle;
-    width: 2px;
 }
 
 #spaceInToolBar {
-    width: 85%;
+    width: 80vw;
 }
 
 #rightAlignToolbarButtons {
     position: relative;
-    align-items: center;
     display: flex;
-}
-
-.css-11b3ww9-MuiPaper-root-MuiAppBar-root {
-    height: 7%;
-    background-color: #365D73 !important;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 #SidebareDashboard {
-    position: absolute;
-    margin-top: 4%;
-    width: 15%;
+    position: relative;
+    width: 100%;
+    display: flex;
+    top: 11rem;
+    flex-direction: column;
+    flex-wrap: nowrap;
 }
 
 #dashboardWelcome {
@@ -86,13 +88,14 @@
 }
 
 #contentBoxes {
-    position: absolute;
-    top: 13%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    width: 100%;
-    height: 80%;
+    flex-wrap: wrap;
+    height: 100vh;
+    align-content: center;
+    position: relative;
+    align-items: flex-start;
 }
 
 #squareForBuchungen {
@@ -104,7 +107,8 @@
 }
 
 #buchungenDiv {
-    width: 35%;
+    width: 45vw;
+    height: 75vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -113,13 +117,11 @@
 
 #picPersonalData {
     background-image: url(https://i.pinimg.com/564x/ff/c8/4c/ffc84cf8242ae0289512fdaba3e0e72b.jpg);
-    background-size: contain;
+    background-size: cover;
     border-radius: 50%;
-    height: 50%;
-    width: 26%;
+    height: 15vh;
+    width: 7vw;
     position: relative;
-    top: 20%;
-    left: 13%;
 }
 
 
@@ -128,65 +130,60 @@
     flex-direction: column;
     position: relative;
     flex-wrap: wrap;
+    margin-left: 10%;
     align-content: flex-end;
     justify-content: flex-start;
     align-items: flex-start;
-    top: -30%;
 }
 
 #informationUserName {
-    width: 80%;
-    opacity: 0.8;
-}
 
-#boxInformation {
-    margin-bottom: 2px !important;
 }
 
 #informationEmail {
-    width: 80%;
+
 }
 
 #informationRole {
-    width: 80%;
 }
 
 
 #informationAboutUser {
-    width: 100%;
-    height: 100%;
+    width: 31rem;
+    height: 18rem;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 #textUserName {
-    margin-bottom: 1%;
-    margin-top: 1%;
-    margin-left: 10%;
+
     opacity: 0.8;
 }
 
 #textEmail {
-    margin-left: 18%;
-    margin-bottom: 1%;
     opacity: 0.8;
 }
 
 #textRole {
     opacity: 0.8;
-    margin-left: -18%;
 }
 
 #personal-information {
     border-radius: 15px;
     background-color: #FFFFFF;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    width: 25%;
-    height: 40%;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+    width: 26vw;
+    height: 38vh;
     border-top: #365D73 solid 7px;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
-    left: 0;
 }
 
 

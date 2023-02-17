@@ -13,7 +13,8 @@ import "../CSS/InputBoxRegister.css";
 import "../CSS/AboutBoxRegister.css";
 import {Md5} from "ts-md5";
 
-function Register() {
+
+function Register()  {
 
     var activeIndex = 0;
     const flipcard = document.getElementsByClassName("flip-card");

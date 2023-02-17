@@ -9,6 +9,9 @@ import Sidebars from "./Sidebars";
 import SidebarBackground from "./Background/SidebarBackground";
 import {QuestionMark} from "@mui/icons-material";
 import {AssignmentTurnedIn} from "@mui/icons-material";
+import {useNavigate} from "react-router-dom";
+import ReactDOM from "react-dom";
+
 
 function Dashboard(){
 
@@ -16,12 +19,15 @@ function Dashboard(){
     const menuSettings = [''];
     const accountSettigns = ['Profile', 'Logout'];
 //    const username = (document.getElementById("input-with-account-icon")! as HTMLInputElement).value;
-    const username = "TestUser!";
+    const username = localStorage.getItem("username");
     const styles = {
         toolbarButtons: {
             marginLeft: 'auto',
         },
     };
+
+
+
 
     const user = [
         {
@@ -69,12 +75,26 @@ function Dashboard(){
 
     }
 
-    // @ts-ignore
+    const navigate = useNavigate();
+
+    console.log(localStorage.getItem("isLoggedIn"))
+
+    function handleLoad() {
+        if(localStorage.getItem("isLoggedIn") !== "1") {
+            navigate("/")
+            window.location.reload();
+        }
+    }
+
+    setInterval(() => {
+        handleLoad();
+    }, 10);
+
+
     return(
-        <div className="Dashboard">
-            <AppBar className="header">
-                <div className="verticalLine1"></div>
-                <Toolbar>
+        <div className="layoutDashboard">
+            <div className="headerDashboard">
+                <Toolbar sx={{height: '100%'}} className="toolbar">
                         <IconButton
                             size="large"
                             color="inherit"
@@ -99,58 +119,63 @@ function Dashboard(){
                         <Button sx={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}} id="usernameToolbar" color="inherit" startIcon={<AccountCircle />}>{username}</Button>
                     </div>
                 </Toolbar>
-
-            </AppBar>
-            <div className="sidebar">
-                <div id="SidebareDashboard">
-                    <Sidebars />
+            </div>
+            <div className="mainDashboard">
+                <div className="sidebarDashboard">
+                    <div id="SidebareDashboard">
+                        <Sidebars />
+                    </div>
+                    <div>
+                        <SidebarBackground />
+                    </div>
                 </div>
-                <div>
-                    <SidebarBackground />
+                <div className="contentDashboard">
+                    <div id="contentBoxes">
+                        <div id="personal-information">
+                            <div id="dashboardWelcome">
+                                <h1>Welcome {username}!</h1>
+                            </div>
+                            <div id="informationAboutUser">
+                                <div id="picPersonalData"/>
+                                {user.map((user) => (
+                                    <>
+                                        <div id="boxInformation">
+                                            <div id="informationUserName">
+                                                <h2 id="textUserName">{user.vorname}  {user.nachname}</h2>
+                                            </div>
+                                            <div id="informationEmail">
+                                                <p id="textEmail">{user.email}</p>
+                                            </div>
+                                            <div id="informationRole">
+                                                <p id="textRole">{user.role}</p>
+                                            </div>
+                                        </div>
+                                    </>
+                                ))}
+                            </div>
+                        </div>
+                        <div id="buchungenDiv">
+                            <div id="boxTitleBuchungen">
+                                <h2 id="titleBuchungen">Buchungen</h2>
+                            </div>
+                            <div className="list-group">
+                                <ul id="listBuchungen">
+                                    {buchung.map((data) => (
+                                        <li id="oneBuchungItem" key={data.id} onClick={handlePopupBuchung}>
+                                            <AssignmentTurnedIn />
+                                            <span><strong>{data.name}</strong></span>
+                                            <p>Date: {data.date}</p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div className="content">
-                <div id="contentBoxes">
-                    <div id="personal-information">
-                        <div id="dashboardWelcome">
-                            <h1>Welcome {username}!</h1>
-                        </div>
-                        <div id="informationAboutUser">
-                            <div id="picPersonalData"/>
-                            {user.map((user) => (
-                                <>
-                                    <div id="boxInformation">
-                                        <div id="informationUserName">
-                                            <h2 id="textUserName">{user.vorname}  {user.nachname}</h2>
-                                        </div>
-                                        <div id="informationEmail">
-                                            <p id="textEmail">{user.email}</p>
-                                        </div>
-                                        <div id="informationRole">
-                                            <p id="textRole">{user.role}</p>
-                                        </div>
-                                    </div>
-                                </>
-                            ))}
-                        </div>
-                    </div>
-                    <div id="buchungenDiv">
-                        <div id="boxTitleBuchungen">
-                            <h2 id="titleBuchungen">Buchungen</h2>
-                        </div>
-                        <div className="list-group">
-                            <ul id="listBuchungen">
-                                {buchung.map((data) => (
-                                    <li id="oneBuchungItem" key={data.id} onClick={handlePopupBuchung}>
-                                        <AssignmentTurnedIn />
-                                        <span><strong>{data.name}</strong></span>
-                                        <p>Date: {data.date}</p>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+
+            <div className="footerDashboard">
+
             </div>
         </div>
     );
