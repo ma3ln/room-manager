@@ -35,7 +35,7 @@
 
 .headerNewRooms {
     width: 100vw;
-    height: 7vh;
+    height: 10vh;
     background-color: #365D73 !important;
 }
 
@@ -71,7 +71,6 @@
 
 #filterTextBox {
     width: 100%;
-    height: 100%;
     text-align: left;
 }
 
@@ -101,7 +100,7 @@
 
 #newBuchungen {
     margin-left: 10%;
-    width: 40%;
+    width: 50%;
     height: 90%;
 }
 
@@ -111,11 +110,16 @@
     position: relative;
     border-top: #365D73 solid 7px;
     border-radius: 15px;
+    height: 60vh;
     flex-direction: column;
-    flex-wrap: wrap;
     align-content: center;
     justify-content: center;
+    overflow-y: scroll;
     align-items: center;
+}
+
+#newRoomInput::-webkit-scrollbar {
+    display: none;
 }
 
 .leftBoxFilter {
