@@ -35,7 +35,7 @@
 
 .headerNewRooms {
     width: 100vw;
-    height: 10vh;
+    height: 7vh;
     background-color: #365D73 !important;
 }
 
@@ -48,7 +48,7 @@
 
 .contentNewRooms {
     height: 100vh;
-    background-color: #FAFAFB !important;
+    background-color: #f6fcfe !important;
 }
 
 .footerNewRooms {
@@ -231,4 +231,16 @@
     cursor: pointer;
     box-shadow: 0 5px 15px rgba(0,0,0,0.5);
     transition: 0.5s;
+}
+
+#clickToCloseRoomBooking {
+    height: 10%;
+    width: 20%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }

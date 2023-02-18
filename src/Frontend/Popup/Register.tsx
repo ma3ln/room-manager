@@ -7,10 +7,10 @@ import {Lock} from "@mui/icons-material";
 import {IconButton} from "@mui/material";
 import {ArrowBack} from "@mui/icons-material";
 import {ArrowForward} from "@mui/icons-material";
-import "../CSS/InputBoxRegister.css";
-import "../CSS/AboutBoxRegister.css";
-import "../CSS/InputBoxRegister.css";
-import "../CSS/AboutBoxRegister.css";
+import "../CSS/Popup/InputBoxRegister.css";
+import "../CSS/Popup/AboutBoxRegister.css";
+import "../CSS/Popup/InputBoxRegister.css";
+import "../CSS/Popup/AboutBoxRegister.css";
 import {Md5} from "ts-md5";
 
 

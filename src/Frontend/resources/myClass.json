@@ -1,0 +1,14 @@
+[
+  {
+    "class": "B21",
+    "module_1": "Grundlagen in Programmierung",
+    "module_2": "Datenbanken 1",
+    "module_3": "Datenanalyse"
+  },
+  {
+    "class": "A21",
+    "module_1": "Chemie",
+    "module_2": "Rechenanlagen",
+    "module_3": "Statistik"
+  }
+]

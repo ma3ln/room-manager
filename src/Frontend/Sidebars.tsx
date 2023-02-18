@@ -21,6 +21,10 @@ export default function Sidebars() {
         navigate("/");
     }
 
+    function handleAddRoom() {
+        navigate("/addroom")
+    }
+
     function handleNewRooms() {
         navigate("/newrooms");
     }
@@ -53,7 +57,7 @@ export default function Sidebars() {
             >
                 <Tab onClick={handleDashboard} label="Dashboard" {...a11yProps(0)} />
                 <Tab onClick={handleNewRooms} label="Meine Raumbuchungen" {...a11yProps(1)} />
-                <Tab label="Raumplan" {...a11yProps(2)} />
+                <Tab onClick={handleAddRoom} label="Raumplan" {...a11yProps(2)} />
                 <Tab onClick={handleLogin} label="Login" {...a11yProps(3)} />
             </Tabs>
         </Box>

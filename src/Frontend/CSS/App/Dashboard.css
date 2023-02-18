@@ -35,9 +35,8 @@
 }
 
 .sidebarDashboard {
-    display: block;
-    width: 18vw;
-    height: 90vh;
+    width: 15vw;
+    height: 100vh;
     background-color: #bac6ce;
 }
 
@@ -45,7 +44,7 @@
 .contentDashboard {
     height: 90vh;
     width: 82vw;
-    background-color: #FAFAFB !important;
+    background-color: #f6fcfe !important;
 }
 
 .footerDashboard {

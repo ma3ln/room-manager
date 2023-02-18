@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import "./CSS/Login.css";
+import "./CSS/App/Login.css";
 import {Button, Popover} from "@mui/material";
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
@@ -44,6 +44,14 @@ function Login() {
 
     function handlePopupClose() {
         closeModal();
+    }
+
+    function handleBackgroundBlur() {
+        (document.getElementById("root")! as HTMLElement).style.filter = 'blur(5px)'
+    }
+
+    function handleNoBlurBackground() {
+        (document.getElementById("root")! as HTMLElement).style.filter = 'none'
     }
 
 
@@ -93,9 +101,6 @@ function Login() {
         }
     }
 
-    function handleBackground() {
-
-    }
 
     return(
         <div className="loginPage">
@@ -153,12 +158,15 @@ function Login() {
                 </div>
                 <p id="hr-lines"></p>
                 <div className="registerElement">
-                    <Button onClick={() => {setOpen(true); handleBackground()}} className="registerButton" sx={{backgroundColor: '#365D73',  width: '45%', padding: 1, margin: 2}} variant="contained">Register</Button>
+                    <Button onClick={() => {setOpen(true); handleBackgroundBlur()}} className="registerButton" sx={{backgroundColor: '#365D73',  width: '45%', padding: 1, margin: 2}} variant="contained">Register</Button>
                 </div>
                 <div id="modal">
-                    <Popup open ={openPopup} closeOnDocumentClick onClose={closeModal}
+                    <Popup open ={openPopup} closeOnDocumentClick={false} onClose={closeModal}
                     >
                         <Register />
+                        <div id="clickToCloseRegisterPopup">
+                            <Button onClick={() => {closeModal(); handleNoBlurBackground()}}>Close</Button>
+                        </div>
                     </Popup>
                 </div>
             </div>

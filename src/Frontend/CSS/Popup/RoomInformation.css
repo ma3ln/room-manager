@@ -66,28 +66,20 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    align-content: center;
-    justify-content: center;
     flex-wrap: wrap;
+    align-content: center;
 }
 
-.leftBoxesRoomBooking {
-    margin-bottom: 3%;
-}
 
 #rightBookingInfoPopup {
     width: 50%;
     position: relative;
     display: flex;
     flex-direction: column;
-    align-content: center;
     flex-wrap: wrap;
-    justify-content: center;
+    align-content: center;
 }
 
-.rightBoxesRoomBooking {
-    margin-bottom: 3%;
-}
 
 #classSelection {
     position: relative;
@@ -103,10 +95,13 @@
 }
 
 #clickToBookRoom {
+    height: 10%;
+    width: 83%;
     position: relative;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
     justify-content: center;
-    margin-bottom: 5%;
-    margin-top: 3%;
+    align-items: center;
 }

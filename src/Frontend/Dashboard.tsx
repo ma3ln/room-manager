@@ -1,5 +1,5 @@
-import "./CSS/Dashboard.css"
-import "./CSS/DashboardBuchungen.css"
+import "./CSS/App/Dashboard.css"
+import "./CSS/App/DashboardBuchungen.css"
 import React, {useState} from "react";
 import {AppBar, Button, IconButton, List, ListItem} from "@mui/material";
 import {Toolbar} from "@mui/material";

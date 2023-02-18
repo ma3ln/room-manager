@@ -1,5 +1,5 @@
 import React from 'react';
-import "../CSS/Login.css";
+import "../CSS/App/Login.css";
 import {Typography} from "@mui/material";
 
 function NoInputError() {

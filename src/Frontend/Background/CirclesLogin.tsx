@@ -1,5 +1,5 @@
 import React from "react";
-import "../CSS/BackgroundLogin.css";
+import "../CSS/Background/BackgroundLogin.css";
 
 function CirclesLogin() {
     return (

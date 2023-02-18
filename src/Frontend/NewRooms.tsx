@@ -1,20 +1,25 @@
 import React from "react";
-import "./CSS/NewRooms.css";
-import {AppBar, Button, IconButton, MenuItem, Toolbar} from "@mui/material";
+import "./CSS/App/NewRooms.css";
+import {Button, IconButton, MenuItem, Toolbar} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import {AccountCircle, AssignmentTurnedIn, QuestionMark, PersonAddAlt, Category, HouseSiding} from "@mui/icons-material";
+import {AccountCircle, QuestionMark, PersonAddAlt, Category, HouseSiding} from "@mui/icons-material";
 import Sidebars from "./Sidebars";
 import SidebarBackground from "./Background/SidebarBackground";
 import {Add} from "@mui/icons-material";
 import TextField from "@mui/material/TextField";
-import dayjs, {Dayjs} from "dayjs";
-import {Stack} from "@mui/material";
+import {Dayjs} from "dayjs";
 import {LocalizationProvider, TimePicker} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DesktopDatePicker} from "@mui/x-date-pickers";
 import Popup from "reactjs-popup";
 import RoomInformation from "./Popup/RoomInformation";
 import {useNavigate} from "react-router-dom";
+
+import haus from"./resources/haus.json";
+import attributes from"./resources/attributes.json";
+import ebene from "./resources/ebene.json";
+import rooms from "./resources/rooms.json";
+
 
 function NewRooms() {
 
@@ -23,50 +28,20 @@ function NewRooms() {
     let newId: string;
     let bookingID;
     let bookingName;
+    let bookingLocation;
     let bookingCapacity;
     let bookingAttribut;
     let bookingHaus;
     let bookingEbene;
-    const [bookingInfoData, setBookingInfoData] = React.useState({id: '',name: '', capacity: '', attribut: '', haus: '', ebene: ''});
+    const [bookingInfoData, setBookingInfoData] = React.useState({id: '',name: '', capacity: '', attribut: '', location: '', haus: '', ebene: ''});
     const [openRoomPopup, setOpenRoomPopup] = React.useState(false);
-    const closeRoomBookingPopup = () => setOpenRoomPopup(false);
     const closeRoomPopup = () => setOpenRoomPopup(false);
-    const haus = [
-        {
-            "haus": "6A"
-        },
-        {
-            "haus": "6B"
-        },
-        {
-            "haus": "5C"
-        }
-    ]
 
-    const ebene = [
-        {
-            "ebene": "4"
-        },
-        {
-            "ebene": "1"
-        },
-        {
-            "ebene": "2"
-        },
-        {
-            "ebene": "3"
-        }
-    ]
-
-
-    const attributes = [
-        {
-            "attribute": "Tafel"
-        },
-        {
-            "attribute": "Beamer"
-        }
-    ]
+/**
+    const haus = require("./resources/haus.json");
+    const ebene  = require("./resources/ebene.json");
+    const attributes = require("./resources/attributes.json");
+    const rooms = require("./resources/rooms.json"); */
 
     const navigate = useNavigate();
 
@@ -78,80 +53,56 @@ function NewRooms() {
             window.location.reload();
         }
     }
+    /**
+    function getRooms() {
+        fetch("./resources/rooms.json")
+            .then(res => res.json())
+            .then(
+                result => {
+                    this.setState({
+                        data: result
+                    });
+                },
+                error => {
+                    console.log(error)
+                }
+            )
+    } */
 
     setInterval(() => {
         handleLoad();
     }, 10);
 
-    const rooms = [
-        {
-            "id": "01",
-            "name": "R43",
-            "kapazitat": "20",
-            "attribut": "Beamer",
-            "haus": "6B",
-            "ebene": "3"
-        },
-        {
-            "id": "02",
-            "name": "R453",
-            "kapazitat": "30",
-            "attribut": "Tafel",
-            "haus": "2B",
-            "ebene": "3"
-        },
-        {
-            "id": "03",
-            "name": "R60",
-            "kapazitat": "5",
-            "attribut": "",
-            "haus": "3A",
-            "ebene": "3"
-        },
-        {
-            "id": "04",
-            "name": "R10",
-            "kapazitat": "32",
-            "attribut": "",
-            "haus": "5",
-            "ebene": "3"
-        },
-        {
-            "id": "05",
-            "name": "R76",
-            "kapazitat": "50",
-            "attribut": "Tafel",
-            "haus": "2",
-            "ebene": "3"
-        },
-        {
-            "id": "06",
-            "name": "R20",
-            "kapazitat": "20",
-            "attribut": "Beamer",
-            "haus": "6A",
-            "ebene": "3"
-        },
-        {
-            "id": "07",
-            "name": "R400",
-            "kapazitat": "30",
-            "attribut": "Tafel",
-            "haus": "1A",
-            "ebene": "3"
-        }
-    ]
-
-    const [value, setValue] = React.useState<Dayjs | null>(
+    const [startTime, setStartTime] = React.useState<Dayjs | null>(
 
     )
 
-    function handleRoomPopupClose() {
+    const [date, setDate] = React.useState<Dayjs | null>(
 
+    )
+
+    const [endTime, setEndTime] = React.useState<Dayjs | null>(
+
+    )
+
+    function handleBackgroundBlur() {
+        (document.getElementById("root")! as HTMLElement).style.filter = 'blur(5px)'
     }
 
-    function handleChange(newValue: Dayjs | null) {
-        setValue(newValue);
+    function handleNoBlurBackground() {
+        (document.getElementById("root")! as HTMLElement).style.filter = 'none'
+    }
+
+    function handleStartTimeChange(newValue: Dayjs | null) {
+        setStartTime(newValue);
+    }
+
+    function handleEndTimeChange(newValue: Dayjs | null) {
+        setEndTime(newValue);
+    }
+
+    function handleDateChange(newValue: Dayjs | null) {
+        setDate(newValue);
     }
 
     function saveSelectedRoomData(id: string) {
@@ -159,11 +110,14 @@ function NewRooms() {
             if(id === rooms[i].id) {
                 bookingID = rooms[i].id;
                 bookingName = rooms[i].name;
+                bookingLocation = rooms[i].Location;
                 bookingCapacity = rooms[i].kapazitat;
                 bookingAttribut = rooms[i].attribut;
                 bookingHaus = rooms[i].haus;
                 bookingEbene = rooms[i].ebene;
-                setBookingInfoData({attribut: bookingAttribut, capacity: bookingCapacity, ebene: bookingEbene, haus: bookingHaus, id: bookingID, name: bookingName})
+                setBookingInfoData({
+                    location: bookingLocation,
+                    attribut: bookingAttribut, capacity: bookingCapacity, ebene: bookingEbene, haus: bookingHaus, id: bookingID, name: bookingName})
                 console.log(rooms[i].id)
                 console.log(rooms[i].haus)
                 console.log(rooms[i].name)
@@ -265,11 +219,22 @@ function NewRooms() {
                                                 sx={{width: '100%'}}
                                                 select
                                             >
+
                                                 {attributes.map((option) => (
                                                     <MenuItem key={option.attribute} value={option.attribute}>
                                                         {option.attribute}
                                                     </MenuItem>
                                                 ))}
+                                            </TextField>
+                                        </div>
+                                        <div className="leftBoxFilter">
+                                            <TextField
+                                                id="location"
+                                                label="Location"
+                                                sx={{width: '100%'}}
+                                                select
+                                            >
+                                                {}
                                             </TextField>
                                         </div>
                                         <div className="leftBoxFilter">
@@ -305,18 +270,18 @@ function NewRooms() {
                                         <div id="boxDatum">
                                             <div className="rightBoxFilter">
                                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                    <DesktopDatePicker className="datum" label="Datum" inputFormat="MM/DD/YYYY" onChange={handleChange} value={value} renderInput={(params) => <TextField {...params} sx={{width: '100%'}} />} />
+                                                    <DesktopDatePicker disablePast className="datum" label="Datum" inputFormat="MM/DD/YYYY" onChange={handleDateChange} value={date} renderInput={(params) => <TextField {...params} sx={{width: '100%'}} />} />
                                                 </LocalizationProvider>
                                             </div>
                                             <div className="rightBoxFilter">
                                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                    <TimePicker label="Start Time" onChange={handleChange} value={value} renderInput={(params) => <TextField {...params} sx={{width: '100%'}}/>}
+                                                    <TimePicker label="Start Time" onChange={handleStartTimeChange} value={startTime} renderInput={(params) => <TextField {...params} sx={{width: '100%'}}/>}
                                                     />
                                                 </LocalizationProvider>
                                             </div>
                                             <div className="rightBoxFilter">
                                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                    <TimePicker label="End Time" onChange={handleChange} value={value} renderInput={(params) => <TextField {...params} sx={{width: '100%'}}/>}
+                                                    <TimePicker label="End Time" onChange={handleEndTimeChange} value={endTime} renderInput={(params) => <TextField {...params} sx={{width: '100%'}}/>}
                                                     />
                                                 </LocalizationProvider>
                                             </div>
@@ -331,7 +296,7 @@ function NewRooms() {
                         <div id="newBuchungenBoxes" hidden={true}>
                             <ul id="buchungRaumColumns">
                                 {rooms.map((rooms) => (
-                                    <li id="raum" key={rooms.id} onClick={event => {setOpenRoomPopup(true); saveSelectedRoomData(rooms.id)}}>
+                                    <li id="raum" key={rooms.id} onClick={event => {setOpenRoomPopup(true); saveSelectedRoomData(rooms.id); handleBackgroundBlur()}}>
                                         <div id="headerWithRoomTitle">
                                             <h3 id="textRoomName">{rooms.name}</h3>
                                         </div>
@@ -353,9 +318,11 @@ function NewRooms() {
                                 ))}
                             </ul>
                             <div id="modal">
-                                <Popup open ={openRoomPopup} closeOnDocumentClick onClose={closeRoomPopup}
-                                >
-                                    <RoomInformation onBookingRoomItem={bookingInfoData}/>
+                                <Popup open ={openRoomPopup}  closeOnDocumentClick={false}>
+                                    <RoomInformation onBookingRoomItem={bookingInfoData} />
+                                    <div id="clickToCloseRoomBooking">
+                                        <Button onClick={() => {closeRoomPopup(); handleNoBlurBackground()}} >Close</Button>
+                                    </div>
                                 </Popup>
                             </div>
                         </div>

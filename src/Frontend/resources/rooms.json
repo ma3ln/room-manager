@@ -1,0 +1,66 @@
+[
+    {
+        "id": "01",
+        "name": "R43",
+        "kapazitat": "20",
+        "attribut": "Beamer",
+        "Location": "HWR - Lichtenberg",
+        "haus": "6B",
+        "ebene": "3"
+    },
+    {
+        "id": "02",
+        "name": "R453",
+        "kapazitat": "30",
+        "attribut": "Tafel",
+        "Location": "HWR - Lichtenberg",
+        "haus": "2B",
+        "ebene": "3"
+    },
+    {
+        "id": "03",
+        "name": "R60",
+        "kapazitat": "5",
+        "attribut": "",
+        "Location": "HWR - Lichtenberg",
+        "haus": "3A",
+        "ebene": "3"
+    },
+    {
+        "id": "04",
+        "name": "R10",
+        "kapazitat": "32",
+        "attribut": "",
+        "Location": "HWR - Lichtenberg",
+        "haus": "B5",
+        "ebene": "3"
+    },
+    {
+        "id": "05",
+        "name": "R76",
+        "kapazitat": "50",
+        "attribut": "Tafel",
+        "Location": "HWR - Lichtenberg",
+        "haus": "A2",
+        "ebene": "3"
+    },
+    {
+        "id": "06",
+        "name": "R20",
+        "kapazitat": "20",
+        "attribut": "Beamer",
+        "Location": "HWR - Lichtenberg",
+        "haus": "6A",
+        "ebene": "3"
+    },
+    {
+        "id": "07",
+        "name": "R400",
+        "kapazitat": "30",
+        "attribut": "Tafel",
+        "Location": "HWR - Lichtenberg",
+        "haus": "1A",
+        "ebene": "3"
+    }
+]
+

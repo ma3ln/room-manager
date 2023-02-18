@@ -1,0 +1,15 @@
+[
+  {
+    "ID": "test",
+    "Name": "test",
+    "StartTime": "test",
+    "EndTime": "test",
+    "Date": "test",
+    "Capacity": "test",
+    "Attribut": "test",
+    "Haus": "test",
+    "Ebene": "test",
+    "Class": "test",
+    "Modul": "test"
+  }
+]
