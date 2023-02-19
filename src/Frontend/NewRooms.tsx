@@ -32,14 +32,9 @@ function NewRooms() {
     let bookingLocation;
     let bookingCapacity;
     let bookingAttribut;
-    let bookedObject: {date: Dayjs | string , startTime: Dayjs | string, endTime: Dayjs | string};
-    let bookingDate: {date: Dayjs | string};
-    let bookingStartTime: {startTime: Dayjs | string};
-    let bookingEndTime: {endTime: Dayjs | string};
-    let booked: [{date: Dayjs | string, startTime: Dayjs | string, endTime: Dayjs | string}] = [{date: "", startTime: "", endTime: ""}]
     let bookingHaus;
     let bookingEbene;
-    const [bookingInfoData, setBookingInfoData] = React.useState({id: '',name: '', booked: booked, capacity: 1, attribut: '', location: '', haus: '', ebene: 1});
+    const [bookingInfoData, setBookingInfoData] = React.useState({name: '', capacity: 1, attribut: '', location: '', haus: '', ebene: 1});
     const [anchorUser, setAnchorUser] = React.useState<null | HTMLElement>(null)
     const [openRoomPopup, setOpenRoomPopup] = React.useState(false);
     const closeRoomPopup = () => setOpenRoomPopup(false);
@@ -125,30 +120,18 @@ function NewRooms() {
         setDate(newValue);
     }
 
-    function saveSelectedRoomData(id: string) {
+    function saveSelectedRoomData(name: string) {
         for ( let i = 0; i< rooms.length; i++) {
-            if(id === rooms[i].id) {
-                bookingID = rooms[i].id;
+            if(name === rooms[i].name) {
                 bookingName = rooms[i].name;
                 bookingLocation = rooms[i].location;
                 bookingCapacity = rooms[i].capacity;
                 bookingAttribut = rooms[i].attribut;
                 bookingHaus = rooms[i].haus;
                 bookingEbene = rooms[i].ebene;
-                for ( let m = 0; m< rooms[i].booked.length; m++) {
-                    Object.assign(bookingDate, dayjs(rooms[i].booked[m].date).format("DD/MM/YYYY"))
-                    JSON.stringify(bookingDate)
-                    Object.assign(bookingStartTime, dayjs(rooms[i].booked[m].startTime).format("hh:mm"))
-                    JSON.stringify(bookingStartTime)
-                    Object.assign(bookingEndTime, dayjs(rooms[i].booked[m].endTime).format("hh:mm"))
-                    JSON.stringify(bookingEndTime)
-                    Object.assign(bookedObject, bookingDate, bookingStartTime, bookingEndTime)
-                    booked.push(bookedObject);
-                }
                 setBookingInfoData({
-                    booked: booked,
                     location: bookingLocation,
-                    attribut: bookingAttribut, capacity: bookingCapacity, ebene: bookingEbene, haus: bookingHaus, id: bookingID, name: bookingName})
+                    attribut: bookingAttribut, capacity: bookingCapacity, ebene: bookingEbene, haus: bookingHaus, name: bookingName})
             }
         }
     }
@@ -265,7 +248,26 @@ function NewRooms() {
         });
         console.log(newFilteredRooms)
 
+        let filterTimeAndDate = newFilteredRooms.filter((attributeFilteredRoom) => {
+            if (attributeFilteredRoom.booked.some(({ date }) => (dayjs(date, "MM/DD/YYYY") === dayjs((document.getElementById("date")! as HTMLInputElement).value, "MM/DD/YYYY")))) {
+                var startAndEndFilterBetween = attributeFilteredRoom.booked.some(({ startTime, endTime }) => (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isAfter(dayjs(startTime, "hh:mm"))
+                    && (dayjs((document.getElementById("endTime")! as HTMLInputElement).value, "hh:mm")).isBefore(dayjs(endTime, "hh:mm")))
+                var startFilter = attributeFilteredRoom.booked.some(({ startTime, endTime }) => (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isAfter(dayjs(startTime, "hh:mm"))
+                    && (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isBefore(dayjs(endTime, "hh:mm")))
+                var endFilter = attributeFilteredRoom.booked.some(({ endTime }) => (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isAfter(dayjs(endTime, "hh:mm"))
+                    && (dayjs((document.getElementById("endTime")! as HTMLInputElement).value, "hh:mm")).isBefore(dayjs(endTime, "hh:mm")))
+                var startAndEndFilterBeforeAndAfter = attributeFilteredRoom.booked.some(({ startTime, endTime }) => (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isBefore(dayjs(startTime, "hh:mm"))
+                    && (dayjs((document.getElementById("endTime")! as HTMLInputElement).value, "hh:mm")).isAfter(dayjs(endTime, "hh:mm")))
+                if(startFilter && startAndEndFilterBetween && startAndEndFilterBeforeAndAfter && endFilter) {
+                    return null;
+                }
+                return attributeFilteredRoom
+            }
+            return attributeFilteredRoom
+        })
+        console.log(filterTimeAndDate)
     }
+
 
 
 
@@ -347,11 +349,6 @@ function NewRooms() {
                                 </Tooltip>
                             </div>
                             <div id="newRoomInput" hidden={true}>
-                                <div id="filterTextBox">
-                                    <h2 id="filterText">
-                                        Filter
-                                    </h2>
-                                </div>
                                 <div id="filter">
                                     <div id="leftFilter">
                                         <div className="leftBoxFilter">
@@ -450,7 +447,7 @@ function NewRooms() {
                         <div id="newBuchungenBoxes" hidden={true}>
                             <ul id="buchungRaumColumns">
                                 {rooms.map((rooms) => (
-                                    <li id="raum" key={rooms.id} onClick={event => {setOpenRoomPopup(true); saveSelectedRoomData(rooms.id); handleBackgroundBlur()}}>
+                                    <li id="raum" key={rooms.name} onClick={event => {setOpenRoomPopup(true); saveSelectedRoomData(rooms.name); handleBackgroundBlur()}}>
                                         <div id="headerWithRoomTitle">
                                             <h3 id="textRoomName">{rooms.name}</h3>
                                         </div>
