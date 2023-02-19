@@ -18,12 +18,7 @@ import {Md5} from "ts-md5";
 
 function AddRoom() {
 
-    let countingId: number;
     const navigate = useNavigate();
-    let bookingDate: {date: Dayjs | string};
-    let bookingStartTime: {startTime: Dayjs | string};
-    let bookingEndTime: {endTime: Dayjs | string};
-    let bookedObject: {date: string, startTime: string, endTime: string};
     let booked: [{date: string, startTime: string, endTime: string}] = [{date: "", startTime: "", endTime: ""}]
     const [room, setRoom] = React.useState({id: '', name: '', booked: booked, capacity: 1, attribut: '', location: '', haus: '', ebene: 1})
     const [anchorUser, setAnchorUser] = React.useState<null | HTMLElement>(null)
@@ -75,11 +70,6 @@ function AddRoom() {
                 });
         }
     }
-
-    useEffect(() => {
-        rooms.push(room)
-        console.log(rooms)
-    }, [room])
 
     function handleLogout() {
         localStorage.setItem("isLoggedIn", "null")

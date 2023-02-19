@@ -32,10 +32,10 @@ function Dashboard(){
     useEffect(() => {
         const interval = setInterval(() => {
             // @ts-ignore
-            const newBookedRoomsObject = JSON.parse(localStorage.getItem("bookedRooms"));
-            if (newBookedRoomsObject) {
-                setListBookedRooms(newBookedRoomsObject);
-            }
+            fetch("http://localhost:8081/dashboard", {
+                method: 'GET'
+            })
+                .then()
         }, 1000);
 
         return () => clearInterval(interval)
