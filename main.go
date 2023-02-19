@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"net/http"
 	dbcon "room-manager/src/Backend"
@@ -18,6 +19,7 @@ type Login struct {
 	user     string
 	password string
 }
+
 type Termine []Termin
 
 func alleTermine(w http.ResponseWriter, r *http.Request) {
@@ -33,6 +35,17 @@ func alleTermine(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(termine)
 }
 
+func BsonMapToArray(m bson.M) map[string]string {
+	arr := make(map[string]string)
+	for a, v := range m {
+		s, ok := v.(string)
+		if ok {
+			arr[a] = s
+		}
+	}
+	return arr
+}
+
 func login(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -45,25 +58,32 @@ func login(w http.ResponseWriter, r *http.Request) {
 	roommanager := client.Database("roomManager")
 	userColl := roommanager.Collection("User")
 
-	filterCursor, err := userColl.Find(ctx, bson.M{"username": user})
-	if err != nil {
+	var result bson.M
+	err := userColl.FindOne(ctx, bson.M{"username": user}).Decode(&result)
+
+	if err == mongo.ErrNoDocuments {
+		fmt.Println("no Docs found")
+	} else if err != nil {
 		log.Fatal(err)
 	}
 
-	var userFiltered []bson.M
-	if err = filterCursor.All(ctx, &userFiltered); err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(userFiltered[0]["password"])
+	arr := BsonMapToArray(result)
 
-	//w.WriteHeader(http.StatusOK)
+	fmt.Println(arr)
 
-	if password == userFiltered[0]["password"] {
-		fmt.Fprintf(w, "Login Succesful")
-		w.WriteHeader(http.StatusOK)
-		return
+	if len(arr) > 0 {
+		if password == arr["password"] {
+			fmt.Println("login")
+			fmt.Fprintf(w, "Login Succesful")
+			w.WriteHeader(http.StatusOK)
+			return
+		} else {
+			http.Error(w, "Fehler!!!", http.StatusBadRequest)
+			fmt.Println("wrong pw")
+		}
 	} else {
 		http.Error(w, "Fehler!!!", http.StatusBadRequest)
+		fmt.Println("user not found")
 	}
 
 }
