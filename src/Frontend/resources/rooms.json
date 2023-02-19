@@ -1,66 +1,1034 @@
 [
     {
-        "id": "01",
-        "name": "R43",
-        "kapazitat": "20",
+        "id": "63f134d146b2c4e798148b07",
+        "name": "Cleveland",
+        "booked": [
+            {
+                "date": "02/22/2023",
+                "startTime": "09:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 62,
         "attribut": "Beamer",
-        "Location": "HWR - Lichtenberg",
+        "location": "HTW",
         "haus": "6B",
-        "ebene": "3"
+        "ebene": 3
     },
     {
-        "id": "02",
-        "name": "R453",
-        "kapazitat": "30",
-        "attribut": "Tafel",
-        "Location": "HWR - Lichtenberg",
-        "haus": "2B",
-        "ebene": "3"
-    },
-    {
-        "id": "03",
-        "name": "R60",
-        "kapazitat": "5",
+        "id": "63f134d18286d69567483e9f",
+        "name": "Suarez",
+        "booked": [
+            {
+                "date": "05/7/2023",
+                "startTime": "10:00",
+                "endTime": "11:00"
+            },
+            {
+                "date": "03/7/2023",
+                "startTime": "09:00",
+                "endTime": "01:00"
+            },
+            {
+                "date": "03/24/2023",
+                "startTime": "03:00",
+                "endTime": "05:00"
+            },
+            {
+                "date": "03/24/2023",
+                "startTime": "01:00",
+                "endTime": "02:00"
+            }
+        ],
+        "capacity": 74,
         "attribut": "",
-        "Location": "HWR - Lichtenberg",
-        "haus": "3A",
-        "ebene": "3"
-    },
-    {
-        "id": "04",
-        "name": "R10",
-        "kapazitat": "32",
-        "attribut": "",
-        "Location": "HWR - Lichtenberg",
-        "haus": "B5",
-        "ebene": "3"
-    },
-    {
-        "id": "05",
-        "name": "R76",
-        "kapazitat": "50",
-        "attribut": "Tafel",
-        "Location": "HWR - Lichtenberg",
-        "haus": "A2",
-        "ebene": "3"
-    },
-    {
-        "id": "06",
-        "name": "R20",
-        "kapazitat": "20",
-        "attribut": "Beamer",
-        "Location": "HWR - Lichtenberg",
+        "location": "HWR - Schöneberg",
         "haus": "6A",
-        "ebene": "3"
+        "ebene": 1
     },
     {
-        "id": "07",
-        "name": "R400",
-        "kapazitat": "30",
+        "id": "63f134d1f3058804a1e2727d",
+        "name": "Alexander",
+        "booked": [
+            {
+                "date": "09/15/2023",
+                "startTime": "13:00",
+                "endTime": "14:00"
+            }
+        ],
+        "capacity": 33,
         "attribut": "Tafel",
-        "Location": "HWR - Lichtenberg",
-        "haus": "1A",
-        "ebene": "3"
+        "location": "HWR - Lichtenberg",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d144b97d5f1093aadf",
+        "name": "Ruiz",
+        "booked": [
+            {
+                "date": "09/15/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "11/28/2023",
+                "startTime": "10:00",
+                "endTime": "11:00"
+            },
+            {
+                "date": "06/30/2023",
+                "startTime": "16:00",
+                "endTime": "17:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "13:00"
+            },
+            {
+                "date": "06/30/2023",
+                "startTime": "09:00",
+                "endTime": "10:00"
+            }
+        ],
+        "capacity": 67,
+        "attribut": "Beamer",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 1
+    },
+    {
+        "id": "63f134d14caa0b43412cda21",
+        "name": "Craig",
+        "booked": [
+            {
+                "date": "05/19/2023",
+                "startTime": "10:00",
+                "endTime": "13:00"
+            },
+            {
+                "date": "12/20/2023",
+                "startTime": "11:00",
+                "endTime": "13:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "09:00",
+                "endTime": "12:00"
+            },
+            {
+                "date": "06/30/2023",
+                "startTime": "12:00",
+                "endTime": "16:00"
+            }
+        ],
+        "capacity": 92,
+        "attribut": "",
+        "location": "HWR - Lichtenberg",
+        "haus": "6B",
+        "ebene": 1
+    },
+    {
+        "id": "63f134d1ca424d91e943a5b0",
+        "name": "Goodman",
+        "booked": [
+            {
+                "date": "3/7/2023",
+                "startTime": "10:00",
+                "endTime": "11:00"
+            }
+        ],
+        "capacity": 21,
+        "attribut": "Tafel",
+        "location": "HTW",
+        "haus": "5C",
+        "ebene": 1
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Tafel",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1a21f0f426c84d35c",
+        "name": "Dennis",
+        "booked": [
+            {
+                "date": "06/23/2023",
+                "startTime": "14:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "04/13/2023",
+                "startTime": "09:00",
+                "endTime": "10:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "17:00"
+            }
+        ],
+        "capacity": 39,
+        "attribut": "Tafel",
+        "location": "HWR - Schöneberg",
+        "haus": "5C",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cb5300be070be591",
+        "name": "Fernandez",
+        "booked": [
+            {
+                "date": "09/20/2023",
+                "startTime": "11:00",
+                "endTime": "15:00"
+            }
+        ],
+        "capacity": 42,
+        "attribut": "",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 2
+    },
+    {
+        "id": "63f134d16e50e88f4c125804",
+        "name": "Barnett",
+        "booked": [
+            {
+                "date": "07/10/2023",
+                "startTime": "11:00",
+                "endTime": "17:00"
+            },
+            {
+                "date": "05/19/2023",
+                "startTime": "12:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "07/10/2023",
+                "startTime": "09:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "11/28/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "10:00",
+                "endTime": "13:00"
+            }
+        ],
+        "capacity": 12,
+        "attribut": "Tafel",
+        "location": "HTW",
+        "haus": "5C",
+        "ebene": 3
+    },
+    {
+        "id": "63f134d115645a5c5f67d3fc",
+        "name": "Woodward",
+        "booked": [
+            {
+                "date": "09/15/2023",
+                "startTime": "16:00",
+                "endTime": "17:00"
+            },
+            {
+                "date": "04/13/2023",
+                "startTime": "09:00",
+                "endTime": "10:00"
+            },
+            {
+                "date": "07/10/2023",
+                "startTime": "10:00",
+                "endTime": "13:00"
+            },
+            {
+                "date": "03/24/2023",
+                "startTime": "11:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 80,
+        "attribut": "Beamer",
+        "location": "HWR - Schöneberg",
+        "haus": "5C",
+        "ebene": 3
+    },
+    {
+        "id": "63f134d1b6fadbbe20b04aa5",
+        "name": "Allison",
+        "booked": [
+            {
+                "date": "07/28/2023",
+                "startTime": "15:0",
+                "endTime": "17:0"
+            }
+        ],
+        "capacity": 17,
+        "attribut": "Beamer",
+        "location": "HWR - Schöneberg",
+        "haus": "5C",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d13cbdcabbdbcdd14f",
+        "name": "Pratt",
+        "booked": [
+            {
+                "date": "05/19/2023",
+                "startTime": "09:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            }
+        ],
+        "capacity": 48,
+        "attribut": "",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 3
+    },
+    {
+        "id": "63f134d16b8f80f377bc0ad0",
+        "name": "Faulkner",
+        "booked": [
+            {
+                "date": "09/8/2023",
+                "startTime": "16:00",
+                "endTime": "17:00"
+            },
+            {
+                "date": "07/5/2023",
+                "startTime": "09:00",
+                "endTime": "17:00"
+            },
+            {
+                "date": "09/27/2023",
+                "startTime": "09:00",
+                "endTime": "12:00"
+            },
+            {
+                "date": "05/3/2023",
+                "startTime": "14:00",
+                "endTime": "17:00"
+            }
+        ],
+        "capacity": 37,
+        "attribut": "",
+        "location": "HTW",
+        "haus": "5C",
+        "ebene": 3
+    },
+    {
+        "id": "63f134d1d93e3987cb0b65f2",
+        "name": "Bullock",
+        "booked": [
+            {
+                "date": "05/3/2023",
+                "startTime": "09:00",
+                "endTime": "11:00"
+            },
+            {
+                "date": "05/10/2023",
+                "startTime": "12:00",
+                "endTime": "13:00"
+            },
+            {
+                "date": "08/10/2023",
+                "startTime": "16:00",
+                "endTime": "17:00"
+            }
+        ],
+        "capacity": 7,
+        "attribut": "Tafel",
+        "location": "HWR - Schöneberg",
+        "haus": "6A",
+        "ebene": 2
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Tafel",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Tafel",
+        "location": "HWR - Schöneberg",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Tafel",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Tafel",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Tafel",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Tafel",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Tafel",
+        "location": "HWR - Schöneberg",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Beamer",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Tafel",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Tafel",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Tafel",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Beamer",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Tafel",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Beamer",
+        "location": "HWR - Schöneberg",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Tafel",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Beamer",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Tafel",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Beamer",
+        "location": "HWR - Lichtenberg",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Tafel",
+        "location": "HTW",
+        "haus": "6A",
+        "ebene": 4
+    },
+    {
+        "id": "63f134d1cc5d3d9317a18c86",
+        "name": "Cote",
+        "booked": [
+            {
+                "date": "05/16/2023",
+                "startTime": "13:00",
+                "endTime": "15:00"
+            },
+            {
+                "date": "09/20/2023",
+                "startTime": "15:00",
+                "endTime": "16:00 "
+            },
+            {
+                "date": "05/16/2023",
+                "startTime": "14:00",
+                "endTime": "16:00"
+            },
+            {
+                "date": "07/28/2023",
+                "startTime": "10:00",
+                "endTime": "12:00"
+            }
+        ],
+        "capacity": 58,
+        "attribut": "Tafel",
+        "location": "HWR - Lichtenberg",
+        "haus": "6A",
+        "ebene": 4
     }
 ]
 

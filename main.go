@@ -122,9 +122,40 @@ func register(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func room(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	name := r.FormValue("name")
+	capacity := r.FormValue("capacity")
+	attribut := r.FormValue("attribut")
+	location := r.FormValue("location")
+	haus := r.FormValue("haus")
+	ebene := r.FormValue("ebene")
+
+	client, ctx := dbcon.Dbconect()
+
+	roommanager := client.Database("roomManager")
+	userColl := roommanager.Collection("Room")
+
+	_, err := userColl.InsertOne(ctx, bson.D{
+		{Key: "name", Value: name},
+		{Key: "capacity", Value: capacity},
+		{Key: "attribut", Value: attribut},
+		{Key: "location", Value: location},
+		{Key: "haus", Value: haus},
+		{Key: "ebene", Value: ebene},
+	})
+	if err != nil {
+		return
+	}
+
+}
+
 func handleRequests() {
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/register", register)
+	http.HandleFunc("/addroom", room)
 	http.ListenAndServe(":8081", nil)
 }
 

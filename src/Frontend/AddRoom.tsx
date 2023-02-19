@@ -1,10 +1,11 @@
-import {Button, IconButton, Toolbar} from "@mui/material";
-import {MenuItem} from "@mui/material";
+import {Button, IconButton, Toolbar, Tooltip} from "@mui/material";
+import {MenuItem, Menu} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import {AccountCircle, Add, AssignmentTurnedIn, QuestionMark} from "@mui/icons-material";
 import Sidebars from "./Sidebars";
 import SidebarBackground from "./Background/SidebarBackground";
-import React from "react";
+import React, {useEffect} from "react";
+import {Link, useNavigate} from "react-router-dom";
 import "./CSS/App/AddRoom.css";
 import TextField from "@mui/material/TextField";
 import attributes from "./resources/attributes.json";
@@ -12,27 +13,85 @@ import location from "./resources/location.json";
 import haus from"./resources/haus.json";
 import ebene from "./resources/ebene.json";
 import rooms from "./resources/rooms.json";
+import dayjs, {Dayjs} from "dayjs";
+import {Md5} from "ts-md5";
 
 function AddRoom() {
 
     let countingId: number;
-    const [room, setRoom] = React.useState({id: '', name: '', kapazitat: '', attribut: '', Location: '', haus: '', ebene: ''})
+    const navigate = useNavigate();
+    let bookingDate: {date: Dayjs | string};
+    let bookingStartTime: {startTime: Dayjs | string};
+    let bookingEndTime: {endTime: Dayjs | string};
+    let bookedObject: {date: string, startTime: string, endTime: string};
+    let booked: [{date: string, startTime: string, endTime: string}] = [{date: "", startTime: "", endTime: ""}]
+    const [room, setRoom] = React.useState({id: '', name: '', booked: booked, capacity: 1, attribut: '', location: '', haus: '', ebene: 1})
+    const [anchorUser, setAnchorUser] = React.useState<null | HTMLElement>(null)
 
     function addRoom() {
-        countingId = countingId + 1;
-        setRoom({Location: ((document.getElementById("newRoomLocation")! as HTMLInputElement).innerHTML),
-            attribut: ((document.getElementById("newRoomAttribut")! as HTMLInputElement).innerHTML),
-            ebene: ((document.getElementById("newRoomEbene")! as HTMLInputElement).innerHTML),
-            haus: ((document.getElementById("newRoomHaus")! as HTMLInputElement).innerHTML),
-            id: countingId.toString(),
-            kapazitat: ((document.getElementById("newRoomCapacity")! as HTMLInputElement).value),
-            name: ((document.getElementById("newRoomName")! as HTMLInputElement).value)})
-        if((room.id === "") || (room.haus === "") || (room.ebene === "") || (room.name === "") || (room.kapazitat === "") || (room.Location === "")) {
-            console.log("No Attributes for Adding a new Room found")
+        var name = ((document.getElementById("newRoomName")! as HTMLInputElement).value)
+        var attribut = ((document.getElementById("newRoomAttribut")! as HTMLInputElement).innerHTML)
+        var ebene = ((document.getElementById("newRoomEbene")! as HTMLInputElement).innerHTML)
+        var haus = ((document.getElementById("newRoomHaus")! as HTMLInputElement).innerHTML)
+        var capacity = ((document.getElementById("newRoomCapacity")! as HTMLInputElement).value)
+        var location = ((document.getElementById("newRoomLocation")! as HTMLInputElement).innerHTML)
+
+
+
+        const formdata = new FormData();
+        formdata.append("name", name);
+        formdata.append("attribut", attribut);
+        formdata.append("ebene", ebene);
+        formdata.append("haus", haus);
+        formdata.append("capacity", capacity);
+        formdata.append("location", location);
+
+        if (((document.getElementById("newRoomName")! as HTMLInputElement).value === "")
+            || ((document.getElementById("newRoomAttribut")! as HTMLInputElement).innerHTML === "")
+            || ((document.getElementById("newRoomEbene")! as HTMLInputElement).innerHTML === "")
+            || ((document.getElementById("newRoomHaus")! as HTMLInputElement).innerHTML === "")
+            || ((document.getElementById("newRoomCapacity")! as HTMLInputElement).value === "")
+            || ((document.getElementById("newRoomLocation")! as HTMLInputElement).innerHTML === "")){
+            console.log("Error: You have to put in values")
         } else {
-            rooms.push(room)
-            console.log(rooms)
+            fetch("http://localhost:8081/addroom", {
+                method: 'POST',
+                body: formdata,
+                redirect: "follow"
+            })
+                .then(response => {
+                    response.text()
+                    if(response.ok) {
+                        console.log("successfull")
+                    }
+                })
+                .then(result => {
+                    console.log("result", result)
+                })
+                .catch(error => {
+                    if(error.response.status === 400) {
+                        window.location.reload();
+                    }
+                });
         }
+    }
+
+    useEffect(() => {
+        rooms.push(room)
+        console.log(rooms)
+    }, [room])
+
+    function handleLogout() {
+        localStorage.setItem("isLoggedIn", "null")
+        localStorage.setItem("username", "null")
+        navigate("/login")
+    }
+    const handleUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorUser(event.currentTarget);
+    }
+
+    const handleUserMenuClose = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setAnchorUser(null)
     }
     return (
         <div className="layoutAddRoom">
@@ -59,7 +118,31 @@ function AddRoom() {
                         >
                             <QuestionMark/>
                         </IconButton>
-                        <Button sx={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}} id="usernameToolbar" color="inherit" startIcon={<AccountCircle />}>{}</Button>
+                        <div>
+                            <Button onClick={handleUserMenu} sx={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}} id="usernameToolbar" color="inherit" startIcon={<AccountCircle />}>{localStorage.getItem("username")}</Button>
+                            <Menu
+                                id="menuUser"
+                                anchorEl={anchorUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                    }
+                                }
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                    }
+                                }
+                                open={Boolean(anchorUser)}
+                                onClose={handleUserMenuClose}
+
+                                >
+                                <MenuItem onClick={handleLogout}>
+                                    Logout
+                                </MenuItem>
+                            </Menu>
+                        </div>
                     </div>
                 </Toolbar>
             </div>
@@ -79,9 +162,11 @@ function AddRoom() {
                                 <h1>Neuer Raum</h1>
                             </div>
                             <div id="boxNewRoomButton">
-                                <IconButton id="addNewRoom" sx={{ height: 70, width: 70, padding: 1, margin: '2%', marginLeft: '5%', marginTop: '5%'}} >
-                                    <Add sx={{height: '120%', width: '120%'}}/>
-                                </IconButton>
+                                <Tooltip title={"Click me to Add a new Room"} placement={"right"} sx={{color: '#bac6ce'}}>
+                                    <IconButton id="addNewRoom" sx={{ height: 70, width: 70, padding: 1, margin: '2%', marginLeft: '5%', marginTop: '5%'}} >
+                                        <Add sx={{height: '120%', width: '120%'}}/>
+                                    </IconButton>
+                                </Tooltip>
                             </div>
                         </div>
                         <div id="attributesOfNewRoom">

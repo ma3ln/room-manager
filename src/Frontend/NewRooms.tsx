@@ -1,13 +1,13 @@
-import React from "react";
+import React, {MouseEvent, useCallback, useEffect} from "react";
 import "./CSS/App/NewRooms.css";
-import {Button, IconButton, MenuItem, Toolbar} from "@mui/material";
+import {Button, IconButton, Menu, MenuItem, Toolbar, Tooltip} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import {AccountCircle, QuestionMark, PersonAddAlt, Category, HouseSiding} from "@mui/icons-material";
 import Sidebars from "./Sidebars";
 import SidebarBackground from "./Background/SidebarBackground";
 import {Add} from "@mui/icons-material";
 import TextField from "@mui/material/TextField";
-import {Dayjs} from "dayjs";
+import dayjs, {Dayjs} from "dayjs";
 import {LocalizationProvider, TimePicker} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DesktopDatePicker} from "@mui/x-date-pickers";
@@ -17,6 +17,7 @@ import {useNavigate} from "react-router-dom";
 
 import haus from"./resources/haus.json";
 import attributes from"./resources/attributes.json";
+import location from "./resources/location.json";
 import ebene from "./resources/ebene.json";
 import rooms from "./resources/rooms.json";
 
@@ -31,9 +32,15 @@ function NewRooms() {
     let bookingLocation;
     let bookingCapacity;
     let bookingAttribut;
+    let bookedObject: {date: Dayjs | string , startTime: Dayjs | string, endTime: Dayjs | string};
+    let bookingDate: {date: Dayjs | string};
+    let bookingStartTime: {startTime: Dayjs | string};
+    let bookingEndTime: {endTime: Dayjs | string};
+    let booked: [{date: Dayjs | string, startTime: Dayjs | string, endTime: Dayjs | string}] = [{date: "", startTime: "", endTime: ""}]
     let bookingHaus;
     let bookingEbene;
-    const [bookingInfoData, setBookingInfoData] = React.useState({id: '',name: '', capacity: '', attribut: '', location: '', haus: '', ebene: ''});
+    const [bookingInfoData, setBookingInfoData] = React.useState({id: '',name: '', booked: booked, capacity: 1, attribut: '', location: '', haus: '', ebene: 1});
+    const [anchorUser, setAnchorUser] = React.useState<null | HTMLElement>(null)
     const [openRoomPopup, setOpenRoomPopup] = React.useState(false);
     const closeRoomPopup = () => setOpenRoomPopup(false);
 
@@ -52,6 +59,19 @@ function NewRooms() {
             navigate("/")
             window.location.reload();
         }
+    }
+
+    function handleLogout() {
+        localStorage.setItem("isLoggedIn", "null")
+        localStorage.setItem("isLoggegIn", "null")
+        navigate("/login")
+    }
+    const handleUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorUser(event.currentTarget);
+    }
+
+    const handleUserMenuClose = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setAnchorUser(null)
     }
     /**
     function getRooms() {
@@ -110,24 +130,111 @@ function NewRooms() {
             if(id === rooms[i].id) {
                 bookingID = rooms[i].id;
                 bookingName = rooms[i].name;
-                bookingLocation = rooms[i].Location;
-                bookingCapacity = rooms[i].kapazitat;
+                bookingLocation = rooms[i].location;
+                bookingCapacity = rooms[i].capacity;
                 bookingAttribut = rooms[i].attribut;
                 bookingHaus = rooms[i].haus;
                 bookingEbene = rooms[i].ebene;
+                for ( let m = 0; m< rooms[i].booked.length; m++) {
+                    Object.assign(bookingDate, dayjs(rooms[i].booked[m].date).format("DD/MM/YYYY"))
+                    JSON.stringify(bookingDate)
+                    Object.assign(bookingStartTime, dayjs(rooms[i].booked[m].startTime).format("hh:mm"))
+                    JSON.stringify(bookingStartTime)
+                    Object.assign(bookingEndTime, dayjs(rooms[i].booked[m].endTime).format("hh:mm"))
+                    JSON.stringify(bookingEndTime)
+                    Object.assign(bookedObject, bookingDate, bookingStartTime, bookingEndTime)
+                    booked.push(bookedObject);
+                }
                 setBookingInfoData({
+                    booked: booked,
                     location: bookingLocation,
                     attribut: bookingAttribut, capacity: bookingCapacity, ebene: bookingEbene, haus: bookingHaus, id: bookingID, name: bookingName})
-                console.log(rooms[i].id)
-                console.log(rooms[i].haus)
-                console.log(rooms[i].name)
-                console.log(rooms[i].ebene)
-                console.log(rooms[i].attribut)
-                console.log(rooms[i].kapazitat)
             }
         }
     }
 
+    useEffect(() => {
+        console.log( "Updated", bookingInfoData)
+    }, [bookingInfoData])
+
+
+    const bookedTimes = [
+        {
+            "date": "05/16/2023",
+            "startTime": "13:00",
+            "endTime": "15:00",
+            "booked": [
+                {
+                    "bool": "no"
+                }
+            ]
+        },
+        {
+            "date": "09/20/2023",
+            "startTime": "15:00",
+            "endTime": "16:00 ",
+            "booked": [
+                {
+                    "bool": "yes"
+                }
+            ]
+        },
+        {
+            "date": "05/16/2023",
+            "startTime": "14:00",
+            "endTime": "16:00",
+            "booked": [
+                {
+                    "bool": "no"
+                }
+            ]
+        },
+        {
+            "date": "07/28/2023",
+            "startTime": "10:00",
+            "endTime": "12:00",
+            "booked": [
+                {
+                    "bool": "yes"
+                }
+            ]
+        }
+    ]
+
+    const newBookedTimes: { date: string; startTime: string; endTime: string; }[] = [];
+
+    function testDateAndTime() {
+        console.log(dayjs("02/13/2023").format("DD/MM/YYYY"))
+        console.log(dayjs("02/13/2023").format("DD/MM/YYYY"))
+        if (dayjs("02/13/2023").isSame(dayjs("02/13/2023"))) {
+            console.log("comparison between dates is correct")
+        } else {
+            console.log("comparison between dates is not correct")
+        }
+
+        console.log(dayjs("12:00", "hh:mm"))
+        console.log(dayjs("10:00", "hh:mm"))
+        if (dayjs("12:00", "hh:mm").isAfter(dayjs("10:00", "hh:mm"))) {
+            console.log("comparison if time is after is correct")
+        } else {
+            console.log("comparison if time is after is incorrect")
+        }
+
+        console.log(dayjs("10:00", "hh:mm"))
+        console.log(dayjs("12:00", "hh:mm"))
+        if (dayjs("10:00", "hh:mm").isBefore(dayjs("12:00", "hh:mm"))) {
+            console.log("comparison if time is before is correct")
+        } else {
+            console.log("comparison if time is before is incorrect")
+        }
+        console.log(dayjs("05/16/2023", "MM/DD/YYYY"))
+        for(let i = 0; i < bookedTimes.length; i++) {
+            if(bookedTimes.filter(value => value.booked.values.toString() === "yes")) {
+                bookedTimes.splice(i, 1)
+            }
+        }
+        console.log(bookedTimes);
+    }
 
 
     function handleNewRoom() {
@@ -146,6 +253,22 @@ function NewRooms() {
         }
     }
 
+
+    function filterRooms() {
+        // filter through set filters of Attribut/Capacity/Location/Haus/Ebene
+        let newFilteredRooms = rooms.filter(newRooms => {
+            return newRooms.capacity <= parseInt((document.getElementById("numberPeopleInRoom")! as HTMLInputElement).value) &&
+                newRooms.attribut === ((document.getElementById("roomAttributes")! as HTMLInputElement).innerHTML) &&
+                newRooms.location === ((document.getElementById("location")! as HTMLInputElement).innerHTML) &&
+                newRooms.haus === ((document.getElementById("building")! as HTMLInputElement).innerHTML) &&
+                newRooms.ebene === parseInt((document.getElementById("floor")! as HTMLInputElement).innerHTML);
+        });
+        console.log(newFilteredRooms)
+
+    }
+
+
+
     return(
         <div className="layoutNewRooms">
             <div className="headerNewRooms">
@@ -161,6 +284,7 @@ function NewRooms() {
                 <div id="spaceInToolBar"></div>
                 <div id="rightAlignToolbarButtons">
                     <IconButton
+                        onClick={testDateAndTime}
                         id="iconButtonHelp"
                         size="large"
                         color="inherit"
@@ -171,7 +295,31 @@ function NewRooms() {
                     >
                         <QuestionMark/>
                     </IconButton>
-                    <Button color="inherit" startIcon={<AccountCircle />}>{username}</Button>
+                    <div>
+                        <Button onClick={handleUserMenu} sx={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}} id="usernameToolbar" color="inherit" startIcon={<AccountCircle />}>{localStorage.getItem("username")}</Button>
+                        <Menu
+                            id="menuUser"
+                            anchorEl={anchorUser}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }
+                            }
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }
+                            }
+                            open={Boolean(anchorUser)}
+                            onClose={handleUserMenuClose}
+
+                        >
+                            <MenuItem onClick={handleLogout}>
+                                Logout
+                            </MenuItem>
+                        </Menu>
+                    </div>
                 </div>
             </Toolbar>
 
@@ -192,9 +340,11 @@ function NewRooms() {
                                 <h1>Neue Raumbuchung</h1>
                             </div>
                             <div id="boxNewRoomButton">
-                                <IconButton onClick={handleNewRoom} id="addNewRoom" sx={{ height: 70, width: 70, padding: 1, margin: '2%', marginLeft: '5%', marginTop: '5%'}} >
-                                    <Add sx={{height: '120%', width: '120%'}}/>
-                                </IconButton>
+                                <Tooltip title={" Mich drücken um eine neue Buchung zu erstellen"} placement={"right"} sx={{color: '#bac6ce'}}>
+                                    <IconButton onClick={handleNewRoom} id="addNewRoom" sx={{ height: 70, width: 70, padding: 1, margin: '2%', marginLeft: '5%', marginTop: '5%'}} >
+                                        <Add sx={{height: '120%', width: '120%'}}/>
+                                    </IconButton>
+                                </Tooltip>
                             </div>
                             <div id="newRoomInput" hidden={true}>
                                 <div id="filterTextBox">
@@ -234,7 +384,11 @@ function NewRooms() {
                                                 sx={{width: '100%'}}
                                                 select
                                             >
-                                                {}
+                                                {location.map((option) => (
+                                                    <MenuItem key={option.location} value={option.location}>
+                                                        {option.location}
+                                                    </MenuItem>
+                                                ))}
                                             </TextField>
                                         </div>
                                         <div className="leftBoxFilter">
@@ -269,19 +423,19 @@ function NewRooms() {
                                     <div id="rightFilter">
                                         <div id="boxDatum">
                                             <div className="rightBoxFilter">
-                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                    <DesktopDatePicker disablePast className="datum" label="Datum" inputFormat="MM/DD/YYYY" onChange={handleDateChange} value={date} renderInput={(params) => <TextField {...params} sx={{width: '100%'}} />} />
+                                                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+                                                    <DesktopDatePicker  disablePast className="date" label="Datum" inputFormat="MM/DD/YYYY" onChange={handleDateChange} value={date} renderInput={(params) => <TextField id="date" {...params} sx={{width: '100%'}} />} />
                                                 </LocalizationProvider>
                                             </div>
                                             <div className="rightBoxFilter">
-                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                    <TimePicker label="Start Time" onChange={handleStartTimeChange} value={startTime} renderInput={(params) => <TextField {...params} sx={{width: '100%'}}/>}
+                                                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+                                                    <TimePicker label="Start Time" className="startTime" onChange={handleStartTimeChange} value={startTime} renderInput={(params) => <TextField id="startTime" {...params} sx={{width: '100%'}}/>}
                                                     />
                                                 </LocalizationProvider>
                                             </div>
                                             <div className="rightBoxFilter">
-                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                    <TimePicker label="End Time" onChange={handleEndTimeChange} value={endTime} renderInput={(params) => <TextField {...params} sx={{width: '100%'}}/>}
+                                                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+                                                    <TimePicker label="End Time" className="endTIme" onChange={handleEndTimeChange} value={endTime} renderInput={(params) => <TextField id="endTime" {...params} sx={{width: '100%'}}/>}
                                                     />
                                                 </LocalizationProvider>
                                             </div>
@@ -289,7 +443,7 @@ function NewRooms() {
                                     </div>
                                 </div>
                                 <div id="boxFilterButton">
-                                    <Button id="buttonRoomFilter" variant="contained" sx={{width: '50%', backgroundColor: '#365D73'}}>Nach Raum filtern</Button>
+                                    <Button onClick={filterRooms} id="buttonRoomFilter" variant="contained" sx={{width: '50%', backgroundColor: '#365D73'}}>Nach Raum filtern</Button>
                                 </div>
                             </div>
                         </div>
@@ -303,7 +457,7 @@ function NewRooms() {
                                         <div className="informationRoomInList ">
                                             <div>
                                                 <PersonAddAlt />
-                                                <p className="informationTextForRoomInList">Kapazität: {rooms.kapazitat}</p>
+                                                <p className="informationTextForRoomInList">Kapazität: {rooms.capacity}</p>
                                             </div>
                                             <div>
                                                 <Category />

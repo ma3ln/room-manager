@@ -42,10 +42,6 @@ function Login() {
         window.location.reload();
     }
 
-    function handlePopupClose() {
-        closeModal();
-    }
-
     function handleBackgroundBlur() {
         (document.getElementById("root")! as HTMLElement).style.filter = 'blur(5px)'
     }

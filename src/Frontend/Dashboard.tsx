@@ -1,7 +1,7 @@
 import "./CSS/App/Dashboard.css"
 import "./CSS/App/DashboardBuchungen.css"
-import React, {useState} from "react";
-import {AppBar, Button, IconButton, List, ListItem} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {AppBar, Button, IconButton, List, ListItem, Menu, MenuItem} from "@mui/material";
 import {Toolbar} from "@mui/material";
 import {AccountCircle} from "@mui/icons-material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -12,12 +12,15 @@ import {AssignmentTurnedIn} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import ReactDOM from "react-dom";
 
+import bookedRooms from "./resources/bookedRooms.json"
 
 function Dashboard(){
 
 //    const [ name, date ] = props;
     const menuSettings = [''];
     const accountSettigns = ['Profile', 'Logout'];
+    const [listBookedRooms, setListBookedRooms] = useState({});
+    const [anchorUser, setAnchorUser] = React.useState<null | HTMLElement>(null)
 //    const username = (document.getElementById("input-with-account-icon")! as HTMLInputElement).value;
     const username = localStorage.getItem("username");
     const styles = {
@@ -25,6 +28,18 @@ function Dashboard(){
             marginLeft: 'auto',
         },
     };
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            // @ts-ignore
+            const newBookedRoomsObject = JSON.parse(localStorage.getItem("bookedRooms"));
+            if (newBookedRoomsObject) {
+                setListBookedRooms(newBookedRoomsObject);
+            }
+        }, 1000);
+
+        return () => clearInterval(interval)
+    }, []);
 
 
 
@@ -37,38 +52,6 @@ function Dashboard(){
             "role": "Lehrer"
         }
     ]
-
-    const buchung =
-            [
-                {
-                    "id": "001",
-                    "name": "R66",
-                    "date": "Random Date",
-                    "time-start": "12:00",
-                    "time-end": "13:00"
-                },
-                {
-                    "id": "002",
-                    "name": "A654",
-                    "date": "Random Date",
-                    "time-start": "11:00",
-                    "time-end": "16:00"
-                },
-                {
-                    "id": "003",
-                    "name": "A061",
-                    "date": "Random Date",
-                    "time-start": "15:00",
-                    "time-end": "17:30"
-                },
-                {
-                    "id": "004",
-                    "name": "R001",
-                    "date": "Random Date",
-                    "time-start": "09:00",
-                    "time-end": "11:00"
-                }
-            ]
 
 
     function handlePopupBuchung() {
@@ -89,6 +72,20 @@ function Dashboard(){
     setInterval(() => {
         handleLoad();
     }, 10);
+
+    const handleUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorUser(event.currentTarget);
+    }
+
+    const handleUserMenuClose = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setAnchorUser(null)
+    }
+
+    function handleLogout() {
+        localStorage.setItem("isLoggedIn", "null")
+        localStorage.setItem("isLoggegIn", "null")
+        navigate("/login")
+    }
 
 
     return(
@@ -116,7 +113,31 @@ function Dashboard(){
                         >
                             <QuestionMark/>
                         </IconButton>
-                        <Button sx={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}} id="usernameToolbar" color="inherit" startIcon={<AccountCircle />}>{username}</Button>
+                        <div>
+                            <Button onClick={handleUserMenu} sx={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}} id="usernameToolbar" color="inherit" startIcon={<AccountCircle />}>{username}</Button>
+                            <Menu
+                                id="menuUser"
+                                anchorEl={anchorUser}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'center',
+                                }
+                                }
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'center',
+                                }
+                                }
+                                open={Boolean(anchorUser)}
+                                onClose={handleUserMenuClose}
+
+                            >
+                                <MenuItem onClick={handleLogout}>
+                                    Logout
+                                </MenuItem>
+                            </Menu>
+                        </div>
                     </div>
                 </Toolbar>
             </div>
@@ -160,13 +181,13 @@ function Dashboard(){
                             </div>
                             <div className="list-group">
                                 <ul id="listBuchungen">
-                                    {buchung.map((data) => (
-                                        <li id="oneBuchungItem" key={data.id} onClick={handlePopupBuchung}>
-                                            <AssignmentTurnedIn />
-                                            <span><strong>{data.name}</strong></span>
-                                            <p>Date: {data.date}</p>
-                                        </li>
-                                    ))}
+                                        {bookedRooms.map((data) => (
+                                                <li id="oneBuchungItem" key={data.ID} onClick={handlePopupBuchung}>
+                                                    <AssignmentTurnedIn />
+                                                    <span><strong>{data.Name}</strong></span>
+                                                    <p>Date: {data.Date}</p>
+                                                </li>
+                                            ))}
                                 </ul>
                             </div>
                         </div>

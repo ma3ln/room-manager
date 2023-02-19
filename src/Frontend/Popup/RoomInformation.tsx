@@ -62,6 +62,7 @@ const RoomInformation = ({ onBookingRoomItem}) => {
             bookedRooms.push(bookedRoom);
             console.log(bookedRooms);
         }
+        localStorage.setItem("bookedRooms", JSON.stringify(bookedRoom));
     }
 
     const [selectedClass, setSelectedClass] = React.useState({className: ''})

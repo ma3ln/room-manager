@@ -18,15 +18,12 @@ function Register()  {
 
     var activeIndex = 0;
     const flipcard = document.getElementsByClassName("flip-card");
+    const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
+    const [show, setShow] = React.useState(false);
+    const [showNoInputError, setShowNoInputError] = React.useState(false);
 
 
         function handleRegister(event: React.MouseEvent<HTMLButtonElement>) {
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const [show, setShow] = React.useState(false);
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const [showNoInputError, setShowNoInputError] = React.useState(false);
             var username = (document.getElementById("input-with-account-icon-register")! as HTMLInputElement).value
             var password = (document.getElementById("input-with-password-icon-register")! as HTMLInputElement).value
             var mail = (document.getElementById("input-for-email")! as HTMLInputElement).value
