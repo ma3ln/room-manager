@@ -22,6 +22,23 @@
   width: 100%;
 }
 
+#middlePage {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+#sidebar {
+  width: 17vw;
+  height: 90vh;
+}
+
+#main {
+  height: 90vh;
+  width: 83vw;
+}
+
 .Sidebare{
   float: left;
   align-items: center;

@@ -43,7 +43,7 @@
 
 .contentDashboard {
     height: 90vh;
-    width: 82vw;
+    width: 83vw;
     background-color: #f6fcfe !important;
 }
 
@@ -67,6 +67,28 @@
     align-content: center;
     justify-content: center;
     align-items: center;
+}
+
+#placeholderStyle {
+    width: 100%;
+    height: 40%;
+    border-radius: 15px;
+    background-color: #7890a0;
+    border: #365D73 dotted 3px;
+    margin-top: 10%;
+}
+
+#personaleInformation {
+    border-radius: 15px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+    width: 26vw;
+    height: 38vh;
+    border-top: #365D73 solid 7px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
 }
 
 #SidebareDashboard {
@@ -173,16 +195,7 @@
 }
 
 #personal-information {
-    border-radius: 15px;
-    background-color: #FFFFFF;
-    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
-    width: 26vw;
-    height: 38vh;
-    border-top: #365D73 solid 7px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
+    height: 80%;
 }
 
 

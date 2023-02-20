@@ -1,0 +1,7 @@
+#sidebarDashboard {
+    height: 90vh;
+    background-color: #bac6ce;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}

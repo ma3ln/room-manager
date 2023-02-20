@@ -142,12 +142,21 @@ func register(w http.ResponseWriter, r *http.Request) {
 
 }
 
+type Booked struct {
+	Date      string `bson:"date"`
+	StartTime string `bson:"startTime"`
+	EndTime   string `bson:"endTime"`
+}
+
 func room(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	name := r.FormValue("name")
 	capacity := r.FormValue("capacity")
+	date := r.FormValue("date")
+	startTime := r.FormValue("startTime")
+	endTime := r.FormValue("endTime")
 	attribut := r.FormValue("attribut")
 	location := r.FormValue("location")
 	haus := r.FormValue("haus")
@@ -158,8 +167,13 @@ func room(w http.ResponseWriter, r *http.Request) {
 	roommanager := client.Database("roomManager")
 	userColl := roommanager.Collection("Room")
 
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	}
+
 	_, err := userColl.InsertOne(ctx, bson.D{
 		{Key: "name", Value: name},
+		{Key: "booked", Value: Booked{date, startTime, endTime}},
 		{Key: "capacity", Value: capacity},
 		{Key: "attribut", Value: attribut},
 		{Key: "location", Value: location},
@@ -167,8 +181,11 @@ func room(w http.ResponseWriter, r *http.Request) {
 		{Key: "ebene", Value: ebene},
 	})
 	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	w.WriteHeader(http.StatusCreated)
 
 }
 

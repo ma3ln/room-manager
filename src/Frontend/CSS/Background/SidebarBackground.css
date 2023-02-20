@@ -5,8 +5,8 @@
      height: 10vh;
      width: 5vw;
      position: absolute;
-     bottom: -3%;
-      left: -1%;
+     bottom: -7%;
+     left: -2%;
      transform: rotate(0);
  }
 
@@ -17,7 +17,7 @@
       height: 5vh;
       width: 2.5vw;
       position: absolute;
-      left: 3%;
-      bottom: -2%;
+      bottom: -5%;
+      left: 1.5%;
       transform: rotate(40deg);
  }

@@ -1,24 +1,14 @@
 
 
 #contentBoxesNewRooms {
-    position: absolute;
-    top: 15%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 80%;
-    height: 80%;
-}
-
-.toolbar {
     position: relative;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
 }
+
 
 .layoutNewRooms {
     display: flex;
@@ -47,15 +37,11 @@
 
 
 .contentNewRooms {
-    height: 100vh;
+    height: 90vh;
+    width: 83vw;
     background-color: #f6fcfe !important;
 }
 
-.footerNewRooms {
-    height: 4vh;
-    width: 100vw;
-    background-color: #252525;
-}
 
 .css-1hcuyf4-MuiButtonBase-root-MuiIconButton-root #addNewRoom {
     position: relative;
@@ -99,9 +85,14 @@
 }
 
 #newBuchungen {
-    margin-left: 10%;
-    width: 50%;
+    margin-left: 5%;
+    width: 45%;
     height: 90%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 #newRoomInput {
@@ -110,12 +101,14 @@
     position: relative;
     border-top: #365D73 solid 7px;
     border-radius: 15px;
+    display: flex;
     height: 60vh;
     flex-direction: column;
     align-content: center;
     justify-content: center;
     overflow-y: scroll;
     align-items: center;
+    flex-wrap: nowrap;
 }
 
 #newRoomInput::-webkit-scrollbar {
@@ -140,12 +133,18 @@
 #boxFilterButton {
     width: 100%;
     margin-top: 5%;
-    margin-bottom: 10%;
+    margin-bottom: 5%;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 #newBuchungenBoxes {
     width: 36vw;
     height: 100%;
+    margin-top: 3%;
+    margin-bottom: 3%;
     overflow-y: scroll;
 }
 
