@@ -1,11 +1,7 @@
 import React, {MouseEvent, useCallback, useEffect} from "react";
 import "./CSS/App/NewRooms.css";
 import {Button, IconButton, Menu, MenuItem, Toolbar, Tooltip} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import {AccountCircle, QuestionMark, PersonAddAlt, Category, HouseSiding} from "@mui/icons-material";
-import Sidebars from "./Sidebars";
-import SidebarBackground from "./Background/SidebarBackground";
-import {Add} from "@mui/icons-material";
+import {PersonAddAlt, Category, HouseSiding} from "@mui/icons-material";
 import TextField from "@mui/material/TextField";
 import dayjs, {Dayjs} from "dayjs";
 import {LocalizationProvider, TimePicker} from "@mui/x-date-pickers";
@@ -28,13 +24,15 @@ function NewRooms() {
     const username = "TestUser!";
     let newId: string;
     let bookingID;
+    /*
     let bookingName;
     let bookingLocation;
     let bookingCapacity;
     let bookingAttribut;
     let bookingHaus;
-    let bookingEbene;
-    const [bookingInfoData, setBookingInfoData] = React.useState({name: '', capacity: 1, attribut: '', location: '', haus: '', ebene: 1});
+    let bookingEbene; */
+    const [loadedRooms, setLoadedRooms] = React.useState([{ID: "", Name: "", }]);
+    //const [bookingInfoData, setBookingInfoData] = React.useState({name: '', capacity: 1, attribut: '', location: '', haus: '', ebene: 1});
     const [anchorUser, setAnchorUser] = React.useState<null | HTMLElement>(null)
     const [openRoomPopup, setOpenRoomPopup] = React.useState(false);
     const closeRoomPopup = () => setOpenRoomPopup(false);
@@ -56,18 +54,7 @@ function NewRooms() {
         }
     }
 
-    function handleLogout() {
-        localStorage.setItem("isLoggedIn", "null")
-        localStorage.setItem("isLoggegIn", "null")
-        navigate("/login")
-    }
-    const handleUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorUser(event.currentTarget);
-    }
 
-    const handleUserMenuClose = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAnchorUser(null)
-    }
     /**
     function getRooms() {
         fetch("./resources/rooms.json")
@@ -119,7 +106,7 @@ function NewRooms() {
     function handleDateChange(newValue: Dayjs | null) {
         setDate(newValue);
     }
-
+/*
     function saveSelectedRoomData(name: string) {
         for ( let i = 0; i< rooms.length; i++) {
             if(name === rooms[i].name) {
@@ -135,106 +122,12 @@ function NewRooms() {
             }
         }
     }
-
+*/
     useEffect(() => {
-        console.log( "Updated", bookingInfoData)
-    }, [bookingInfoData])
-
-
-    const bookedTimes = [
-        {
-            "date": "05/16/2023",
-            "startTime": "13:00",
-            "endTime": "15:00",
-            "booked": [
-                {
-                    "bool": "no"
-                }
-            ]
-        },
-        {
-            "date": "09/20/2023",
-            "startTime": "15:00",
-            "endTime": "16:00 ",
-            "booked": [
-                {
-                    "bool": "yes"
-                }
-            ]
-        },
-        {
-            "date": "05/16/2023",
-            "startTime": "14:00",
-            "endTime": "16:00",
-            "booked": [
-                {
-                    "bool": "no"
-                }
-            ]
-        },
-        {
-            "date": "07/28/2023",
-            "startTime": "10:00",
-            "endTime": "12:00",
-            "booked": [
-                {
-                    "bool": "yes"
-                }
-            ]
-        }
-    ]
-
-    const newBookedTimes: { date: string; startTime: string; endTime: string; }[] = [];
-
-    function testDateAndTime() {
-        console.log(dayjs("02/13/2023").format("DD/MM/YYYY"))
-        console.log(dayjs("02/13/2023").format("DD/MM/YYYY"))
-        if (dayjs("02/13/2023").isSame(dayjs("02/13/2023"))) {
-            console.log("comparison between dates is correct")
-        } else {
-            console.log("comparison between dates is not correct")
-        }
-
-        console.log(dayjs("12:00", "hh:mm"))
-        console.log(dayjs("10:00", "hh:mm"))
-        if (dayjs("12:00", "hh:mm").isAfter(dayjs("10:00", "hh:mm"))) {
-            console.log("comparison if time is after is correct")
-        } else {
-            console.log("comparison if time is after is incorrect")
-        }
-
-        console.log(dayjs("10:00", "hh:mm"))
-        console.log(dayjs("12:00", "hh:mm"))
-        if (dayjs("10:00", "hh:mm").isBefore(dayjs("12:00", "hh:mm"))) {
-            console.log("comparison if time is before is correct")
-        } else {
-            console.log("comparison if time is before is incorrect")
-        }
-        console.log(dayjs("05/16/2023", "MM/DD/YYYY"))
-        for(let i = 0; i < bookedTimes.length; i++) {
-            if(bookedTimes.filter(value => value.booked.values.toString() === "yes")) {
-                bookedTimes.splice(i, 1)
-            }
-        }
-        console.log(bookedTimes);
-    }
-
-
-    function handleNewRoom() {
-        const filterForRoomDisplay = (document.getElementById("newRoomInput")! as HTMLDivElement);
-        const roomBoxes = (document.getElementById("newBuchungenBoxes")! as HTMLDivElement);
-        if(filterForRoomDisplay.style.display === 'none') {
-            filterForRoomDisplay.style.display = "flex"
-        } else {
-            filterForRoomDisplay.style.display = "none"
-        }
-
-        if (roomBoxes.style.display === 'none') {
-            roomBoxes.style.display = 'block'
-        } else {
-            roomBoxes.style.display = "none"
-        }
-    }
+        fetch("http://localhost:8081/newrooms")
+            .then((response) => response.json())
+            .then((data) => setLoadedRooms(data))
+    }, [])
 
 
     function filterRooms() {
@@ -247,7 +140,7 @@ function NewRooms() {
                 newRooms.ebene === parseInt((document.getElementById("floor")! as HTMLInputElement).innerHTML);
         });
         console.log(newFilteredRooms)
-
+/*
         let filterTimeAndDate = newFilteredRooms.filter((attributeFilteredRoom) => {
             if (attributeFilteredRoom.booked.some(({ date }) => (dayjs(date, "MM/DD/YYYY") === dayjs((document.getElementById("date")! as HTMLInputElement).value, "MM/DD/YYYY")))) {
                 var startAndEndFilterBetween = attributeFilteredRoom.booked.some(({ startTime, endTime }) => (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isAfter(dayjs(startTime, "hh:mm"))
@@ -264,91 +157,21 @@ function NewRooms() {
                 return attributeFilteredRoom
             }
             return attributeFilteredRoom
-        })
-        console.log(filterTimeAndDate)
+        }) */
     }
 
 
 
 
     return(
-        <div className="layoutNewRooms">
-            <div className="headerNewRooms">
-            <Toolbar sx={{height: '100%'}} className="toolbar">
-                <IconButton
-                    size="large"
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{ mr: 2}}
-                >
-                    <MenuIcon />
-                </IconButton>
-                <div id="spaceInToolBar"></div>
-                <div id="rightAlignToolbarButtons">
-                    <IconButton
-                        onClick={testDateAndTime}
-                        id="iconButtonHelp"
-                        size="large"
-                        color="inherit"
-                        aria-label="Help"
-                        aria-haspopup="true"
-                        aria-controls="menu-appbar"
-                        sx={{ mr: 2  }}
-                    >
-                        <QuestionMark/>
-                    </IconButton>
-                    <div>
-                        <Button onClick={handleUserMenu} sx={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}} id="usernameToolbar" color="inherit" startIcon={<AccountCircle />}>{localStorage.getItem("username")}</Button>
-                        <Menu
-                            id="menuUser"
-                            anchorEl={anchorUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }
-                            }
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }
-                            }
-                            open={Boolean(anchorUser)}
-                            onClose={handleUserMenuClose}
 
-                        >
-                            <MenuItem onClick={handleLogout}>
-                                Logout
-                            </MenuItem>
-                        </Menu>
-                    </div>
-                </div>
-            </Toolbar>
-
-        </div>
-            <div className="mainNewRooms">
-                <div className="sidebarNewRooms">
-                    <div id="SidebareDashboard">
-                        <Sidebars />
-                    </div>
-                    <div>
-                        <SidebarBackground />
-                    </div>
-                </div>
                 <div className="contentNewRooms">
                     <div id="contentBoxesNewRooms">
                         <div id="newBuchungen">
                             <div id="textNeueBuchungen">
                                 <h1>Neue Raumbuchung</h1>
                             </div>
-                            <div id="boxNewRoomButton">
-                                <Tooltip title={" Mich drücken um eine neue Buchung zu erstellen"} placement={"right"} sx={{color: '#bac6ce'}}>
-                                    <IconButton onClick={handleNewRoom} id="addNewRoom" sx={{ height: 70, width: 70, padding: 1, margin: '2%', marginLeft: '5%', marginTop: '5%'}} >
-                                        <Add sx={{height: '120%', width: '120%'}}/>
-                                    </IconButton>
-                                </Tooltip>
-                            </div>
-                            <div id="newRoomInput" hidden={true}>
+                            <div id="newRoomInput">
                                 <div id="filter">
                                     <div id="leftFilter">
                                         <div className="leftBoxFilter">
@@ -444,25 +267,25 @@ function NewRooms() {
                                 </div>
                             </div>
                         </div>
-                        <div id="newBuchungenBoxes" hidden={true}>
+                        <div id="newBuchungenBoxes" >
                             <ul id="buchungRaumColumns">
-                                {rooms.map((rooms) => (
-                                    <li id="raum" key={rooms.name} onClick={event => {setOpenRoomPopup(true); saveSelectedRoomData(rooms.name); handleBackgroundBlur()}}>
+                                {loadedRooms.map((loadedRoom) => (
+                                    <li id="raum" key={loadedRoom.ID} onClick={event => {setOpenRoomPopup(true); handleBackgroundBlur()}}>
                                         <div id="headerWithRoomTitle">
-                                            <h3 id="textRoomName">{rooms.name}</h3>
+                                            <h3 id="textRoomName">{loadedRoom.Name}</h3>
                                         </div>
                                         <div className="informationRoomInList ">
                                             <div>
                                                 <PersonAddAlt />
-                                                <p className="informationTextForRoomInList">Kapazität: {rooms.capacity}</p>
+                                                <p className="informationTextForRoomInList">Kapazität: {}</p>
                                             </div>
                                             <div>
                                                 <Category />
-                                                <p className="informationTextForRoomInList">{rooms.attribut}</p>
+                                                <p className="informationTextForRoomInList">{}</p>
                                             </div>
                                             <div>
                                                 <HouseSiding />
-                                                <p className="informationTextForRoomInList">Hausflur: {rooms.haus}</p>
+                                                <p className="informationTextForRoomInList">Hausflur: {}</p>
                                             </div>
                                         </div>
                                     </li>
@@ -470,7 +293,7 @@ function NewRooms() {
                             </ul>
                             <div id="modal">
                                 <Popup open ={openRoomPopup}  closeOnDocumentClick={false}>
-                                    <RoomInformation onBookingRoomItem={bookingInfoData} />
+                                    <RoomInformation onBookingRoomItem={loadedRooms} />
                                     <div id="clickToCloseRoomBooking">
                                         <Button onClick={() => {closeRoomPopup(); handleNoBlurBackground()}} >Close</Button>
                                     </div>
@@ -479,11 +302,6 @@ function NewRooms() {
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="footerNewRooms">
-
-            </div>
-    </div>
     )
 }
 

@@ -1,0 +1,15 @@
+.toolbar {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.headerDashboard {
+    width: 100vw;
+    height: 7vh;
+    background-color: #365D73 !important;
+}

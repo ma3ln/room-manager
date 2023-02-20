@@ -6,7 +6,6 @@ function SidebarBackground() {
         <div>
             <div id="sidebarcircle1"></div>
             <div id="sidebarcircle2"></div>
-            <div id="sidebarcircle3"></div>
         </div>
     );
 }
