@@ -65,7 +65,7 @@ function AddRoom() {
     return (
                 <div className="contentAddRoom">
                     <div id="layoutAddRoomContent">
-                        <div id="addRoomButton">
+                        <div id="addRoomTitle">
                             <div id="textNeuerRaum">
                                 <h1>Neuer Raum</h1>
                             </div>
@@ -140,7 +140,7 @@ function AddRoom() {
                                         </TextField>
                                     </div>
                                 </div>
-                                <div>
+                                <div id="addRoomButton">
                                     <Button onClick={addRoom}>Add A New Room</Button>
                                 </div>
                             </div>

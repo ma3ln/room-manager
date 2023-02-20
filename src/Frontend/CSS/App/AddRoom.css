@@ -27,7 +27,7 @@
     justify-content: space-evenly;
 }
 
-#addRoomButton {
+#addRoomTitle {
     position: relative;
     display: flex;
     width: 39%;
@@ -78,7 +78,7 @@
     background-color: #FFFFFF;
     border-top: #365D73 solid 7px;
     box-shadow: 1px 0 17px 0 #606060;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: space-around;
 }
 
@@ -86,10 +86,16 @@
     position: relative;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 #textNeuerRaum {
     font-size: 200%;
     height: 20%;
 
+}
+
+#addRoomButton {
+    display: flex;
+    justify-content: center;
 }
