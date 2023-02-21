@@ -2,7 +2,7 @@ import React from "react";
 import {Button, MenuItem, TextField} from "@mui/material";
 import {DesktopDatePicker, LocalizationProvider, TimePicker} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {Dayjs} from "dayjs";
+import dayjs, {Dayjs} from "dayjs";
 import "../CSS/Popup/RoomInformation.css";
 import Popup from "reactjs-popup";
 import myClass from "../resources/myClass.json";
@@ -120,15 +120,35 @@ const RoomInformation = ({ onBookingRoomItem}) => {
                         </div>
                         <div id="rightBookingInfoPopup">
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DesktopDatePicker label="Datum" className="rightBoxesRoomBooking" inputFormat="MM/DD/YYYY" onChange={handleDateChange} value={date} renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomDate"
+                                <DesktopDatePicker
+                                    label="Datum"
+                                    className="rightBoxesRoomBooking"
+                                    inputFormat="MM/DD/YYYY"
+                                    onChange={handleDateChange}
+                                    value={date}
+                                    renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomDate"
                                 />} />
                             </LocalizationProvider>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <TimePicker label="Start Time" className="rightBoxesRoomBooking" onChange={handleStartTimeChange} value={startTime} renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomStartTime"/>}
+                                <TimePicker
+                                    minTime={dayjs("08:00", "hh:mm")}
+                                    maxTime={dayjs("17:00", "hh:mm")}
+                                    label="Start Time"
+                                    className="rightBoxesRoomBooking"
+                                    onChange={handleStartTimeChange}
+                                    value={startTime}
+                                    renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomStartTime"/>}
                                 />
                             </LocalizationProvider>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <TimePicker label="End Time" className="rightBoxesRoomBooking" onChange={handleEndTimeChange} value={endTime} renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomEndTime"/>}
+                                <TimePicker
+                                    label="End Time"
+                                    minTime={dayjs("09:00", "hh:mm")}
+                                    maxTime={dayjs("18:00", "hh:mm")}
+                                    className="rightBoxesRoomBooking"
+                                    onChange={handleEndTimeChange}
+                                    value={endTime}
+                                    renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomEndTime"/>}
                                 />
                             </LocalizationProvider>
                         </div>

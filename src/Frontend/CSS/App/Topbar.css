@@ -8,6 +8,47 @@
     align-items: center;
 }
 
+@media (min-width: 600px) {
+    .css-1972wl8-MuiToolbar-root {
+        min-height: 0;
+    }
+}
+
+
+@media (min-width: 0px) {
+    @media (orientation: landscape) {
+        .css-1972wl8-MuiToolbar-root {
+            min-height: 0;
+        }
+    }
+}
+@media (min-width: 600px) {
+    .css-1972wl8-MuiToolbar-root {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+
+.css-1972wl8-MuiToolbar-root {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    /* min-height: 56px; */
+    height: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
 .headerDashboard {
     width: 100vw;
     height: 7vh;
