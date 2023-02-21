@@ -5,6 +5,9 @@ import {AssignmentTurnedIn} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 
 import bookedRooms from "./resources/bookedRooms.json"
+import Popup from "reactjs-popup";
+import RoomInformation from "./Popup/RoomInformation";
+import {Button} from "@mui/material";
 
 function Dashboard(){
 
@@ -40,8 +43,18 @@ function Dashboard(){
     }
 
     const navigate = useNavigate();
-
+    const [loadedRooms, setLoadedRooms] = React.useState([{ID: "", Name: "", }]);
+    const [openBookingPopup, setOpenBookingPopup] = React.useState(false);
+    const closeBookingPopup = () => setOpenBookingPopup(false);
     console.log(localStorage.getItem("isLoggedIn"))
+
+    function handleBackgroundBlur() {
+        (document.getElementById("root")! as HTMLElement).style.filter = 'blur(5px)'
+    }
+
+    function handleNoBlurBackground() {
+        (document.getElementById("root")! as HTMLElement).style.filter = 'none'
+    }
 
     function handleLoad() {
         if(localStorage.getItem("isLoggedIn") !== "1") {
@@ -100,13 +113,21 @@ function Dashboard(){
                             <div className="list-group">
                                 <ul id="listBuchungen">
                                         {bookedRooms.map((data) => (
-                                                <li id="oneBuchungItem" key={data.ID} onClick={handlePopupBuchung}>
+                                                <li id="oneBuchungItem" key={data.ID} onClick={event => {setOpenBookingPopup(true); handleBackgroundBlur()}}>
                                                     <AssignmentTurnedIn />
                                                     <span><strong>{data.Name}</strong></span>
                                                     <p>Date: {data.Date}</p>
                                                 </li>
                                             ))}
                                 </ul>
+                                <div id="modal">
+                                    <Popup open={openBookingPopup}  closeOnDocumentClick={false}>
+                                        <RoomInformation onBookingRoomItem={loadedRooms} />
+                                        <div id="clickToCloseRoomBooking">
+                                            <Button onClick={() => {closeBookingPopup(); handleNoBlurBackground()}} >Close</Button>
+                                        </div>
+                                    </Popup>
+                                </div>
                             </div>
                         </div>
                     </div>
