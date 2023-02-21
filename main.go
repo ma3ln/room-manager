@@ -1,9 +1,11 @@
 package main
 
 import (
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"net/http"
@@ -41,9 +43,35 @@ func BsonMapToArray(m bson.M) map[string]string {
 		s, ok := v.(string)
 		if ok {
 			arr[a] = s
+		} else if s, ok := v.(primitive.ObjectID); ok {
+			arr[a] = hex.EncodeToString(s[:])
 		}
 	}
 	return arr
+}
+
+func getRooms(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	client, ctx := dbcon.Dbconect()
+
+	roommanager := client.Database("roomManager")
+	userColl := roommanager.Collection("Room")
+
+	var result bson.M
+	err := userColl.FindOne(ctx, bson.M{}).Decode(&result)
+
+	if err == mongo.ErrNoDocuments {
+		fmt.Println("no Docs found")
+	} else if err != nil {
+		log.Fatal(err)
+	}
+
+	arr := BsonMapToArray(result)
+
+	fmt.Println(arr)
+
+	fmt.Fprintf(w, "Rooms", arr)
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
@@ -162,6 +190,8 @@ func room(w http.ResponseWriter, r *http.Request) {
 	haus := r.FormValue("haus")
 	ebene := r.FormValue("ebene")
 
+	fmt.Println(name, capacity, attribut, location, haus, ebene)
+
 	client, ctx := dbcon.Dbconect()
 
 	roommanager := client.Database("roomManager")
@@ -193,6 +223,7 @@ func handleRequests() {
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/register", register)
 	http.HandleFunc("/addroom", room)
+	http.HandleFunc("/getroom", getRooms)
 	http.ListenAndServe(":8081", nil)
 }
 

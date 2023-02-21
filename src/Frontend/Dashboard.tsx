@@ -14,13 +14,13 @@ function Dashboard(){
     const username = localStorage.getItem("username");
 
 
-    useEffect(() => {
+    /*useEffect(() => {
         const interval = setInterval(() => {
             // @ts-ignore
         }, );
 
         return () => clearInterval(interval)
-    }, []);
+    }, []);*/
 
 
 
