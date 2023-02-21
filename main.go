@@ -1,9 +1,12 @@
 package main
 
 import (
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"net/http"
 	dbcon "room-manager/src/Backend"
@@ -18,6 +21,7 @@ type Login struct {
 	user     string
 	password string
 }
+
 type Termine []Termin
 
 func alleTermine(w http.ResponseWriter, r *http.Request) {
@@ -33,6 +37,43 @@ func alleTermine(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(termine)
 }
 
+func BsonMapToArray(m bson.M) map[string]string {
+	arr := make(map[string]string)
+	for a, v := range m {
+		s, ok := v.(string)
+		if ok {
+			arr[a] = s
+		} else if s, ok := v.(primitive.ObjectID); ok {
+			arr[a] = hex.EncodeToString(s[:])
+		}
+	}
+	return arr
+}
+
+func getRooms(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	client, ctx := dbcon.Dbconect()
+
+	roommanager := client.Database("roomManager")
+	userColl := roommanager.Collection("Room")
+
+	var result bson.M
+	err := userColl.FindOne(ctx, bson.M{}).Decode(&result)
+
+	if err == mongo.ErrNoDocuments {
+		fmt.Println("no Docs found")
+	} else if err != nil {
+		log.Fatal(err)
+	}
+
+	arr := BsonMapToArray(result)
+
+	fmt.Println(arr)
+
+	fmt.Fprintf(w, "Rooms", arr)
+}
+
 func login(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -45,25 +86,32 @@ func login(w http.ResponseWriter, r *http.Request) {
 	roommanager := client.Database("roomManager")
 	userColl := roommanager.Collection("User")
 
-	filterCursor, err := userColl.Find(ctx, bson.M{"username": user})
-	if err != nil {
+	var result bson.M
+	err := userColl.FindOne(ctx, bson.M{"username": user}).Decode(&result)
+
+	if err == mongo.ErrNoDocuments {
+		fmt.Println("no Docs found")
+	} else if err != nil {
 		log.Fatal(err)
 	}
 
-	var userFiltered []bson.M
-	if err = filterCursor.All(ctx, &userFiltered); err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(userFiltered[0]["password"])
+	arr := BsonMapToArray(result)
 
-	//w.WriteHeader(http.StatusOK)
+	fmt.Println(arr)
 
-	if password == userFiltered[0]["password"] {
-		fmt.Fprintf(w, "Login Succesful")
-		w.WriteHeader(http.StatusOK)
-		return
+	if len(arr) > 0 {
+		if password == arr["password"] {
+			fmt.Println("login")
+			fmt.Fprintf(w, "Login Succesful")
+			w.WriteHeader(http.StatusOK)
+			return
+		} else {
+			http.Error(w, "Fehler!!!", http.StatusBadRequest)
+			fmt.Println("wrong pw")
+		}
 	} else {
 		http.Error(w, "Fehler!!!", http.StatusBadRequest)
+		fmt.Println("user not found")
 	}
 
 }
@@ -122,25 +170,18 @@ func register(w http.ResponseWriter, r *http.Request) {
 
 }
 
-type Booked struct {
-	Date      string `bson:"date"`
-	StartTime string `bson:"startTime"`
-	EndTime   string `bson:"endTime"`
-}
-
 func room(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	name := r.FormValue("name")
 	capacity := r.FormValue("capacity")
-	date := r.FormValue("date")
-	startTime := r.FormValue("startTime")
-	endTime := r.FormValue("endTime")
 	attribut := r.FormValue("attribut")
 	location := r.FormValue("location")
 	haus := r.FormValue("haus")
 	ebene := r.FormValue("ebene")
+
+	fmt.Println(name, capacity, attribut, location, haus, ebene)
 
 	client, ctx := dbcon.Dbconect()
 
@@ -153,7 +194,6 @@ func room(w http.ResponseWriter, r *http.Request) {
 
 	_, err := userColl.InsertOne(ctx, bson.D{
 		{Key: "name", Value: name},
-		{Key: "booked", Value: Booked{date, startTime, endTime}},
 		{Key: "capacity", Value: capacity},
 		{Key: "attribut", Value: attribut},
 		{Key: "location", Value: location},
@@ -165,14 +205,13 @@ func room(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusCreated)
-
 }
 
 func handleRequests() {
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/register", register)
 	http.HandleFunc("/addroom", room)
+	http.HandleFunc("/getroom", getRooms)
 	http.ListenAndServe(":8081", nil)
 }
 

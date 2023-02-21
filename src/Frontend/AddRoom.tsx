@@ -17,22 +17,20 @@ function AddRoom() {
     const [anchorUser, setAnchorUser] = React.useState<null | HTMLElement>(null)
 */
     function addRoom() {
+        var name = ((document.getElementById("newRoomName")! as HTMLInputElement).value)
+        var capacity = ((document.getElementById("newRoomCapacity")! as HTMLInputElement).value)
+        var attribut = ((document.getElementById("newRoomAttribut")! as HTMLInputElement).innerHTML)
+        var location =  ((document.getElementById("newRoomLocation")! as HTMLInputElement).innerHTML)
+        var haus = ((document.getElementById("newRoomHaus")! as HTMLInputElement).innerHTML)
+        var ebene = ((document.getElementById("newRoomEbene")! as HTMLInputElement).innerHTML)
 
-        const room = {
-            name: ((document.getElementById("newRoomName")! as HTMLInputElement).value),
-            booked: [
-                {
-                    date: "",
-                    startTime: "",
-                    endTime: ""
-                }
-            ],
-            capacity: ((document.getElementById("newRoomCapacity")! as HTMLInputElement).value),
-            attribut: ((document.getElementById("newRoomAttribut")! as HTMLInputElement).innerHTML),
-            location: ((document.getElementById("newRoomLocation")! as HTMLInputElement).innerHTML),
-            haus: ((document.getElementById("newRoomHaus")! as HTMLInputElement).innerHTML),
-            ebene: ((document.getElementById("newRoomEbene")! as HTMLInputElement).innerHTML)
-        }
+        const formdata = new FormData();
+        formdata.append("name", name);
+        formdata.append("capacity", capacity);
+        formdata.append("attribut", attribut);
+        formdata.append("location", location);
+        formdata.append("haus", haus);
+        formdata.append("ebene", ebene);
 
 
         if (((document.getElementById("newRoomName")! as HTMLInputElement).value === "")
@@ -45,19 +43,13 @@ function AddRoom() {
         } else {
             fetch("http://localhost:8081/addroom", {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(room),
+                body: formdata,
             })
-                .then((response) => response.json())
-                .then(result => {
-                    console.log("result", result)
+                .then(response => {
+                    console.log("result", response)
                 })
                 .catch(error => {
-                    if(error.response.status === 400) {
-                        window.location.reload();
-                    }
+                    console.log("Error", error)
                 });
         }
     }
@@ -65,7 +57,7 @@ function AddRoom() {
     return (
                 <div className="contentAddRoom">
                     <div id="layoutAddRoomContent">
-                        <div id="addRoomButton">
+                        <div id="addRoomTitle">
                             <div id="textNeuerRaum">
                                 <h1>Neuer Raum</h1>
                             </div>
@@ -140,7 +132,7 @@ function AddRoom() {
                                         </TextField>
                                     </div>
                                 </div>
-                                <div>
+                                <div id="addRoomButton">
                                     <Button onClick={addRoom}>Add A New Room</Button>
                                 </div>
                             </div>
