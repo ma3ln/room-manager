@@ -249,13 +249,27 @@ function NewRooms() {
                                             </div>
                                             <div className="rightBoxFilter">
                                                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
-                                                    <TimePicker label="Start Time" className="startTime" onChange={handleStartTimeChange} value={startTime} renderInput={(params) => <TextField id="startTime" {...params} sx={{width: '100%'}}/>}
+                                                    <TimePicker
+                                                        minTime={dayjs("08:00", "hh:mm")}
+                                                        maxTime={dayjs("17:00", "hh:mm")}
+                                                        label="Start Time"
+                                                        className="startTime"
+                                                        onChange={handleStartTimeChange}
+                                                        value={startTime}
+                                                        renderInput={(params) => <TextField id="startTime" {...params} sx={{width: '100%'}}/>}
                                                     />
                                                 </LocalizationProvider>
                                             </div>
                                             <div className="rightBoxFilter">
                                                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
-                                                    <TimePicker label="End Time" className="endTIme" onChange={handleEndTimeChange} value={endTime} renderInput={(params) => <TextField id="endTime" {...params} sx={{width: '100%'}}/>}
+                                                    <TimePicker
+                                                        minTime={dayjs("10:00", "hh:mm")}
+                                                        maxTime={dayjs("18:00", "hh:mm")}
+                                                        label="End Time"
+                                                        className="endTime"
+                                                        onChange={handleEndTimeChange}
+                                                        value={endTime}
+                                                        renderInput={(params) => <TextField id="endTime" {...params} sx={{width: '100%'}}/>}
                                                     />
                                                 </LocalizationProvider>
                                             </div>

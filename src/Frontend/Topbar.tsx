@@ -37,7 +37,6 @@ export function Topbar() {
                 >
                     <MenuIcon />
                 </IconButton>
-                <div id="spaceInToolBar"></div>
                 <div id="rightAlignToolbarButtons">
                     <IconButton
                         id="iconButtonHelp"
