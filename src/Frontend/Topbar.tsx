@@ -3,6 +3,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import {AccountCircle, QuestionMark} from "@mui/icons-material";
 import React from "react";
 import {useNavigate} from "react-router-dom";
+import "./CSS/App/Topbar.css"
 
 export function Topbar() {
 
@@ -28,7 +29,6 @@ export function Topbar() {
 
     return (
         <div className="headerDashboard">
-            <Toolbar sx={{height: '100%'}} className="toolbar">
                 <IconButton
                     size="large"
                     color="inherit"
@@ -75,7 +75,6 @@ export function Topbar() {
                         </Menu>
                     </div>
                 </div>
-            </Toolbar>
         </div>
     );
 }

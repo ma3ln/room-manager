@@ -58,20 +58,76 @@ func getRooms(w http.ResponseWriter, r *http.Request) {
 	roommanager := client.Database("roomManager")
 	userColl := roommanager.Collection("Room")
 
-	var result bson.M
-	err := userColl.FindOne(ctx, bson.M{}).Decode(&result)
-
-	if err == mongo.ErrNoDocuments {
-		fmt.Println("no Docs found")
-	} else if err != nil {
-		log.Fatal(err)
+	var result []bson.M
+	cur, err := userColl.Find(ctx, bson.M{})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
-	arr := BsonMapToArray(result)
+	defer cur.Close(ctx)
 
-	fmt.Println(arr)
+	for cur.Next(ctx) {
+		var room bson.M
+		if err := cur.Decode(&room); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		result = append(result, room)
+	}
 
-	fmt.Fprintf(w, "Rooms", arr)
+	//arr := BsonMapToArray(result)
+
+	//fmt.Println(arr)
+
+	//fmt.Fprintf(w, "Rooms", arr)
+	if err := cur.Err(); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Convert the results to JSON and write the response
+	jsonBytes, err := json.Marshal(result)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Write(jsonBytes)
+}
+
+func bookRoom(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	roomID := r.FormValue("roomId")
+	name := r.FormValue("name")
+	date := r.FormValue("date")
+	startTime := r.FormValue("startTime")
+	endTime := r.FormValue("endTime")
+
+	fmt.Println(roomID, name, date, startTime, endTime)
+
+	client, ctx := dbcon.Dbconect()
+
+	roommanager := client.Database("roomManager")
+	userColl := roommanager.Collection("Reservation")
+
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	}
+
+	_, err := userColl.InsertOne(ctx, bson.D{
+		{Key: "roomId", Value: roomID},
+		{Key: "name", Value: name},
+		{Key: "date", Value: date},
+		{Key: "startTime", Value: startTime},
+		{Key: "endTime", Value: endTime},
+	})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
@@ -211,6 +267,7 @@ func handleRequests() {
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/register", register)
 	http.HandleFunc("/addroom", room)
+	http.HandleFunc("/bookRoom", bookRoom)
 	http.HandleFunc("/getroom", getRooms)
 	http.ListenAndServe(":8081", nil)
 }

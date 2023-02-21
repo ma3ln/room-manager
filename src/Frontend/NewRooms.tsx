@@ -9,13 +9,15 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DesktopDatePicker} from "@mui/x-date-pickers";
 import Popup from "reactjs-popup";
 import RoomInformation from "./Popup/RoomInformation";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 import haus from"./resources/haus.json";
 import attributes from"./resources/attributes.json";
 import location from "./resources/location.json";
 import ebene from "./resources/ebene.json";
 import rooms from "./resources/rooms.json";
+import {Simulate} from "react-dom/test-utils";
+import load = Simulate.load;
 
 
 function NewRooms() {
@@ -24,15 +26,11 @@ function NewRooms() {
     const username = "TestUser!";
     let newId: string;
     let bookingID;
-    /*
-    let bookingName;
-    let bookingLocation;
-    let bookingCapacity;
-    let bookingAttribut;
-    let bookingHaus;
-    let bookingEbene; */
-    const [loadedRooms, setLoadedRooms] = React.useState([{ID: "", Name: "", }]);
-    //const [bookingInfoData, setBookingInfoData] = React.useState({name: '', capacity: 1, attribut: '', location: '', haus: '', ebene: 1});
+    let myRoom;
+    const [loadedRooms, setLoadedRooms] = React.useState([]);
+    const [selectedRoom, setSelectedRoom] = React.useState([]);
+    const [disabled, setDisabled] = React.useState(true);
+    const [error, setError] = React.useState(null);
     const [anchorUser, setAnchorUser] = React.useState<null | HTMLElement>(null)
     const [openRoomPopup, setOpenRoomPopup] = React.useState(false);
     const closeRoomPopup = () => setOpenRoomPopup(false);
@@ -54,6 +52,32 @@ function NewRooms() {
         }
     }
 
+    useEffect(() => {
+        fetch("http://localhost:8081/getroom")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then(loadedRooms => {
+                console.log("LoadedRoom", loadedRooms);
+                console.log(loadedRooms[0].name)
+                console.log(loadedRooms.map((room: { name: string; _id: string }) =>
+                    room._id
+                ))
+                console.log(loadedRooms[1]._id);
+                console.log(loadedRooms.filter((room: { name: any; }) =>
+                    room.name === "R20"
+                ))
+                setLoadedRooms(loadedRooms)
+            })
+            .catch(error => {
+                console.error(error);
+                setError(error);
+            });
+        }, []);
+
 
     /**
     function getRooms() {
@@ -74,6 +98,12 @@ function NewRooms() {
     setInterval(() => {
         handleLoad();
     }, 10);
+
+
+    function handleAbleEndTimePicker() {
+        setDisabled(false);
+        console.log(disabled)
+    }
 
     const [startTime, setStartTime] = React.useState<Dayjs | null>(
 
@@ -123,12 +153,14 @@ function NewRooms() {
         }
     }
 */
-    useEffect(() => {
-        fetch("http://localhost:8081/newrooms")
-            .then((response) => response.json())
-            .then((data) => setLoadedRooms(data))
-    }, [])
 
+    function SelectedRoom(room: { _id: string; name: string; capacity: number; attribut: string; location: string }) {
+        setSelectedRoom(loadedRooms.filter((selecRoom: { _id: string }) => (
+            selecRoom._id === room._id
+        )))
+        console.log(room._id)
+        console.log(selectedRoom)
+    }
 
     function filterRooms() {
         // filter through set filters of Attribut/Capacity/Location/Haus/Ebene
@@ -162,9 +194,7 @@ function NewRooms() {
 
 
 
-
     return(
-
                 <div className="contentNewRooms">
                     <div id="contentBoxesNewRooms">
                         <div id="newBuchungen">
@@ -254,7 +284,7 @@ function NewRooms() {
                                                         maxTime={dayjs("17:00", "hh:mm")}
                                                         label="Start Time"
                                                         className="startTime"
-                                                        onChange={handleStartTimeChange}
+                                                        onChange={(e) => {handleStartTimeChange(e); handleAbleEndTimePicker()}}
                                                         value={startTime}
                                                         renderInput={(params) => <TextField id="startTime" {...params} sx={{width: '100%'}}/>}
                                                     />
@@ -263,7 +293,8 @@ function NewRooms() {
                                             <div className="rightBoxFilter">
                                                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                                                     <TimePicker
-                                                        minTime={dayjs("10:00", "hh:mm")}
+                                                        minTime={dayjs(startTime, "hh:mm")}
+                                                        disabled={disabled}
                                                         maxTime={dayjs("18:00", "hh:mm")}
                                                         label="End Time"
                                                         className="endTime"
@@ -283,23 +314,23 @@ function NewRooms() {
                         </div>
                         <div id="newBuchungenBoxes" >
                             <ul id="buchungRaumColumns">
-                                {loadedRooms.map((loadedRoom) => (
-                                    <li id="raum" key={loadedRoom.ID} onClick={event => {setOpenRoomPopup(true); handleBackgroundBlur()}}>
-                                        <div id="headerWithRoomTitle">
-                                            <h3 id="textRoomName">{loadedRoom.Name}</h3>
+                                {loadedRooms.map((room: {_id: string; name: string; capacity: number; attribut: string; location: string}) => (
+                                    <li id={room._id} className="raum" key={room.name} onClick={event => {setOpenRoomPopup(true); handleBackgroundBlur(); SelectedRoom(room)}}>
+                                        <div  id="headerWithRoomTitle">
+                                            <h3  id="textRoomName">{room.name}</h3>
                                         </div>
                                         <div className="informationRoomInList ">
                                             <div>
                                                 <PersonAddAlt />
-                                                <p className="informationTextForRoomInList">Kapazität: {}</p>
+                                                <p className="informationTextForRoomInList">Kapazität: {room.capacity}</p>
                                             </div>
                                             <div>
                                                 <Category />
-                                                <p className="informationTextForRoomInList">{}</p>
+                                                <p className="informationTextForRoomInList">{room.attribut}</p>
                                             </div>
                                             <div>
                                                 <HouseSiding />
-                                                <p className="informationTextForRoomInList">Hausflur: {}</p>
+                                                <p className="informationTextForRoomInList">Location: {room.location}</p>
                                             </div>
                                         </div>
                                     </li>
@@ -307,7 +338,7 @@ function NewRooms() {
                             </ul>
                             <div id="modal">
                                 <Popup open ={openRoomPopup}  closeOnDocumentClick={false}>
-                                    <RoomInformation onBookingRoomItem={loadedRooms} />
+                                    <RoomInformation onBookingRoomItem={selectedRoom} />
                                     <div id="clickToCloseRoomBooking">
                                         <Button onClick={() => {closeRoomPopup(); handleNoBlurBackground()}} >Close</Button>
                                     </div>
