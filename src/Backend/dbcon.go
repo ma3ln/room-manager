@@ -17,7 +17,7 @@ func check(e error) {
 }
 
 func Dbconect() (*mongo.Client, context.Context) {
-	dat, err := os.ReadFile("C:/Users/Lisa/DbCon.con")
+	dat, err := os.ReadFile("C:/Users/nobis/Downloads/DbCon.con")
 	check(err)
 	s := string(dat)
 	a := strings.Split(s, " ")
