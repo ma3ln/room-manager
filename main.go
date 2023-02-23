@@ -7,6 +7,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	_ "go.mongodb.org/mongo-driver/mongo/options"
 	"log"
 	"net/http"
 	dbcon "room-manager/src/Backend"
@@ -96,12 +97,36 @@ func getRooms(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonBytes)
 }
 
+/*
+	func deleteBookedRoom(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Headers", "*")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+
+		idToDelete := r.FormValue("idToDelete")
+
+		client, ctx := dbcon.Dbconect()
+
+		roommanager := client.Database("roomManager")
+		userColl := roommanager.Collection("Reservation")
+
+		roomID, err := primitive.ObjectIDFromHex(idToDelete)
+
+		delete, err = userColl.DeleteMany(ctx, bson.M{"roomID": roomID})
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Printf("deleted %v documents\n", delete.DeletedCount)
+	}
+*/
 func bookRoom(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	roomIDstr := r.FormValue("roomID")
 	name := r.FormValue("name")
+	class := r.FormValue("class")
+	module := r.FormValue("module")
 	date := r.FormValue("date")
 	startTime := r.FormValue("startTime")
 	endTime := r.FormValue("endTime")
@@ -125,6 +150,8 @@ func bookRoom(w http.ResponseWriter, r *http.Request) {
 	_, err = userColl.InsertOne(ctx, bson.D{
 		{Key: "roomID", Value: roomID},
 		{Key: "name", Value: name},
+		{Key: "class", Value: class},
+		{Key: "module", Value: module},
 		{Key: "date", Value: date},
 		{Key: "startTime", Value: startTime},
 		{Key: "endTime", Value: endTime},
@@ -133,6 +160,54 @@ func bookRoom(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+}
+
+func getBookedRooms(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	client, ctx := dbcon.Dbconect()
+
+	roommanager := client.Database("roomManager")
+	userCollBooked := roommanager.Collection("Room")
+
+	pipeline := bson.A{
+		bson.M{
+			"$lookup": bson.M{
+				"from":         "Reservation",
+				"localField":   "_id",
+				"foreignField": "roomID",
+				"as":           "reservations",
+			},
+		},
+		bson.M{
+			"$match": bson.M{
+				"reservations": bson.M{"$ne": []interface{}{}},
+			},
+		},
+	}
+
+	cur, err := userCollBooked.Aggregate(ctx, pipeline)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var reservations []bson.M
+	if err := cur.All(ctx, &reservations); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Convert the results to JSON and write the response
+	jsonBytes, err := json.Marshal(reservations)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Write(jsonBytes)
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
@@ -274,6 +349,7 @@ func handleRequests() {
 	http.HandleFunc("/addroom", room)
 	http.HandleFunc("/bookRoom", bookRoom)
 	http.HandleFunc("/getroom", getRooms)
+	http.HandleFunc("/getBookedRooms", getBookedRooms)
 	http.ListenAndServe(":8081", nil)
 }
 

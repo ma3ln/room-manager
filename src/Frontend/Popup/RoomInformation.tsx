@@ -56,6 +56,8 @@ const RoomInformation = ({ onBookingRoomItem}) => {
 
         var roomID = ((document.getElementById("bookingRoomId")! as HTMLInputElement).innerHTML)
         var name = ((document.getElementById("bookingRoomName")! as HTMLInputElement).innerHTML)
+        var selectClass = ((document.getElementById("selectClass")! as HTMLInputElement).innerHTML)
+        var module = ((document.getElementById("selectModul")! as HTMLInputElement).innerHTML)
         var date = ((document.getElementById("bookingRoomDate")! as HTMLInputElement).value)
         var startTime =  ((document.getElementById("bookingRoomStartTime")! as HTMLInputElement).value)
         var endTime = ((document.getElementById("bookingRoomEndTime")! as HTMLInputElement).value)
@@ -64,6 +66,8 @@ const RoomInformation = ({ onBookingRoomItem}) => {
         const formdata = new FormData();
         formdata.append("roomID", roomID);
         formdata.append("name", name);
+        formdata.append("class", selectClass);
+        formdata.append("module", module);
         formdata.append("date", date);
         formdata.append("startTime", startTime);
         formdata.append("endTime", endTime);

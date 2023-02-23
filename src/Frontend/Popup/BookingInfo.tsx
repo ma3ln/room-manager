@@ -11,7 +11,7 @@ import bookedRooms from "../resources/bookedRooms.json";
 
 
 // @ts-ignore
-const RoomInformation = ({ onBookingRoomItem}) => {
+const RoomInformation = ({ onBookedRoomItem}) => {
 
     const [bookedRoom, setBookedRoom] = React.useState({ID: '', Name: '', StartTime: '', EndTime: '', Date: '', Capacity: '', Attribut: '', Haus: '', Ebene: '', Class: '', Modul: ''})
 
@@ -43,150 +43,147 @@ const RoomInformation = ({ onBookingRoomItem}) => {
         setSelectedClass({className: e.target.value})
     }
 
-    function bookRoom() {
-        setBookedRoom({
-            Class: ((document.getElementById("selectClass")! as HTMLInputElement).innerHTML), Modul: ((document.getElementById("selectModul")! as HTMLInputElement).innerHTML),
-            Attribut: ((document.getElementById("bookingRoomAttribut")! as HTMLInputElement).value),
-            Capacity: ((document.getElementById("bookingRoomCapacity")! as HTMLInputElement).value),
-            Date: ((document.getElementById("bookingRoomDate")! as HTMLInputElement).value),
-            Ebene: ((document.getElementById("bookingRoomEbene")! as HTMLInputElement).value),
-            EndTime: ((document.getElementById("bookingRoomEndTime")! as HTMLInputElement).value),
-            Haus: ((document.getElementById("bookingRoomHaus")! as HTMLInputElement).value),
-            ID: ((document.getElementById("bookingRoomId")! as HTMLInputElement).innerHTML),
-            Name: ((document.getElementById("bookingRoomName")! as HTMLInputElement).innerHTML),
-            StartTime: ((document.getElementById("bookingRoomStartTime")! as HTMLInputElement).value)
-        })
-        if((bookedRoom.ID === "") || (bookedRoom.Class === "") || (bookedRoom.Modul === "") || (bookedRoom.Capacity === "") || (bookedRoom.Date === "") || (bookedRoom.Ebene === "") || (bookedRoom.EndTime === "") || (bookedRoom.Haus === "") || (bookedRoom.Name === "") || (bookedRoom.StartTime === "") ) {
-            console.log("No Attributes for Roombooking found")
-        } else {
-            bookedRooms.push(bookedRoom);
-            console.log(bookedRooms);
-        }
-        localStorage.setItem("bookedRooms", JSON.stringify(bookedRoom));
-    }
-
     const [selectedClass, setSelectedClass] = React.useState({className: ''})
+
+    function deleteRoom() {
+        var _id = ((document.getElementById("bookingRoomId")! as HTMLInputElement).innerHTML)
+
+        const formdata = new FormData();
+        formdata.append("idToDelete", _id);
+
+        fetch("http://localhost:8081/deleteBooked", {
+            method: 'POST',
+            body: formdata,
+        })
+            .then(response => {
+                console.log("result", response)
+            })
+            .catch(error => {
+                console.log("Error", error)
+            });
+    }
 
 
     return(
         <div id="roomBookingInformation">
             <div id="bodyForBooking">
-                <div id="headBookingInfoPopup">
-                    <h4 id="bookingRoomId">{onBookingRoomItem.id}</h4>
-                    <h1 id="bookingRoomName">{onBookingRoomItem.name}</h1>
-                </div>
+                {onBookedRoomItem.map((selecBRoom: {_id: string, name: string}) => (
+                    <div id="headBookingInfoPopup">
+                        <h4 id="dashboardBookingRoomId">{selecBRoom._id}</h4>
+                        <h1 id="dashboardBookingRoomName">{selecBRoom.name}</h1>
+                    </div>
+                ))}
                 <div id="bookingInfoPreSelected">
-                    <div id="leftBookingInfoPopup">
-                        <TextField
-                            className="leftBoxesRoomBooking"
-                            id="bookingRoomCapacity"
-                            label="Start Zeit:"
-                            sx={{width: '80%', marginBottom: '3%'}}
-                            defaultValue={onBookingRoomItem.startTime}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                        />
-                        <TextField
-                            className="leftBoxesRoomBooking"
-                            id="bookingRoomAttribut"
-                            label="End Zeit: "
-                            sx={{width: '80%', marginBottom: '3%'}}
-                            defaultValue={onBookingRoomItem.endTime}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                        />
-                        <TextField
-                            className="leftBoxesRoomBooking"
-                            id="bookingRoomHaus"
-                            label="EndZeit: "
-                            sx={{width: '80%', marginBottom: '3%'}}
-                            defaultValue={onBookingRoomItem.endTime}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                        />
-                        <TextField
-                            className="leftBoxesRoomBooking"
-                            id="bookingRoomEbene"
-                            label="StartZeit: "
-                            sx={{width: '80%', marginBottom: '3%'}}
-                            defaultValue={onBookingRoomItem.endTime}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                        />
-                    </div>
-                    <div id="rightBookingInfoPopup">
-                        <TextField
-                            className="leftBoxesRoomBooking"
-                            id="bookingRoomCapacity"
-                            label="Start Zeit:"
-                            sx={{width: '80%', marginBottom: '3%'}}
-                            defaultValue={onBookingRoomItem.startTime}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                        />
-                        <TextField
-                            className="leftBoxesRoomBooking"
-                            id="bookingRoomAttribut"
-                            label="End Zeit: "
-                            sx={{width: '80%', marginBottom: '3%'}}
-                            defaultValue={onBookingRoomItem.endTime}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                        />
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DesktopDatePicker label="Datum" className="rightBoxesRoomBooking" inputFormat="MM/DD/YYYY" onChange={handleDateChange} value={date} renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomDate"
-                            />} />
-                        </LocalizationProvider>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <TimePicker label="Start Time" className="rightBoxesRoomBooking" onChange={handleStartTimeChange} value={startTime} renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomStartTime"/>}
+                    {onBookedRoomItem.map((selecBRoom: {_id: string, capacity: number, attribut: string, haus: string, ebene: number}) => (
+                        <div id="leftBookingInfoPopup" key={selecBRoom._id}>
+                            <TextField
+                                className="leftBoxesRoomBooking"
+                                id="dashboardBookingRoomCapacity"
+                                disabled
+                                label="Kapazität"
+                                sx={{width: '80%', marginBottom: '3%'}}
+                                defaultValue={selecBRoom.capacity}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
                             />
-                        </LocalizationProvider>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <TimePicker label="End Time" className="rightBoxesRoomBooking" onChange={handleEndTimeChange} value={endTime} renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomEndTime"/>}
+                            <TextField
+                                className="leftBoxesRoomBooking"
+                                id="dashboardBookingRoomAttribut"
+                                disabled
+                                label="Attribut"
+                                sx={{width: '80%', marginBottom: '3%'}}
+                                defaultValue={selecBRoom.attribut}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
                             />
-                        </LocalizationProvider>
+                            <TextField
+                                className="leftBoxesRoomBooking"
+                                id="dashboardBookingRoomHaus"
+                                disabled
+                                label="Haus"
+                                sx={{width: '80%', marginBottom: '3%'}}
+                                defaultValue={selecBRoom.haus}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                            />
+                            <TextField
+                                className="leftBoxesRoomBooking"
+                                id="dashboardBookingRoomEbene"
+                                disabled
+                                label="Ebene"
+                                sx={{width: '80%', marginBottom: '3%'}}
+                                defaultValue={selecBRoom.ebene}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                            />
+                        </div>
+                    ))}
+                    {onBookedRoomItem.map((selecBRoom: {_id: string, reservations: []}) => (
+                        <div id="rightBookingInfoPopup" key={selecBRoom._id}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DesktopDatePicker
+                                    label="Datum"
+                                    disabled
+                                    className="rightBoxesRoomBooking"
+                                    inputFormat="MM/DD/YYYY"
+                                    onChange={handleDateChange}
+                                    value={selecBRoom.reservations.filter((dateForRoom: {date: string}) => ( dateForRoom.date))}
+                                    renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomDate"
+                                />} />
+                            </LocalizationProvider>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <TimePicker
+                                    label="Start Time"
+                                    disabled
+                                    className="rightBoxesRoomBooking"
+                                    onChange={handleStartTimeChange}
+                                    value={selecBRoom.reservations.filter((startTimeForRoom: {startTime: string}) => ( startTimeForRoom.startTime))}
+                                    renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomStartTime"/>}
+                                />
+                            </LocalizationProvider>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <TimePicker
+                                    label="End Time"
+                                    disabled
+                                    className="rightBoxesRoomBooking"
+                                    onChange={handleEndTimeChange}
+                                    value={selecBRoom.reservations.filter((endTimeForRoom: {endTime: string}) => ( endTimeForRoom.endTime))}
+                                    renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomEndTime"/>}
+                                />
+                            </LocalizationProvider>
+                        </div>
+                    ))}
+                </div>
+                {onBookedRoomItem.map((selecBRoom: {_id: string, class: string, module: string}) => (
+                    <div id="classSelection" key={selecBRoom._id}>
+                        <TextField
+                            className="classBoxes"
+                            label="Klasse"
+                            disabled
+                            id="dashboardSelectClass"
+                            defaultValue={selecBRoom.class}
+                            onChange={ (e) => {handleSelectedClass(e)}}
+                            sx={{width: '40%'}}
+                        >
+                        </TextField>
+                        <TextField
+                            disabled
+                            className="classBoxes"
+                            defaultValue={selecBRoom.module}
+                            label="Modul"
+                            id="dashboardSelectModul"
+                            sx={{width: '40%'}}
+                        >
+                        </TextField>
                     </div>
-                </div>
-                <div id="classSelection">
-                    <TextField
-                        select
-                        className="classBoxes"
-                        label="Klasse"
-                        id="selectClass"
-                        onChange={ (e) => {handleSelectedClass(e)}}
-                        sx={{width: '40%'}}
-                    >
-                        {myClass.map((option) => (
-                            <MenuItem key={option.class} value={option.class} >
-                                {option.class}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                    <TextField
-                        select
-                        className="classBoxes"
-                        label="Modul"
-                        id="selectModul"
-                        sx={{width: '40%'}}
-                    >
-                        {myClass.map((option, index) => {
-                                return option.class === selectedClass.className ?
-                                    (<MenuItem key={index} value={option.module_1}>
-                                            {option.module_1}
-                                        </MenuItem>
-                                    ) : null
-                            }
-                        )}
-                    </TextField>
-                </div>
-                <div id="clickToBookRoom">
-                    <Button onClick={bookRoom} variant="contained">Raum buchen</Button>
+
+                ))}
+                <div id="clickToDeleteBooking">
+                    <Button onClick={deleteRoom} variant="contained">Raum buchen</Button>
                 </div>
             </div>
         </div>

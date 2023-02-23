@@ -8,6 +8,7 @@ import bookedRooms from "./resources/bookedRooms.json"
 import Popup from "reactjs-popup";
 import RoomInformation from "./Popup/RoomInformation";
 import {Button} from "@mui/material";
+import BookingInfo from "./Popup/BookingInfo";
 
 function Dashboard(){
 
@@ -15,15 +16,9 @@ function Dashboard(){
 
 //    const username = (document.getElementById("input-with-account-icon")! as HTMLInputElement).value;
     const username = localStorage.getItem("username");
-
-
-    /*useEffect(() => {
-        const interval = setInterval(() => {
-            // @ts-ignore
-        }, );
-
-        return () => clearInterval(interval)
-    }, []);*/
+    const [loadBookedRooms, setLoadBooked] = React.useState([]);
+    const [selectedBookedRoom, setSelectedBookedRoom] = React.useState([]);
+    const [error, setError] = React.useState(null);
 
 
 
@@ -37,9 +32,38 @@ function Dashboard(){
         }
     ]
 
+    useEffect(() => {
+        fetch("http://localhost:8081/getBookedRooms")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then(loadBookedRooms => {
+                console.log("LoadedRoom", loadBookedRooms);
+                console.log(loadBookedRooms[0].name)
+                console.log(Object.values(loadBookedRooms[0].reservations))
+                console.log(loadBookedRooms.map((room: { name: string; _id: string }) => {
+
+                }))
+                console.log(loadBookedRooms[0]._id);
+                setLoadBooked(loadBookedRooms)
+            })
+            .catch(error => {
+                console.error(error);
+                setError(error);
+            });
+    }, []);
 
     function handlePopupBuchung() {
 
+    }
+    
+    function newSelectedRoom(bookedRoom: {_id: string; name: string; capacity: number; attribut: string; location: string, reservations: []}) {
+        setSelectedBookedRoom(loadBookedRooms.filter((selecBookedRoom: {_id: string}) => (
+            selecBookedRoom._id === bookedRoom._id
+        )))
     }
 
     const navigate = useNavigate();
@@ -108,17 +132,17 @@ function Dashboard(){
                             </div>
                             <div className="list-group">
                                 <ul id="listBuchungen">
-                                        {bookedRooms.map((data) => (
-                                                <li id="oneBuchungItem" key={data.ID} onClick={event => {setOpenBookingPopup(true); handleBackgroundBlur()}}>
+                                        {loadBookedRooms.map((bookedRoom: {_id: string; name: string; capacity: number; attribut: string; location: string, reservations: []}) => (
+                                                <li id="oneBuchungItem" key={bookedRoom._id} onClick={event => {setOpenBookingPopup(true); handleBackgroundBlur(); newSelectedRoom(bookedRoom)}}>
                                                     <AssignmentTurnedIn />
-                                                    <span><strong>{data.Name}</strong></span>
-                                                    <p>Date: {data.Date}</p>
+                                                    <span><strong>{bookedRoom.name}</strong></span>
+                                                    <p>Date: {}</p>
                                                 </li>
                                             ))}
                                 </ul>
                                 <div id="modal">
                                     <Popup open={openBookingPopup}  closeOnDocumentClick={false}>
-                                        <RoomInformation onBookingRoomItem={loadedRooms} />
+                                        <BookingInfo onBookedRoomItem={selectedBookedRoom} />
                                         <div id="clickToCloseRoomBooking">
                                             <Button onClick={() => {closeBookingPopup(); handleNoBlurBackground()}} >Close</Button>
                                         </div>
