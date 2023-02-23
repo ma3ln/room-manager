@@ -209,7 +209,10 @@ function NewRooms() {
                                                 id="numberPeopleInRoom"
                                                 label="Kapazität"
                                                 sx={{width: '100%'}}
-                                                type="number"
+                                                inputProps={{
+                                                    inputMode: 'numeric',
+                                                    pattern: "[0, 9]*"
+                                                }}
                                             ></TextField>
                                         </div>
                                         <div className="leftBoxFilter">
@@ -320,15 +323,15 @@ function NewRooms() {
                                             <h3  id="textRoomName">{room.name}</h3>
                                         </div>
                                         <div className="informationRoomInList ">
-                                            <div>
+                                            <div className="roomListAttribut">
                                                 <PersonAddAlt />
                                                 <p className="informationTextForRoomInList">Kapazität: {room.capacity}</p>
                                             </div>
-                                            <div>
+                                            <div className="roomListAttribut">
                                                 <Category />
                                                 <p className="informationTextForRoomInList">{room.attribut}</p>
                                             </div>
-                                            <div>
+                                            <div className="roomListAttribut">
                                                 <HouseSiding />
                                                 <p className="informationTextForRoomInList">Location: {room.location}</p>
                                             </div>

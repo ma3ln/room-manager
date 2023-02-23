@@ -166,7 +166,6 @@
 
 #buchungRaumColumns {
     display: flex;
-    margin-left: 3%;
     flex-flow: column wrap;
     list-style: none;
 }
@@ -195,6 +194,17 @@
     font-size: 200%;
     font-family: Roboto, serif;
     opacity: 1;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.roomListAttribut {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
 }
 
 .informationRoomInList {

@@ -67,12 +67,8 @@ function Dashboard(){
         handleLoad();
     }, 10);
 
-/*
-    function handleLogout() {
-        localStorage.setItem("isLoggedIn", "null")
-        localStorage.setItem("isLoggegIn", "null")
-        navigate("/login")
-    } */
+
+
 
 
     return(

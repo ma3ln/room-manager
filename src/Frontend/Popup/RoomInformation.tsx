@@ -60,6 +60,7 @@ const RoomInformation = ({ onBookingRoomItem}) => {
         var startTime =  ((document.getElementById("bookingRoomStartTime")! as HTMLInputElement).value)
         var endTime = ((document.getElementById("bookingRoomEndTime")! as HTMLInputElement).value)
 
+        console.log(roomID)
         const formdata = new FormData();
         formdata.append("roomID", roomID);
         formdata.append("name", name);

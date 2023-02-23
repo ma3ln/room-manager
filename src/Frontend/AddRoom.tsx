@@ -54,6 +54,15 @@ function AddRoom() {
         }
     }
 
+    function setInputToZero() {
+        (document.getElementById("newRoomName")! as HTMLInputElement).setAttribute("value","");
+        (document.getElementById("newRoomCapacity")! as HTMLInputElement).setAttribute("value", "");
+        (document.getElementById("newRoomAttribut")! as HTMLInputElement).setAttribute("innerHTML", "");
+        (document.getElementById("newRoomLocation")! as HTMLInputElement).setAttribute("innerHTML", "");
+        (document.getElementById("newRoomHaus")! as HTMLInputElement).setAttribute("innerHTML", "");
+        (document.getElementById("newRoomEbene")! as HTMLInputElement).setAttribute("innerHTML", "")
+    }
+
     return (
                 <div className="contentAddRoom">
                     <div id="layoutAddRoomContent">
@@ -133,7 +142,7 @@ function AddRoom() {
                                     </div>
                                 </div>
                                 <div id="addRoomButton">
-                                    <Button onClick={addRoom}>Add A New Room</Button>
+                                    <Button onClick={() => {addRoom() ; setInputToZero()}}>Add A New Room</Button>
                                 </div>
                             </div>
 

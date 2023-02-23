@@ -100,13 +100,13 @@ func bookRoom(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
-	roomID := r.FormValue("roomId")
+	roomIDstr := r.FormValue("roomID")
 	name := r.FormValue("name")
 	date := r.FormValue("date")
 	startTime := r.FormValue("startTime")
 	endTime := r.FormValue("endTime")
 
-	fmt.Println(roomID, name, date, startTime, endTime)
+	fmt.Println(roomIDstr, name, date, startTime, endTime)
 
 	client, ctx := dbcon.Dbconect()
 
@@ -117,8 +117,13 @@ func bookRoom(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 	}
 
-	_, err := userColl.InsertOne(ctx, bson.D{
-		{Key: "roomId", Value: roomID},
+	roomID, err := primitive.ObjectIDFromHex(roomIDstr)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	_, err = userColl.InsertOne(ctx, bson.D{
+		{Key: "roomID", Value: roomID},
 		{Key: "name", Value: name},
 		{Key: "date", Value: date},
 		{Key: "startTime", Value: startTime},
