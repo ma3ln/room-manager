@@ -35,11 +35,6 @@ function NewRooms() {
     const [openRoomPopup, setOpenRoomPopup] = React.useState(false);
     const closeRoomPopup = () => setOpenRoomPopup(false);
 
-/**
-    const haus = require("./resources/haus.json");
-    const ebene  = require("./resources/ebene.json");
-    const attributes = require("./resources/attributes.json");
-    const rooms = require("./resources/rooms.json"); */
 
     const navigate = useNavigate();
 
@@ -79,21 +74,6 @@ function NewRooms() {
         }, []);
 
 
-    /**
-    function getRooms() {
-        fetch("./resources/rooms.json")
-            .then(res => res.json())
-            .then(
-                result => {
-                    this.setState({
-                        data: result
-                    });
-                },
-                error => {
-                    console.log(error)
-                }
-            )
-    } */
 
     setInterval(() => {
         handleLoad();
@@ -172,24 +152,6 @@ function NewRooms() {
                 newRooms.ebene === parseInt((document.getElementById("floor")! as HTMLInputElement).innerHTML);
         });
         console.log(newFilteredRooms)
-/*
-        let filterTimeAndDate = newFilteredRooms.filter((attributeFilteredRoom) => {
-            if (attributeFilteredRoom.booked.some(({ date }) => (dayjs(date, "MM/DD/YYYY") === dayjs((document.getElementById("date")! as HTMLInputElement).value, "MM/DD/YYYY")))) {
-                var startAndEndFilterBetween = attributeFilteredRoom.booked.some(({ startTime, endTime }) => (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isAfter(dayjs(startTime, "hh:mm"))
-                    && (dayjs((document.getElementById("endTime")! as HTMLInputElement).value, "hh:mm")).isBefore(dayjs(endTime, "hh:mm")))
-                var startFilter = attributeFilteredRoom.booked.some(({ startTime, endTime }) => (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isAfter(dayjs(startTime, "hh:mm"))
-                    && (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isBefore(dayjs(endTime, "hh:mm")))
-                var endFilter = attributeFilteredRoom.booked.some(({ endTime }) => (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isAfter(dayjs(endTime, "hh:mm"))
-                    && (dayjs((document.getElementById("endTime")! as HTMLInputElement).value, "hh:mm")).isBefore(dayjs(endTime, "hh:mm")))
-                var startAndEndFilterBeforeAndAfter = attributeFilteredRoom.booked.some(({ startTime, endTime }) => (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isBefore(dayjs(startTime, "hh:mm"))
-                    && (dayjs((document.getElementById("endTime")! as HTMLInputElement).value, "hh:mm")).isAfter(dayjs(endTime, "hh:mm")))
-                if(startFilter && startAndEndFilterBetween && startAndEndFilterBeforeAndAfter && endFilter) {
-                    return null;
-                }
-                return attributeFilteredRoom
-            }
-            return attributeFilteredRoom
-        }) */
     }
 
 

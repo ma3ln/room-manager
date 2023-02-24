@@ -133,10 +133,12 @@ function Dashboard(){
                             <div className="list-group">
                                 <ul id="listBuchungen">
                                         {loadBookedRooms.map((bookedRoom: {_id: string; name: string; capacity: number; attribut: string; location: string, reservations: []}) => (
-                                                <li id="oneBuchungItem" key={bookedRoom._id} onClick={event => {setOpenBookingPopup(true); handleBackgroundBlur(); newSelectedRoom(bookedRoom)}}>
+                                                <li id={bookedRoom._id} className="oneBuchungItem" key={bookedRoom._id} onClick={event => {setOpenBookingPopup(true); handleBackgroundBlur(); newSelectedRoom(bookedRoom)}}>
                                                     <AssignmentTurnedIn />
                                                     <span><strong>{bookedRoom.name}</strong></span>
-                                                    <p>Date: {}</p>
+                                                    {bookedRoom.reservations.map((roomReserv: {date: string, startTime: string, endTime: string}) => (
+                                                        <p>Date: {roomReserv.date}</p>
+                                                    ))}
                                                 </li>
                                             ))}
                                 </ul>
