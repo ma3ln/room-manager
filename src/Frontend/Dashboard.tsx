@@ -23,18 +23,7 @@ function Dashboard(){
     const [error, setError] = React.useState(null);
 
 
-
-
-    const user = [
-        {
-            "vorname": "Katja",
-            "nachname": "Imagine",
-            "email": "katja.imagine@gmail.com",
-            "role": "Lehrer"
-        }
-    ]
-
-    useEffect(() => {
+    function fetchBookedRooms() {
         fetch("http://localhost:8081/getBookedRooms")
             .then(response => {
                 if (!response.ok) {
@@ -47,7 +36,7 @@ function Dashboard(){
                 console.log(loadBookedRooms[0].name)
                 console.log(Object.values(loadBookedRooms[0].reservations))
                 console.log(loadBookedRooms.map((room: { name: string; _id: string }) => (
-                    room.name
+                        room.name
                     )
                 ))
                 console.log(loadBookedRooms[0]._id);
@@ -57,7 +46,9 @@ function Dashboard(){
                 console.error(error);
                 setError(error);
             });
+    }
 
+    function fetchUserData() {
         var user = localStorage.getItem("username") as string
 
         const formdata = new FormData();
@@ -81,8 +72,28 @@ function Dashboard(){
             .then(error => {
                 console.error(error)
             })
+    }
+
+
+    const user = [
+        {
+            "vorname": "Katja",
+            "nachname": "Imagine",
+            "email": "katja.imagine@gmail.com",
+            "role": "Lehrer"
+        }
+    ]
+
+    useEffect(() => {
+
+        fetchBookedRooms();
 
     }, []);
+
+    useEffect(() => {
+        fetchUserData();
+    }, [""])
+
 
     function handlePopupBuchung() {
 

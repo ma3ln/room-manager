@@ -21,6 +21,7 @@ const RoomInformation = ({ onBookingRoomItem}) => {
 
     )
 
+
     useEffect(() => {
 
     })
@@ -30,6 +31,11 @@ const RoomInformation = ({ onBookingRoomItem}) => {
     const [date, setDate] = React.useState<Dayjs | null>(
 
     )
+
+    function handleAbleEndTimePicker() {
+        setDisabled(false);
+        console.log(disabled)
+    }
 
     const [endTime, setEndTime] = React.useState<Dayjs | null>(
 
@@ -171,7 +177,7 @@ const RoomInformation = ({ onBookingRoomItem}) => {
                                     maxTime={dayjs("17:00", "hh:mm")}
                                     label="Start Time"
                                     className="rightBoxesRoomBooking"
-                                    onChange={handleStartTimeChange}
+                                    onChange={(e) => {handleStartTimeChange(e); handleAbleEndTimePicker()}}
                                     value={startTime}
                                     renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomStartTime"/>}
                                 />
@@ -179,6 +185,7 @@ const RoomInformation = ({ onBookingRoomItem}) => {
                             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                                 <TimePicker
                                     label="End Time"
+                                    disabled={disabled}
                                     minTime={dayjs("09:00", "hh:mm")}
                                     maxTime={dayjs("18:00", "hh:mm")}
                                     className="rightBoxesRoomBooking"

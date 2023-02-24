@@ -87,7 +87,6 @@
 #newBuchungen {
     margin-left: 5%;
     width: 45%;
-    height: 90%;
     position: relative;
     display: flex;
     flex-direction: column;
