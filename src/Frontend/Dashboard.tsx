@@ -17,7 +17,8 @@ function Dashboard(){
 //    const username = (document.getElementById("input-with-account-icon")! as HTMLInputElement).value;
     const username = localStorage.getItem("username");
     const [loadBookedRooms, setLoadBooked] = React.useState([]);
-    const [selectedReservation, setSelectedReservation] = React.useState({});
+    const [userInfo, setUserInfo] = React.useState({username: "", password: "", mail: "", firstname: "", lastname: ""});
+    const [selectedReservation, setSelectedReservation] = React.useState([{_id: "", roomID: "",  name: "", date: "", startTime: "", endTime: "", class: "", module: ""}]);
     const [selectedBookedRoom, setSelectedBookedRoom] = React.useState([]);
     const [error, setError] = React.useState(null);
 
@@ -56,6 +57,31 @@ function Dashboard(){
                 console.error(error);
                 setError(error);
             });
+
+        var user = localStorage.getItem("username") as string
+
+        const formdata = new FormData();
+        formdata.append("user", user);
+
+        fetch("http://localhost:8081/getUser", {
+            method: 'POST',
+            body: formdata
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok")
+                }
+                return response.json()
+            })
+            .then(loggedUser => {
+                console.log("hallo User")
+                console.log(loggedUser)
+                setUserInfo(loggedUser)
+            })
+            .then(error => {
+                console.error(error)
+            })
+
     }, []);
 
     function handlePopupBuchung() {
@@ -106,21 +132,19 @@ function Dashboard(){
                                 </div>
                                 <div id="informationAboutUser">
                                     <div id="picPersonalData"/>
-                                    {user.map((user) => (
                                         <>
                                             <div id="boxInformation">
                                                 <div id="informationUserName">
-                                                    <h2 id="textUserName">{user.vorname}  {user.nachname}</h2>
+                                                    <h2 id="textUserName">{userInfo.firstname}  {userInfo.lastname}</h2>
                                                 </div>
                                                 <div id="informationEmail">
-                                                    <p id="textEmail">{user.email}</p>
+                                                    <p id="textEmail">{userInfo.mail}</p>
                                                 </div>
                                                 <div id="informationRole">
-                                                    <p id="textRole">{user.role}</p>
+                                                    <p id="textRole">Lehrer</p>
                                                 </div>
                                             </div>
                                         </>
-                                    ))}
                                 </div>
                             </div>
                             <div id="placeholderStyle">
@@ -135,8 +159,8 @@ function Dashboard(){
                                 <ul id="listBuchungen">
                                         {loadBookedRooms.map((bookedRoom: {_id: string; name: string; capacity: number; attribut: string; location: string, reservations: []}) => (
 
-                                                    bookedRoom.reservations.map((roomReserv: {_id: string, name: string, date: string, startTime: string, endTime: string}) => (
-                                                    <li id={bookedRoom._id} className="oneBuchungItem" key={bookedRoom._id} onClick={event => {setOpenBookingPopup(true); handleBackgroundBlur(); newSelectedRoom(bookedRoom); setSelectedReservation(roomReserv)}}>
+                                                    bookedRoom.reservations.map((roomReserv: {_id: string, roomID: string,  name: string, date: string, startTime: string, endTime: string, class: string, module: string}) => (
+                                                    <li id={roomReserv._id} className="oneBuchungItem" key={bookedRoom._id} onClick={event => {setOpenBookingPopup(true); handleBackgroundBlur(); newSelectedRoom(bookedRoom)}}>
                                                     <AssignmentTurnedIn />
                                                         <span><strong>{bookedRoom.name}</strong></span>
                                                         <p>Date: {roomReserv.date}</p>
@@ -147,7 +171,7 @@ function Dashboard(){
                                 </ul>
                                 <div id="modal">
                                     <Popup open={openBookingPopup}  closeOnDocumentClick={false}>
-                                        <BookingInfo onBookedRoomItem={loadBookedRooms} onSelectedReservation={selectedReservation} />
+                                        <BookingInfo onBookedRoomItem={loadBookedRooms} onSelectedReservation={selectedBookedRoom} />
                                         <div id="clickToCloseRoomBooking">
                                             <Button onClick={() => {closeBookingPopup(); handleNoBlurBackground()}} >Close</Button>
                                         </div>

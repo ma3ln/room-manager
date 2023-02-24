@@ -254,6 +254,40 @@ func login(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func getUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	user := r.FormValue("user")
+
+	log.Println(user)
+
+	client, ctx := dbcon.Dbconect()
+
+	roommanager := client.Database("roomManager")
+	userColl := roommanager.Collection("User")
+
+	var result bson.M
+	err := userColl.FindOne(ctx, bson.M{"username": user}).Decode(&result)
+
+	if err == mongo.ErrNoDocuments {
+		fmt.Println("no Docs found")
+	} else if err != nil {
+		log.Fatal(err)
+	}
+
+	arr := BsonMapToArray(result)
+
+	fmt.Println(arr)
+
+	jsonBytes, err := json.Marshal(result)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Write(jsonBytes)
+}
+
 func register(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -351,6 +385,7 @@ func handleRequests() {
 	http.HandleFunc("/addroom", room)
 	http.HandleFunc("/bookRoom", bookRoom)
 	http.HandleFunc("/getroom", getRooms)
+	http.HandleFunc("/getUser", getUser)
 	http.HandleFunc("/getBookedRooms", getBookedRooms)
 	http.HandleFunc("/deleteBooked", deleteBookedRoom)
 	http.ListenAndServe(":8081", nil)

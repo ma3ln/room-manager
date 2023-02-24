@@ -65,13 +65,11 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
     return(
         <div id="roomBookingInformation">
             <div id="bodyForBooking">
-                {onBookedRoomItem.map((bookedRoom: {_id: string; name: string; capacity: number; attribut: string; location: string, reservations: []}) => (
-                    bookedRoom.reservations.map((roomReserv: {_id: string, name: string, date: string, startTime: string, endTime: string}) => (
-                        <div id="headBookingInfoPopup" key={roomReserv._id}>
-                            <h4 id="bookingRoomId">{roomReserv._id}</h4>
-                            <h1 id="bookingRoomName">{roomReserv.name}</h1>
+                {onSelectedReservation.map((bookedRoom: {_id: string; name: string}) => (
+                        <div id="headBookingInfoPopup" key={bookedRoom._id}>
+                            <h4 id="bookingRoomId">{bookedRoom._id}</h4>
+                            <h1 id="bookingRoomName">{bookedRoom.name}</h1>
                         </div>
-                        ))
                 ))}
                 <div id="bookingInfoPreSelected">
                     {onBookedRoomItem.map((selecBRoom: {_id: string, capacity: number, attribut: string, haus: string, ebene: number}) => (
@@ -122,7 +120,7 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                             />
                         </div>
                     ))}
-                    {onBookedRoomItem.map((selecBRoom: {_id: string, reservations: []}) => (
+                    {onSelectedReservation.map((selecBRoom: {_id: string, date: string, startTime: string, endTime: string}) => (
                         <div id="rightBookingInfoPopup" key={selecBRoom._id}>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DesktopDatePicker
@@ -131,7 +129,7 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                                     className="rightBoxesRoomBooking"
                                     inputFormat="MM/DD/YYYY"
                                     onChange={handleDateChange}
-                                    value={selecBRoom.reservations.filter((dateForRoom: {date: string}) => ( dateForRoom.date))}
+                                    value={selecBRoom.date}
                                     renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomDate"
                                 />} />
                             </LocalizationProvider>
@@ -141,7 +139,7 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                                     disabled
                                     className="rightBoxesRoomBooking"
                                     onChange={handleStartTimeChange}
-                                    value={selecBRoom.reservations.filter((startTimeForRoom: {startTime: string}) => ( startTimeForRoom.startTime))}
+                                    value={selecBRoom.startTime}
                                     renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomStartTime"/>}
                                 />
                             </LocalizationProvider>
@@ -151,14 +149,14 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                                     disabled
                                     className="rightBoxesRoomBooking"
                                     onChange={handleEndTimeChange}
-                                    value={selecBRoom.reservations.filter((endTimeForRoom: {endTime: string}) => ( endTimeForRoom.endTime))}
+                                    value={selecBRoom.endTime}
                                     renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomEndTime"/>}
                                 />
                             </LocalizationProvider>
                         </div>
                     ))}
                 </div>
-                {onBookedRoomItem.map((selecBRoom: {_id: string, class: string, module: string}) => (
+                {onSelectedReservation.map((selecBRoom: {_id: string, class: string, module: string}) => (
                     <div id="classSelection" key={selecBRoom._id}>
                         <TextField
                             className="classBoxes"

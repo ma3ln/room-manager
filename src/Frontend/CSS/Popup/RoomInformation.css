@@ -96,7 +96,19 @@
 
 #clickToBookRoom {
     height: 10%;
-    width: 83%;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+#clickToDeleteBooking {
+    height: 10%;
+    width: 100%;
     position: relative;
     display: flex;
     flex-direction: column;
