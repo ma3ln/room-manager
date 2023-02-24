@@ -4,14 +4,12 @@ import {DesktopDatePicker, LocalizationProvider, TimePicker} from "@mui/x-date-p
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {Dayjs} from "dayjs";
 import "../CSS/Popup/RoomInformation.css";
-import Popup from "reactjs-popup";
-import myClass from "../resources/myClass.json";
-import bookedRooms from "../resources/bookedRooms.json";
+import {AssignmentTurnedIn} from "@mui/icons-material";
 
 
 
 // @ts-ignore
-const RoomInformation = ({ onBookedRoomItem}) => {
+const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
 
     const [bookedRoom, setBookedRoom] = React.useState({ID: '', Name: '', StartTime: '', EndTime: '', Date: '', Capacity: '', Attribut: '', Haus: '', Ebene: '', Class: '', Modul: ''})
 
@@ -67,11 +65,13 @@ const RoomInformation = ({ onBookedRoomItem}) => {
     return(
         <div id="roomBookingInformation">
             <div id="bodyForBooking">
-                {onBookedRoomItem.map((selecBRoom: {_id: string, name: string}) => (
-                    <div id="headBookingInfoPopup">
-                        <h4 id="dashboardBookingRoomId">{selecBRoom._id}</h4>
-                        <h1 id="dashboardBookingRoomName">{selecBRoom.name}</h1>
-                    </div>
+                {onBookedRoomItem.map((bookedRoom: {_id: string; name: string; capacity: number; attribut: string; location: string, reservations: []}) => (
+                    bookedRoom.reservations.map((roomReserv: {_id: string, name: string, date: string, startTime: string, endTime: string}) => (
+                        <div id="headBookingInfoPopup" key={roomReserv._id}>
+                            <h4 id="bookingRoomId">{roomReserv._id}</h4>
+                            <h1 id="bookingRoomName">{roomReserv.name}</h1>
+                        </div>
+                        ))
                 ))}
                 <div id="bookingInfoPreSelected">
                     {onBookedRoomItem.map((selecBRoom: {_id: string, capacity: number, attribut: string, haus: string, ebene: number}) => (
@@ -183,7 +183,7 @@ const RoomInformation = ({ onBookedRoomItem}) => {
 
                 ))}
                 <div id="clickToDeleteBooking">
-                    <Button onClick={deleteRoom} variant="contained">Raum buchen</Button>
+                    <Button onClick={deleteRoom} variant="contained">Buchung Löschen</Button>
                 </div>
             </div>
         </div>

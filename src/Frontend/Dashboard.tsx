@@ -17,6 +17,7 @@ function Dashboard(){
 //    const username = (document.getElementById("input-with-account-icon")! as HTMLInputElement).value;
     const username = localStorage.getItem("username");
     const [loadBookedRooms, setLoadBooked] = React.useState([]);
+    const [selectedReservation, setSelectedReservation] = React.useState({});
     const [selectedBookedRoom, setSelectedBookedRoom] = React.useState([]);
     const [error, setError] = React.useState(null);
 
@@ -134,8 +135,8 @@ function Dashboard(){
                                 <ul id="listBuchungen">
                                         {loadBookedRooms.map((bookedRoom: {_id: string; name: string; capacity: number; attribut: string; location: string, reservations: []}) => (
 
-                                                    bookedRoom.reservations.map((roomReserv: {date: string, startTime: string, endTime: string}) => (
-                                                    <li id={bookedRoom._id} className="oneBuchungItem" key={bookedRoom._id} onClick={event => {setOpenBookingPopup(true); handleBackgroundBlur(); newSelectedRoom(bookedRoom)}}>
+                                                    bookedRoom.reservations.map((roomReserv: {_id: string, name: string, date: string, startTime: string, endTime: string}) => (
+                                                    <li id={bookedRoom._id} className="oneBuchungItem" key={bookedRoom._id} onClick={event => {setOpenBookingPopup(true); handleBackgroundBlur(); newSelectedRoom(bookedRoom); setSelectedReservation(roomReserv)}}>
                                                     <AssignmentTurnedIn />
                                                         <span><strong>{bookedRoom.name}</strong></span>
                                                         <p>Date: {roomReserv.date}</p>
@@ -146,7 +147,7 @@ function Dashboard(){
                                 </ul>
                                 <div id="modal">
                                     <Popup open={openBookingPopup}  closeOnDocumentClick={false}>
-                                        <BookingInfo onBookedRoomItem={loadBookedRooms} />
+                                        <BookingInfo onBookedRoomItem={loadBookedRooms} onSelectedReservation={selectedReservation} />
                                         <div id="clickToCloseRoomBooking">
                                             <Button onClick={() => {closeBookingPopup(); handleNoBlurBackground()}} >Close</Button>
                                         </div>
