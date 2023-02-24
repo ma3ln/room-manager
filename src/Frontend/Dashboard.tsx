@@ -44,9 +44,10 @@ function Dashboard(){
                 console.log("LoadedRoom", loadBookedRooms);
                 console.log(loadBookedRooms[0].name)
                 console.log(Object.values(loadBookedRooms[0].reservations))
-                console.log(loadBookedRooms.map((room: { name: string; _id: string }) => {
-
-                }))
+                console.log(loadBookedRooms.map((room: { name: string; _id: string }) => (
+                    room.name
+                    )
+                ))
                 console.log(loadBookedRooms[0]._id);
                 setLoadBooked(loadBookedRooms)
             })
@@ -70,7 +71,6 @@ function Dashboard(){
     const [loadedRooms, setLoadedRooms] = React.useState([{ID: "", Name: "", }]);
     const [openBookingPopup, setOpenBookingPopup] = React.useState(false);
     const closeBookingPopup = () => setOpenBookingPopup(false);
-    console.log(localStorage.getItem("isLoggedIn"))
 
     function handleBackgroundBlur() {
         (document.getElementById("root")! as HTMLElement).style.filter = 'blur(5px)'
