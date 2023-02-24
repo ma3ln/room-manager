@@ -18,7 +18,7 @@ function Dashboard(){
     const username = localStorage.getItem("username");
     const [loadBookedRooms, setLoadBooked] = React.useState([]);
     const [userInfo, setUserInfo] = React.useState({username: "", password: "", mail: "", firstname: "", lastname: ""});
-    const [selectedReservation, setSelectedReservation] = React.useState([{_id: "", roomID: "",  name: "", date: "", startTime: "", endTime: "", class: "", module: ""}]);
+    const [selectedReservation, setSelectedReservation] = React.useState({_id: "", roomID: "",  name: "", date: "", startTime: "", endTime: "", class: "", module: ""});
     const [selectedBookedRoom, setSelectedBookedRoom] = React.useState([]);
     const [error, setError] = React.useState(null);
 
@@ -73,16 +73,6 @@ function Dashboard(){
                 console.error(error)
             })
     }
-
-
-    const user = [
-        {
-            "vorname": "Katja",
-            "nachname": "Imagine",
-            "email": "katja.imagine@gmail.com",
-            "role": "Lehrer"
-        }
-    ]
 
     useEffect(() => {
 
@@ -171,7 +161,7 @@ function Dashboard(){
                                         {loadBookedRooms.map((bookedRoom: {_id: string; name: string; capacity: number; attribut: string; location: string, reservations: []}) => (
 
                                                     bookedRoom.reservations.map((roomReserv: {_id: string, roomID: string,  name: string, date: string, startTime: string, endTime: string, class: string, module: string}) => (
-                                                    <li id={roomReserv._id} className="oneBuchungItem" key={bookedRoom._id} onClick={event => {setOpenBookingPopup(true); handleBackgroundBlur(); newSelectedRoom(bookedRoom)}}>
+                                                    <li id={roomReserv._id} className="oneBuchungItem" key={bookedRoom._id} onClick={event => {setOpenBookingPopup(true); handleBackgroundBlur(); newSelectedRoom(bookedRoom); setSelectedReservation(roomReserv)}}>
                                                     <AssignmentTurnedIn />
                                                         <span><strong>{bookedRoom.name}</strong></span>
                                                         <p>Date: {roomReserv.date}</p>
@@ -182,7 +172,7 @@ function Dashboard(){
                                 </ul>
                                 <div id="modal">
                                     <Popup open={openBookingPopup}  closeOnDocumentClick={false}>
-                                        <BookingInfo onBookedRoomItem={loadBookedRooms} onSelectedReservation={selectedBookedRoom} />
+                                        <BookingInfo onBookedRoomItem={selectedBookedRoom} onSelectedReservation={selectedReservation} />
                                         <div id="clickToCloseRoomBooking">
                                             <Button onClick={() => {closeBookingPopup(); handleNoBlurBackground()}} >Close</Button>
                                         </div>

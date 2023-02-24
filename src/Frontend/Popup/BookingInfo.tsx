@@ -2,7 +2,7 @@ import React from "react";
 import {Button, MenuItem, TextField} from "@mui/material";
 import {DesktopDatePicker, LocalizationProvider, TimePicker} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {Dayjs} from "dayjs";
+import dayjs, {Dayjs} from "dayjs";
 import "../CSS/Popup/RoomInformation.css";
 import {AssignmentTurnedIn} from "@mui/icons-material";
 
@@ -65,7 +65,7 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
     return(
         <div id="roomBookingInformation">
             <div id="bodyForBooking">
-                {onSelectedReservation.map((bookedRoom: {_id: string; name: string}) => (
+                {onBookedRoomItem.map((bookedRoom: {_id: string; name: string}) => (
                         <div id="headBookingInfoPopup" key={bookedRoom._id}>
                             <h4 id="bookingRoomId">{bookedRoom._id}</h4>
                             <h1 id="bookingRoomName">{bookedRoom.name}</h1>
@@ -120,50 +120,49 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                             />
                         </div>
                     ))}
-                    {onSelectedReservation.map((selecBRoom: {_id: string, date: string, startTime: string, endTime: string}) => (
-                        <div id="rightBookingInfoPopup" key={selecBRoom._id}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <div id="rightBookingInfoPopup" key={onSelectedReservation._id}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                                 <DesktopDatePicker
                                     label="Datum"
-                                    disabled
                                     className="rightBoxesRoomBooking"
                                     inputFormat="MM/DD/YYYY"
+                                    disabled
                                     onChange={handleDateChange}
-                                    value={selecBRoom.date}
+                                    value={dayjs(onSelectedReservation.date, "MM/DD/YYYY")}
                                     renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomDate"
                                 />} />
                             </LocalizationProvider>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                                 <TimePicker
                                     label="Start Time"
-                                    disabled
                                     className="rightBoxesRoomBooking"
                                     onChange={handleStartTimeChange}
-                                    value={selecBRoom.startTime}
+                                    disabled
+                                    inputFormat="hh:mm"
+                                    value={dayjs(onSelectedReservation.startTime, "hh:mm")}
                                     renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomStartTime"/>}
                                 />
                             </LocalizationProvider>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                                 <TimePicker
                                     label="End Time"
-                                    disabled
                                     className="rightBoxesRoomBooking"
+                                    inputFormat="hh:mm"
+                                    disabled
                                     onChange={handleEndTimeChange}
-                                    value={selecBRoom.endTime}
+                                    value={dayjs(onSelectedReservation.endTime, "hh:mm")}
                                     renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomEndTime"/>}
                                 />
                             </LocalizationProvider>
                         </div>
-                    ))}
                 </div>
-                {onSelectedReservation.map((selecBRoom: {_id: string, class: string, module: string}) => (
-                    <div id="classSelection" key={selecBRoom._id}>
+                    <div id="classSelection" key={onSelectedReservation._id}>
                         <TextField
                             className="classBoxes"
                             label="Klasse"
                             disabled
                             id="dashboardSelectClass"
-                            defaultValue={selecBRoom.class}
+                            defaultValue={onSelectedReservation.class}
                             onChange={ (e) => {handleSelectedClass(e)}}
                             sx={{width: '40%'}}
                         >
@@ -171,7 +170,7 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                         <TextField
                             disabled
                             className="classBoxes"
-                            defaultValue={selecBRoom.module}
+                            defaultValue={onSelectedReservation.module}
                             label="Modul"
                             id="dashboardSelectModul"
                             sx={{width: '40%'}}
@@ -179,7 +178,6 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                         </TextField>
                     </div>
 
-                ))}
                 <div id="clickToDeleteBooking">
                     <Button onClick={deleteRoom} variant="contained">Buchung Löschen</Button>
                 </div>
