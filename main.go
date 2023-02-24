@@ -97,28 +97,30 @@ func getRooms(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonBytes)
 }
 
-/*
-	func deleteBookedRoom(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Headers", "*")
-		w.Header().Set("Access-Control-Allow-Origin", "*")
+func deleteBookedRoom(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 
-		idToDelete := r.FormValue("idToDelete")
+	idToDelete := r.FormValue("idToDelete")
 
-		client, ctx := dbcon.Dbconect()
+	client, ctx := dbcon.Dbconect()
 
-		roommanager := client.Database("roomManager")
-		userColl := roommanager.Collection("Reservation")
+	roommanager := client.Database("roomManager")
+	userColl := roommanager.Collection("Reservation")
 
-		roomID, err := primitive.ObjectIDFromHex(idToDelete)
-
-		delete, err = userColl.DeleteMany(ctx, bson.M{"roomID": roomID})
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		fmt.Printf("deleted %v documents\n", delete.DeletedCount)
+	reservationID, err := primitive.ObjectIDFromHex(idToDelete)
+	log.Println(idToDelete)
+	if err != nil {
+		log.Fatal(err)
 	}
-*/
+	deleter, err := userColl.DeleteOne(ctx, bson.M{"_id": reservationID})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("deleted %v documents\n", deleter.DeletedCount, err)
+}
+
 func bookRoom(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -350,6 +352,7 @@ func handleRequests() {
 	http.HandleFunc("/bookRoom", bookRoom)
 	http.HandleFunc("/getroom", getRooms)
 	http.HandleFunc("/getBookedRooms", getBookedRooms)
+	http.HandleFunc("/deleteBooked", deleteBookedRoom)
 	http.ListenAndServe(":8081", nil)
 }
 
