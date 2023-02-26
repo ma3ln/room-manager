@@ -55,10 +55,6 @@ function Login() {
         var username = (document.getElementById("input-with-account-icon")! as HTMLInputElement).value
         var password = (document.getElementById("input-with-password-icon")! as HTMLInputElement).value
 
-        console.log(username);
-        console.log(password);
-        console.log(Md5.hashStr(password));
-
         const formdata = new FormData();
         formdata.append("user", username);
         formdata.append("password", Md5.hashStr(password));

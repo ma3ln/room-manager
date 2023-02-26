@@ -152,6 +152,56 @@ function NewRooms() {
                 newRooms.ebene === parseInt((document.getElementById("floor")! as HTMLInputElement).innerHTML);
         });
         console.log(newFilteredRooms)
+
+        let capacity = (document.getElementById("numberPeopleInRoom")! as HTMLInputElement).value
+        let attribut = (document.getElementById("roomAttributes")! as HTMLInputElement).innerHTML
+        let location = (document.getElementById("location")! as HTMLInputElement).innerHTML
+        let house = (document.getElementById("building")! as HTMLInputElement).innerHTML
+        let floor = (document.getElementById("floor")! as HTMLInputElement).innerHTML
+
+        console.log(capacity)
+        console.log(attribut)
+        console.log(location)
+        console.log(house)
+        console.log(floor)
+
+        const formdata = new FormData();
+        formdata.append("capacity", capacity)
+        formdata.append("attribut", attribut)
+        formdata.append("location", location)
+        formdata.append("house", house)
+        formdata.append("floor", floor)
+
+        console.log(formdata)
+
+        fetch("http://localhost:8081/filterroom", {
+            method: 'POST',
+            body: formdata,
+        })
+            .then(response => {
+                console.log("result", response)
+            })
+            .catch(error => {
+                console.log("Error", error)
+            });
+/*
+        let filterTimeAndDate = newFilteredRooms.filter((attributeFilteredRoom) => {
+            if (attributeFilteredRoom.booked.some(({ date }) => (dayjs(date, "MM/DD/YYYY") === dayjs((document.getElementById("date")! as HTMLInputElement).value, "MM/DD/YYYY")))) {
+                var startAndEndFilterBetween = attributeFilteredRoom.booked.some(({ startTime, endTime }) => (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isAfter(dayjs(startTime, "hh:mm"))
+                    && (dayjs((document.getElementById("endTime")! as HTMLInputElement).value, "hh:mm")).isBefore(dayjs(endTime, "hh:mm")))
+                var startFilter = attributeFilteredRoom.booked.some(({ startTime, endTime }) => (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isAfter(dayjs(startTime, "hh:mm"))
+                    && (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isBefore(dayjs(endTime, "hh:mm")))
+                var endFilter = attributeFilteredRoom.booked.some(({ endTime }) => (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isAfter(dayjs(endTime, "hh:mm"))
+                    && (dayjs((document.getElementById("endTime")! as HTMLInputElement).value, "hh:mm")).isBefore(dayjs(endTime, "hh:mm")))
+                var startAndEndFilterBeforeAndAfter = attributeFilteredRoom.booked.some(({ startTime, endTime }) => (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isBefore(dayjs(startTime, "hh:mm"))
+                    && (dayjs((document.getElementById("endTime")! as HTMLInputElement).value, "hh:mm")).isAfter(dayjs(endTime, "hh:mm")))
+                if(startFilter && startAndEndFilterBetween && startAndEndFilterBeforeAndAfter && endFilter) {
+                    return null;
+                }
+                return attributeFilteredRoom
+            }
+            return attributeFilteredRoom
+        }) */
     }
 
 
@@ -228,7 +278,7 @@ function NewRooms() {
                                                 select
                                             >
                                                 {ebene.map((option) => (
-                                                    <MenuItem key={option.ebene} value={option.ebene}>
+                                                    <MenuItem key={option.ebene} defaultValue={"floor"} value={option.ebene}>
                                                         {option.ebene}
                                                     </MenuItem>
                                                 ))}

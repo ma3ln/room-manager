@@ -51,6 +51,80 @@ func BsonMapToArray(m bson.M) map[string]string {
 	return arr
 }
 
+func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	//testString := "<span class=\"notranslate\">​</span>"
+	capacity := "{$exists: true}"
+	attribut := "{$exists: true}"
+	rattribut := r.FormValue("attribute")
+	location := "{$exists: true}"
+	rlocation := r.FormValue("location")
+	house := "{$exists: true}"
+	floor := "{$exists: true}"
+	rcapacity := r.FormValue("capacity")
+	f := bson.M{}
+	if rcapacity != "" {
+		capacity = r.FormValue("capacity")
+		f["capacity"] = bson.M{"$gte": capacity}
+	}
+	if strings.Compare(rattribut, "<span class=\"notranslate\">​</span>") == 0 {
+		attribut = r.FormValue("attribut")
+		f["attribut"] = attribut
+	}
+	if strings.Compare(rlocation, "") == 0 {
+		location = r.FormValue("location")
+		f["location"] = location
+	}
+	if strings.Compare(r.FormValue("house"), "") == 0 {
+		house = r.FormValue("house")
+		f["haus"] = house
+	}
+	if strings.Compare(r.FormValue("floor"), "") == 0 {
+		floor = r.FormValue("floor")
+		f["ebene"] = floor
+	}
+
+	fmt.Println(capacity, attribut, location, house, floor, f)
+
+	client, ctx := dbcon.Dbconect()
+
+	roommanager := client.Database("roomManager")
+	userColl := roommanager.Collection("Room")
+
+	var result []bson.M
+	cur, err := userColl.Find(ctx, f)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	defer cur.Close(ctx)
+
+	for cur.Next(ctx) {
+		var room bson.M
+		if err := cur.Decode(&room); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		result = append(result, room)
+	}
+
+	if err := cur.Err(); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	// Convert the results to JSON and write the response
+	/*jsonBytes, err := json.Marshal(result)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}*/
+	fmt.Println(result)
+
+}
+
 func getRooms(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -77,11 +151,6 @@ func getRooms(w http.ResponseWriter, r *http.Request) {
 		result = append(result, room)
 	}
 
-	//arr := BsonMapToArray(result)
-
-	//fmt.Println(arr)
-
-	//fmt.Fprintf(w, "Rooms", arr)
 	if err := cur.Err(); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -93,7 +162,7 @@ func getRooms(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
+	fmt.Println(jsonBytes)
 	w.Write(jsonBytes)
 }
 
@@ -388,6 +457,7 @@ func handleRequests() {
 	http.HandleFunc("/getUser", getUser)
 	http.HandleFunc("/getBookedRooms", getBookedRooms)
 	http.HandleFunc("/deleteBooked", deleteBookedRoom)
+	http.HandleFunc("/filterroom", getFilterdRooms)
 	http.ListenAndServe(":8081", nil)
 }
 
