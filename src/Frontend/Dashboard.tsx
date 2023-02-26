@@ -161,7 +161,7 @@ function Dashboard(){
                                         {loadBookedRooms.map((bookedRoom: {_id: string; name: string; capacity: number; attribut: string; location: string, reservations: []}) => (
 
                                                     bookedRoom.reservations.map((roomReserv: {_id: string, roomID: string,  name: string, date: string, startTime: string, endTime: string, class: string, module: string}) => (
-                                                    <li id={roomReserv._id} className="oneBuchungItem" key={bookedRoom._id} onClick={event => {setOpenBookingPopup(true); handleBackgroundBlur(); newSelectedRoom(bookedRoom); setSelectedReservation(roomReserv)}}>
+                                                    <li id={roomReserv._id} className="oneBuchungItem" onClick={event => {setOpenBookingPopup(true); handleBackgroundBlur(); newSelectedRoom(bookedRoom); setSelectedReservation(roomReserv)}}>
                                                     <AssignmentTurnedIn />
                                                         <span><strong>{bookedRoom.name}</strong></span>
                                                         <p>Date: {roomReserv.date}</p>
