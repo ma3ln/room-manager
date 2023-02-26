@@ -13,6 +13,7 @@ import (
 	"net/http"
 	dbcon "room-manager/src/Backend"
 	"strconv"
+	"strings"
 )
 
 type Termin struct {
