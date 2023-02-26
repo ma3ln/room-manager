@@ -11,6 +11,7 @@ import (
 	"log"
 	"net/http"
 	dbcon "room-manager/src/Backend"
+	"strconv"
 )
 
 type Termin struct {
@@ -55,38 +56,34 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
-	//testString := "<span class=\"notranslate\">​</span>"
-	capacity := "{$exists: true}"
-	attribut := "{$exists: true}"
-	rattribut := r.FormValue("attribute")
-	location := "{$exists: true}"
-	rlocation := r.FormValue("location")
-	house := "{$exists: true}"
-	floor := "{$exists: true}"
-	rcapacity := r.FormValue("capacity")
 	f := bson.M{}
+
+	f["capacity"] = bson.M{"$gt": 0}
+	attribut := r.FormValue("attribut")
+	location := r.FormValue("location")
+	house := r.FormValue("house")
+	floor := r.FormValue("floor")
+	rcapacity := r.FormValue("capacity")
+	capacity := 0
+
 	if rcapacity != "" {
-		capacity = r.FormValue("capacity")
-		f["capacity"] = bson.M{"$gte": capacity}
+		capacity, _ = strconv.Atoi(r.FormValue("capacity"))
+		f["capacity"] = bson.M{"$gt": capacity - 1}
 	}
-	if strings.Compare(rattribut, "<span class=\"notranslate\">​</span>") == 0 {
-		attribut = r.FormValue("attribut")
+	if attribut != "" {
 		f["attribut"] = attribut
 	}
-	if strings.Compare(rlocation, "") == 0 {
-		location = r.FormValue("location")
+	if location != "" {
 		f["location"] = location
 	}
-	if strings.Compare(r.FormValue("house"), "") == 0 {
-		house = r.FormValue("house")
+	if house != "" {
 		f["haus"] = house
 	}
-	if strings.Compare(r.FormValue("floor"), "") == 0 {
-		floor = r.FormValue("floor")
+	if floor != "" {
 		f["ebene"] = floor
 	}
 
-	fmt.Println(capacity, attribut, location, house, floor, f)
+	fmt.Println(f)
 
 	client, ctx := dbcon.Dbconect()
 
@@ -304,8 +301,6 @@ func login(w http.ResponseWriter, r *http.Request) {
 
 	arr := BsonMapToArray(result)
 
-	fmt.Println(arr)
-
 	if len(arr) > 0 {
 		if password == arr["password"] {
 			fmt.Println("login")
@@ -416,7 +411,7 @@ func room(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	name := r.FormValue("name")
-	capacity := r.FormValue("capacity")
+	capacity, _ := strconv.Atoi(r.FormValue("capacity"))
 	attribut := r.FormValue("attribut")
 	location := r.FormValue("location")
 	haus := r.FormValue("haus")

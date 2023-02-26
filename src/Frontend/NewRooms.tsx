@@ -1,4 +1,4 @@
-import React, {MouseEvent, useCallback, useEffect} from "react";
+import React, {MouseEvent, useCallback, useEffect, useState} from "react";
 import "./CSS/App/NewRooms.css";
 import {Button, IconButton, Menu, MenuItem, Toolbar, Tooltip} from "@mui/material";
 import {PersonAddAlt, Category, HouseSiding} from "@mui/icons-material";
@@ -144,31 +144,31 @@ function NewRooms() {
 
     function filterRooms() {
         // filter through set filters of Attribut/Capacity/Location/Haus/Ebene
-        let newFilteredRooms = rooms.filter(newRooms => {
+        /*let newFilteredRooms = rooms.filter(newRooms => {
             return newRooms.capacity <= parseInt((document.getElementById("numberPeopleInRoom")! as HTMLInputElement).value) &&
                 newRooms.attribut === ((document.getElementById("roomAttributes")! as HTMLInputElement).innerHTML) &&
                 newRooms.location === ((document.getElementById("location")! as HTMLInputElement).innerHTML) &&
                 newRooms.haus === ((document.getElementById("building")! as HTMLInputElement).innerHTML) &&
                 newRooms.ebene === parseInt((document.getElementById("floor")! as HTMLInputElement).innerHTML);
         });
-        console.log(newFilteredRooms)
+        console.log(newFilteredRooms)*/
 
-        let capacity = (document.getElementById("numberPeopleInRoom")! as HTMLInputElement).value
-        let attribut = (document.getElementById("roomAttributes")! as HTMLInputElement).innerHTML
-        let location = (document.getElementById("location")! as HTMLInputElement).innerHTML
-        let house = (document.getElementById("building")! as HTMLInputElement).innerHTML
-        let floor = (document.getElementById("floor")! as HTMLInputElement).innerHTML
+        var capacity = (document.getElementById("numberPeopleInRoom")! as HTMLInputElement).value
+        // var attribut = (document.getElementById("roomAttributes")! as HTMLInputElement).innerHTML
+        // var location = (document.getElementById("location")! as HTMLInputElement).innerHTML
+        //house = (document.getElementById("building")! as HTMLInputElement).innerHTML
+        // var floor = (document.getElementById("floor")! as HTMLInputElement).innerHTML
 
         console.log(capacity)
         console.log(attribut)
-        console.log(location)
+        console.log(loc)
         console.log(house)
         console.log(floor)
 
         const formdata = new FormData();
         formdata.append("capacity", capacity)
         formdata.append("attribut", attribut)
-        formdata.append("location", location)
+        formdata.append("location", loc)
         formdata.append("house", house)
         formdata.append("floor", floor)
 
@@ -204,7 +204,34 @@ function NewRooms() {
         }) */
     }
 
+    const [house, setSelectedHaus] = useState('');
+    const [loc, setSelectedLoc] = useState('');
+    const [attribut, setSelectedAttribut] = useState('');
+    const [floor, setSelectedFloor] = useState('');
 
+    function handleHausChange(event: React.ChangeEvent<{ value: unknown }>) {
+        if (typeof event.target.value === 'string') {
+            setSelectedHaus(event.target.value);
+        }
+    }
+
+    function handleLocationChange(event: React.ChangeEvent<{ value: unknown }>) {
+        if (typeof event.target.value === 'string') {
+            setSelectedLoc(event.target.value);
+        }
+    }
+
+    function handleAttributesChange(event: React.ChangeEvent<{ value: unknown }>) {
+        if (typeof event.target.value === 'string') {
+            setSelectedAttribut(event.target.value);
+        }
+    }
+
+    function handleFloorChange(event: React.ChangeEvent<{ value: unknown }>) {
+        if (typeof event.target.value === 'string') {
+            setSelectedFloor(event.target.value);
+        }
+    }
 
     return(
                 <div className="contentNewRooms">
@@ -233,6 +260,7 @@ function NewRooms() {
                                                 label="Attribute"
                                                 sx={{width: '100%'}}
                                                 select
+                                                onChange={handleAttributesChange}
                                             >
 
                                                 {attributes.map((option) => (
@@ -248,6 +276,7 @@ function NewRooms() {
                                                 label="Location"
                                                 sx={{width: '100%'}}
                                                 select
+                                                onChange={handleLocationChange}
                                             >
                                                 {location.map((option) => (
                                                     <MenuItem key={option.location} value={option.location}>
@@ -258,10 +287,11 @@ function NewRooms() {
                                         </div>
                                         <div className="leftBoxFilter">
                                             <TextField
-                                                id="building"
+                                                id="bulding"
                                                 label="Haus"
                                                 sx={{width: '100%'}}
                                                 select
+                                                onChange={handleHausChange}
                                             >
                                                 {haus.map((option) => (
                                                     <MenuItem key={option.haus} value={option.haus}>
@@ -276,6 +306,7 @@ function NewRooms() {
                                                 label="Ebene"
                                                 sx={{width: '100%'}}
                                                 select
+                                                onChange={handleFloorChange}
                                             >
                                                 {ebene.map((option) => (
                                                     <MenuItem key={option.ebene} defaultValue={"floor"} value={option.ebene}>
