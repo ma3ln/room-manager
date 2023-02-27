@@ -7,6 +7,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	_ "go.mongodb.org/mongo-driver/mongo/options"
 	"log"
 	"net/http"
@@ -198,24 +199,36 @@ func bookRoom(w http.ResponseWriter, r *http.Request) {
 	date := r.FormValue("date")
 	startTime := r.FormValue("startTime")
 	endTime := r.FormValue("endTime")
+	username := r.FormValue("username")
 
 	fmt.Println(roomIDstr, name, date, startTime, endTime)
 
 	client, ctx := dbcon.Dbconect()
 
 	roommanager := client.Database("roomManager")
-	userColl := roommanager.Collection("Reservation")
+	reservColl := roommanager.Collection("Reservation")
+	userColl := roommanager.Collection("User")
+
+	projection := bson.M{"_id": 1}
+	opts := options.FindOne().SetProjection(projection)
 
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 	}
+
+	var user bson.M
+	err := userColl.FindOne(ctx, bson.M{"username": username}, opts).Decode(&user)
 
 	roomID, err := primitive.ObjectIDFromHex(roomIDstr)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
 
-	_, err = userColl.InsertOne(ctx, bson.D{
+	fmt.Println(user)
+	fmt.Println(user["_id"].(primitive.ObjectID))
+
+	_, err = reservColl.InsertOne(ctx, bson.D{
+		{Key: "userID", Value: user["_id"].(primitive.ObjectID)},
 		{Key: "roomID", Value: roomID},
 		{Key: "name", Value: name},
 		{Key: "class", Value: class},
@@ -234,11 +247,21 @@ func bookRoom(w http.ResponseWriter, r *http.Request) {
 func getBookedRooms(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	userID := r.FormValue("userID")
 
 	client, ctx := dbcon.Dbconect()
 
 	roommanager := client.Database("roomManager")
 	userCollBooked := roommanager.Collection("Room")
+	userColl := roommanager.Collection("User")
+
+	projection := bson.M{"_id": 1}
+	opts := options.FindOne().SetProjection(projection)
+
+	var user bson.M
+	err := userColl.FindOne(ctx, bson.M{"username": userID}, opts).Decode(&user)
+
+	fmt.Println(userID)
 
 	pipeline := bson.A{
 		bson.M{
@@ -252,6 +275,11 @@ func getBookedRooms(w http.ResponseWriter, r *http.Request) {
 		bson.M{
 			"$match": bson.M{
 				"reservations": bson.M{"$ne": []interface{}{}},
+			},
+		},
+		bson.M{
+			"$match": bson.M{
+				"reservations.userID": user["_id"].(primitive.ObjectID),
 			},
 		},
 	}

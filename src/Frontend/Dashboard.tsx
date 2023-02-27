@@ -17,14 +17,22 @@ function Dashboard(){
 //    const username = (document.getElementById("input-with-account-icon")! as HTMLInputElement).value;
     const username = localStorage.getItem("username");
     const [loadBookedRooms, setLoadBooked] = React.useState([]);
-    const [userInfo, setUserInfo] = React.useState({username: "", password: "", mail: "", firstname: "", lastname: ""});
+    const [userInfo, setUserInfo] = React.useState({_id: "", username: "", password: "", mail: "", firstname: "", lastname: ""});
     const [selectedReservation, setSelectedReservation] = React.useState({_id: "", roomID: "",  name: "", date: "", startTime: "", endTime: "", class: "", module: ""});
     const [selectedBookedRoom, setSelectedBookedRoom] = React.useState([]);
     const [error, setError] = React.useState(null);
 
 
     function fetchBookedRooms() {
-        fetch("http://localhost:8081/getBookedRooms")
+        var user = localStorage.getItem("username") as string
+
+        const formdata = new FormData();
+        formdata.append("userID", user)
+
+        fetch("http://localhost:8081/getBookedRooms", {
+            method: 'POST',
+            body: formdata
+        })
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Network response was not ok");

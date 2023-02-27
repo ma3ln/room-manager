@@ -60,6 +60,7 @@ const RoomInformation = ({ onBookingRoomItem}) => {
     function bookRoom() {
         console.log(onBookingRoomItem)
 
+        var user = localStorage.getItem("username") as string
         var roomID = ((document.getElementById("bookingRoomId")! as HTMLInputElement).innerHTML)
         var name = ((document.getElementById("bookingRoomName")! as HTMLInputElement).innerHTML)
         var selectClass = ((document.getElementById("selectClass")! as HTMLInputElement).innerHTML)
@@ -70,6 +71,7 @@ const RoomInformation = ({ onBookingRoomItem}) => {
 
         console.log(roomID)
         const formdata = new FormData();
+        formdata.append("username", user);
         formdata.append("roomID", roomID);
         formdata.append("name", name);
         formdata.append("class", selectClass);
