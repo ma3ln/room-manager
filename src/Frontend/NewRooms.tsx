@@ -17,6 +17,10 @@ import location from "./resources/location.json";
 import ebene from "./resources/ebene.json";
 
 const RoomInformation = React.lazy(() => import("./Popup/RoomInformation"))
+import rooms from "./resources/rooms.json";
+import {Simulate} from "react-dom/test-utils";
+import load = Simulate.load;
+import {log} from "util";
 
 
 function NewRooms() {
@@ -76,38 +80,6 @@ function NewRooms() {
         console.log(disabled)
     }
 
-    const [startTime, setStartTime] = React.useState<Dayjs | null>(
-
-    )
-
-    const [date, setDate] = React.useState<Dayjs | null>(
-
-    )
-
-    const [endTime, setEndTime] = React.useState<Dayjs | null>(
-
-    )
-
-    function handleBackgroundBlur() {
-        (document.getElementById("root")! as HTMLElement).style.filter = 'blur(5px)'
-    }
-
-    function handleNoBlurBackground() {
-        (document.getElementById("root")! as HTMLElement).style.filter = 'none'
-    }
-
-    function handleStartTimeChange(newValue: Dayjs | null | undefined) {
-        setStartTime(newValue);
-    }
-
-    function handleEndTimeChange(newValue: Dayjs | null | undefined) {
-        setEndTime(newValue);
-    }
-
-    function handleDateChange(newValue: Dayjs | null | undefined) {
-        setDate(newValue);
-    }
-
     function SelectedRoom(room: { _id: string; name: string; capacity: number; attribut: string; location: string }) {
         setSelectedRoom(loadedRooms.filter((selecRoom: { _id: string }) => (
             selecRoom._id === room._id
@@ -126,12 +98,22 @@ function NewRooms() {
         console.log(house)
         console.log(floor)
 
+        var dateString = date?.format("MM/DD/YYYY");
+        var startTimeString = startTime?.format('HH:mm:ss')
+        var endTimeString = endTime?.format('HH:mm:ss')
+
         const formdata = new FormData();
         formdata.append("capacity", capacity)
         formdata.append("attribut", attribut)
         formdata.append("location", loc)
         formdata.append("house", house)
         formdata.append("floor", floor)
+        if(dateString != undefined)
+            formdata.append("date", dateString.toString())
+        if(endTimeString != undefined)
+            formdata.append("endTime", endTimeString.toString())
+        if(startTimeString != undefined)
+            formdata.append("startTime", startTimeString.toString())
 
         console.log(formdata)
 
@@ -147,10 +129,15 @@ function NewRooms() {
             });
     }
 
+    const [startTime, setStartTime] = React.useState<Dayjs | null>()
+    const [date, setDate] = React.useState<Dayjs | null>()
+    const [endTime, setEndTime] = React.useState<Dayjs | null>()
     const [house, setSelectedHaus] = useState('');
     const [loc, setSelectedLoc] = useState('');
     const [attribut, setSelectedAttribut] = useState('');
     const [floor, setSelectedFloor] = useState('');
+
+
 
     function handleHausChange(event: React.ChangeEvent<{ value: unknown }>) {
         if (typeof event.target.value === 'string') {
@@ -174,6 +161,26 @@ function NewRooms() {
         if (typeof event.target.value === 'string') {
             setSelectedFloor(event.target.value);
         }
+    }
+
+    function handleBackgroundBlur() {
+        (document.getElementById("root")! as HTMLElement).style.filter = 'blur(5px)'
+    }
+
+    function handleNoBlurBackground() {
+        (document.getElementById("root")! as HTMLElement).style.filter = 'none'
+    }
+
+    function handleStartTimeChange(newValue: Dayjs | null) {
+        setStartTime(newValue);
+    }
+
+    function handleEndTimeChange(newValue: Dayjs | null) {
+        setEndTime(newValue);
+    }
+
+    function handleDateChange(newValue: Dayjs | null) {
+        setDate(newValue);
     }
 
     return(

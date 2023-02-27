@@ -58,34 +58,39 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
-	f := bson.M{}
+	filter := bson.M{}
 
-	f["capacity"] = bson.M{"$gt": 0}
+	filter["capacity"] = bson.M{"$gt": 0}
 	attribut := r.FormValue("attribut")
 	location := r.FormValue("location")
 	house := r.FormValue("house")
 	floor := r.FormValue("floor")
 	rcapacity := r.FormValue("capacity")
+	date := r.FormValue("date")
+	startTime := r.FormValue("startTime")
+	endTime := r.FormValue("endTime")
 	capacity := 0
+
+	fmt.Println(date, startTime, endTime)
 
 	if rcapacity != "" {
 		capacity, _ = strconv.Atoi(r.FormValue("capacity"))
-		f["capacity"] = bson.M{"$gt": capacity - 1}
+		filter["capacity"] = bson.M{"$gt": capacity - 1}
 	}
 	if attribut != "" {
-		f["attribut"] = attribut
+		filter["attribut"] = attribut
 	}
 	if location != "" {
-		f["location"] = location
+		filter["location"] = location
 	}
 	if house != "" {
-		f["haus"] = house
+		filter["haus"] = house
 	}
 	if floor != "" {
-		f["ebene"] = floor
+		filter["ebene"] = floor
 	}
 
-	fmt.Println(f)
+	fmt.Println(filter)
 
 	client, ctx := dbcon.Dbconect()
 
@@ -93,7 +98,7 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 	userColl := roommanager.Collection("Room")
 
 	var result []bson.M
-	cur, err := userColl.Find(ctx, f)
+	cur, err := userColl.Find(ctx, filter)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -114,6 +119,17 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	/*for _, doc := range result {
+		// Extract the "_id" field as a primitive.ObjectID
+		id := doc["_id"].(primitive.ObjectID)
+
+		// Compare the ObjectIDs
+		if id == targetID {
+			// do something...
+		}
+	}*/
+
 	// Convert the results to JSON and write the response
 	/*jsonBytes, err := json.Marshal(result)
 	if err != nil {
@@ -121,7 +137,6 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 		return
 	}*/
 	fmt.Println(result)
-
 }
 
 func getRooms(w http.ResponseWriter, r *http.Request) {
@@ -161,7 +176,6 @@ func getRooms(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Println(jsonBytes)
 	w.Write(jsonBytes)
 }
 
@@ -369,10 +383,6 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	arr := BsonMapToArray(result)
-
-	fmt.Println(arr)
-
 	jsonBytes, err := json.Marshal(result)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -419,7 +429,6 @@ func register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(mailFiltered) > 0 || len(userFiltered) > 0 {
-		fmt.Println("fail")
 		http.Error(w, "Fehler!!!", http.StatusBadRequest)
 	} else {
 		_, err := userColl.InsertOne(ctx, bson.D{
