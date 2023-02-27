@@ -220,23 +220,33 @@ function NewRooms() {
         console.log(newFilteredRooms)
 
         let capacity = (document.getElementById("numberPeopleInRoom")! as HTMLInputElement).value
-        let attribut = (document.getElementById("roomAttributes")! as HTMLInputElement).innerHTML
-        let location = (document.getElementById("location")! as HTMLInputElement).innerHTML
-        let house = (document.getElementById("building")! as HTMLInputElement).innerHTML
-        let floor = (document.getElementById("floor")! as HTMLInputElement).innerHTML
+        // let attribut = (document.getElementById("roomAttributes")! as HTMLInputElement).innerHTML
+        // let location = (document.getElementById("location")! as HTMLInputElement).innerHTML
+        // let house = (document.getElementById("building")! as HTMLInputElement).innerHTML
+        // let floor = (document.getElementById("floor")! as HTMLInputElement).innerHTML
 
         console.log(capacity)
         console.log(attribut)
-        console.log(location)
+        console.log(loc)
         console.log(house)
         console.log(floor)
+
+        var dateString = date?.format("MM/DD/YYYY");
+        var startTimeString = startTime?.format('HH:mm:ss')
+        var endTimeString = endTime?.format('HH:mm:ss')
 
         const formdata = new FormData();
         formdata.append("capacity", capacity)
         formdata.append("attribut", attribut)
-        formdata.append("location", location)
+        formdata.append("location", loc)
         formdata.append("house", house)
         formdata.append("floor", floor)
+        if(dateString != undefined)
+            formdata.append("date", dateString.toString())
+        if(endTimeString != undefined)
+            formdata.append("endTime", endTimeString.toString())
+        if(startTimeString != undefined)
+            formdata.append("startTime", startTimeString.toString())
 
         console.log(formdata)
 
@@ -270,7 +280,42 @@ function NewRooms() {
         }) */
     }
 
+    const [startTime, setStartTime] = React.useState<Dayjs | null>()
+    const [date, setDate] = React.useState<Dayjs | null>()
+    const [endTime, setEndTime] = React.useState<Dayjs | null>()
+    const [house, setSelectedHaus] = useState('');
+    const [loc, setSelectedLoc] = useState('');
+    const [attribut, setSelectedAttribut] = useState('');
+    const [floor, setSelectedFloor] = useState('');
 
+
+
+    function handleHausChange(event: React.ChangeEvent<{ value: unknown }>) {
+        if (typeof event.target.value === 'string') {
+            setSelectedHaus(event.target.value);
+        }
+    }
+
+
+    function handleBackgroundBlur() {
+        (document.getElementById("root")! as HTMLElement).style.filter = 'blur(5px)'
+    }
+
+    function handleNoBlurBackground() {
+        (document.getElementById("root")! as HTMLElement).style.filter = 'none'
+    }
+
+    function handleStartTimeChange(newValue: Dayjs | null) {
+        setStartTime(newValue);
+    }
+
+    function handleEndTimeChange(newValue: Dayjs | null) {
+        setEndTime(newValue);
+    }
+
+    function handleDateChange(newValue: Dayjs | null) {
+        setDate(newValue);
+    }
 
     return(
                 <div className="contentNewRooms">
@@ -315,6 +360,7 @@ function NewRooms() {
                                                 label="Location"
                                                 sx={{width: '100%'}}
                                                 select
+                                                onChange={handleLocationChange}
                                             >
                                                 {location.map((option) => (
                                                     <MenuItem key={option.location} value={option.location}>
@@ -325,10 +371,11 @@ function NewRooms() {
                                         </div>
                                         <div className="leftBoxFilter">
                                             <TextField
-                                                id="building"
+                                                id="bulding"
                                                 label="Haus"
                                                 sx={{width: '100%'}}
                                                 select
+                                                onChange={handleHausChange}
                                             >
                                                 {haus.map((option) => (
                                                     <MenuItem key={option.haus} value={option.haus}>
@@ -343,6 +390,7 @@ function NewRooms() {
                                                 label="Ebene"
                                                 sx={{width: '100%'}}
                                                 select
+                                                onChange={handleFloorChange}
                                             >
                                                 {ebene.map((option) => (
                                                     <MenuItem key={option.ebene} value={option.ebene}>
