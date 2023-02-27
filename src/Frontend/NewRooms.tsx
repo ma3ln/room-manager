@@ -1,4 +1,4 @@
-import React, {MouseEvent, useCallback, useEffect, useState} from "react";
+import React, {Suspense, useEffect, useState} from "react";
 import "./CSS/App/NewRooms.css";
 import {Button, IconButton, Menu, MenuItem, Toolbar, Tooltip} from "@mui/material";
 import {PersonAddAlt, Category, HouseSiding} from "@mui/icons-material";
@@ -8,30 +8,21 @@ import {LocalizationProvider, TimePicker} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DesktopDatePicker} from "@mui/x-date-pickers";
 import Popup from "reactjs-popup";
-import RoomInformation from "./Popup/RoomInformation";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 import haus from"./resources/haus.json";
 import attributes from"./resources/attributes.json";
 import location from "./resources/location.json";
 import ebene from "./resources/ebene.json";
-import rooms from "./resources/rooms.json";
-import {Simulate} from "react-dom/test-utils";
-import load = Simulate.load;
+
+const RoomInformation = React.lazy(() => import("./Popup/RoomInformation"))
 
 
 function NewRooms() {
 
-
-    const username = "TestUser!";
-    let newId: string;
-    let bookingID;
-    let myRoom;
     const [loadedRooms, setLoadedRooms] = React.useState([]);
     const [selectedRoom, setSelectedRoom] = React.useState([]);
     const [disabled, setDisabled] = React.useState(true);
-    const [error, setError] = React.useState(null);
-    const [anchorUser, setAnchorUser] = React.useState<null | HTMLElement>(null)
     const [openRoomPopup, setOpenRoomPopup] = React.useState(false);
     const closeRoomPopup = () => setOpenRoomPopup(false);
 
@@ -69,7 +60,6 @@ function NewRooms() {
             })
             .catch(error => {
                 console.error(error);
-                setError(error);
             });
         }, []);
 
@@ -334,14 +324,16 @@ function NewRooms() {
                                     </li>
                                 ))}
                             </ul>
-                            <div id="modal">
-                                <Popup open ={openRoomPopup}  closeOnDocumentClick={false}>
-                                    <RoomInformation onBookingRoomItem={selectedRoom} />
-                                    <div id="clickToCloseRoomBooking">
-                                        <Button onClick={() => {closeRoomPopup(); handleNoBlurBackground()}} >Close</Button>
-                                    </div>
-                                </Popup>
-                            </div>
+                            <Suspense fallback={<div>Loading...</div>}>
+                                {openRoomPopup ? <div id="modal">
+                                    <Popup open ={openRoomPopup}  closeOnDocumentClick={false}>
+                                        <RoomInformation onBookingRoomItem={selectedRoom} />
+                                        <div id="clickToCloseRoomBooking">
+                                            <Button onClick={() => {closeRoomPopup(); handleNoBlurBackground()}} >Close</Button>
+                                        </div>
+                                    </Popup>
+                                </div>: null}
+                            </Suspense>
                         </div>
                     </div>
                 </div>

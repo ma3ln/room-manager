@@ -1,26 +1,21 @@
 import "./CSS/App/Dashboard.css"
 import "./CSS/App/DashboardBuchungen.css"
-import React, {useEffect, useState} from "react";
+import React, {Suspense, useEffect, useState} from "react";
 import {AssignmentTurnedIn} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 
-import bookedRooms from "./resources/bookedRooms.json"
 import Popup from "reactjs-popup";
-import RoomInformation from "./Popup/RoomInformation";
 import {Button} from "@mui/material";
-import BookingInfo from "./Popup/BookingInfo";
+import UserInformation from "./Page/UserInformation";
+
+const BookingInfo = React.lazy(() => import("./Popup/BookingInfo"))
 
 function Dashboard(){
 
-//    const [ name, date ] = props;
-
-//    const username = (document.getElementById("input-with-account-icon")! as HTMLInputElement).value;
     const username = localStorage.getItem("username");
     const [loadBookedRooms, setLoadBooked] = React.useState([]);
-    const [userInfo, setUserInfo] = React.useState({_id: "", username: "", password: "", mail: "", firstname: "", lastname: ""});
     const [selectedReservation, setSelectedReservation] = React.useState({_id: "", roomID: "",  name: "", date: "", startTime: "", endTime: "", class: "", module: ""});
     const [selectedBookedRoom, setSelectedBookedRoom] = React.useState([]);
-    const [error, setError] = React.useState(null);
 
 
     function fetchBookedRooms() {
@@ -52,50 +47,12 @@ function Dashboard(){
             })
             .catch(error => {
                 console.error(error);
-                setError(error);
             });
     }
 
-    function fetchUserData() {
-        var user = localStorage.getItem("username") as string
-
-        const formdata = new FormData();
-        formdata.append("user", user);
-
-        fetch("http://localhost:8081/getUser", {
-            method: 'POST',
-            body: formdata
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok")
-                }
-                return response.json()
-            })
-            .then(loggedUser => {
-                console.log("hallo User")
-                console.log(loggedUser)
-                setUserInfo(loggedUser)
-            })
-            .then(error => {
-                console.error(error)
-            })
-    }
-
     useEffect(() => {
-
         fetchBookedRooms();
-
     }, []);
-
-    useEffect(() => {
-        fetchUserData();
-    }, [""])
-
-
-    function handlePopupBuchung() {
-
-    }
     
     function newSelectedRoom(bookedRoom: {_id: string; name: string; capacity: number; attribut: string; location: string, reservations: []}) {
         setSelectedBookedRoom(loadBookedRooms.filter((selecBookedRoom: {_id: string}) => (
@@ -104,7 +61,6 @@ function Dashboard(){
     }
 
     const navigate = useNavigate();
-    const [loadedRooms, setLoadedRooms] = React.useState([{ID: "", Name: "", }]);
     const [openBookingPopup, setOpenBookingPopup] = React.useState(false);
     const closeBookingPopup = () => setOpenBookingPopup(false);
 
@@ -129,8 +85,6 @@ function Dashboard(){
 
 
 
-
-
     return(
                 <div className="contentDashboard">
                     <div id="contentBoxes">
@@ -139,22 +93,7 @@ function Dashboard(){
                                 <div id="dashboardWelcome">
                                     <h1>Welcome {username}!</h1>
                                 </div>
-                                <div id="informationAboutUser">
-                                    <div id="picPersonalData"/>
-                                        <>
-                                            <div id="boxInformation">
-                                                <div id="informationUserName">
-                                                    <h2 id="textUserName">{userInfo.firstname}  {userInfo.lastname}</h2>
-                                                </div>
-                                                <div id="informationEmail">
-                                                    <p id="textEmail">{userInfo.mail}</p>
-                                                </div>
-                                                <div id="informationRole">
-                                                    <p id="textRole">Lehrer</p>
-                                                </div>
-                                            </div>
-                                        </>
-                                </div>
+                                <UserInformation />
                             </div>
                             <div id="placeholderStyle">
 
@@ -178,14 +117,16 @@ function Dashboard(){
 
                                             ))}
                                 </ul>
-                                <div id="modal">
-                                    <Popup open={openBookingPopup}  closeOnDocumentClick={false}>
-                                        <BookingInfo onBookedRoomItem={selectedBookedRoom} onSelectedReservation={selectedReservation} />
-                                        <div id="clickToCloseRoomBooking">
-                                            <Button onClick={() => {closeBookingPopup(); handleNoBlurBackground()}} >Close</Button>
-                                        </div>
-                                    </Popup>
-                                </div>
+                                <Suspense fallback={<div>Loading...</div>}>
+                                    {openBookingPopup ? <div id="modal">
+                                        <Popup open={openBookingPopup}  closeOnDocumentClick={false}>
+                                            <BookingInfo onBookedRoomItem={selectedBookedRoom} onSelectedReservation={selectedReservation} />
+                                            <div id="clickToCloseRoomBooking">
+                                                <Button onClick={() => {closeBookingPopup(); handleNoBlurBackground()}} >Close</Button>
+                                            </div>
+                                        </Popup>
+                                    </div> : null}
+                                </Suspense>
                             </div>
                         </div>
                     </div>

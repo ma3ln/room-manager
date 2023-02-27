@@ -1,19 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {Suspense, useState} from 'react';
 import "./CSS/App/Login.css";
 import {Button, Popover} from "@mui/material";
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
-import {AccountCircle} from "@mui/icons-material";
-import {Lock} from "@mui/icons-material";
 import {Md5} from 'ts-md5';
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import Popup from "reactjs-popup";
-import Register from "./Popup/Register";
+
+import LoginInput from "./Input/LoginInput";
 import NoInputError from "./Popup/NoInputError";
 import CirclesLogin from "./Background/CirclesLogin";
-import Sidebars from "./Sidebars";
-import {Simulate} from "react-dom/test-utils";
 import WrongLogin from "./Popup/WrongLogin";
+const Register = React.lazy(() => import("./Popup/Register"))
 
 
 function Login() {
@@ -101,35 +97,7 @@ function Login() {
                 <h2 id="headLoginText">Login</h2>
             </header>
             <div className="LoginSquare">
-                <div className="user-login">
-                    <TextField id="input-with-account-icon"
-                                   label="User"
-                                   margin="dense"
-                                   InputProps={{
-                                       startAdornment: (
-                                           <InputAdornment position="start">
-                                               <AccountCircle />
-                                           </InputAdornment>
-                                       ),
-                                   }}
-                                   variant="standard"
-                    />
-                </div>
-                <div className="password-login">
-                    <TextField id="input-with-password-icon"
-                               label="Password"
-                               margin="dense"
-                               type="password"
-                               InputProps={{
-                                   startAdornment: (
-                                       <InputAdornment position="start">
-                                           <Lock />
-                                       </InputAdornment>
-                                   ),
-                               }}
-                               variant="standard"
-                    />
-                </div>
+                <LoginInput />
                 <div className="elementLogin">
                     <Button onClick={handleLogin} className="loginButton" sx={{ backgroundColor: '#365D73',  width: '45%', padding: 1, margin: 2}} variant="contained">Login</Button>
                     {show && <Popover
@@ -152,15 +120,17 @@ function Login() {
                 <div className="registerElement">
                     <Button onClick={() => {setOpen(true); handleBackgroundBlur()}} className="registerButton" sx={{backgroundColor: '#365D73',  width: '45%', padding: 1, margin: 2}} variant="contained">Register</Button>
                 </div>
-                <div id="modal">
-                    <Popup open ={openPopup} closeOnDocumentClick={false} onClose={closeModal}
-                    >
-                        <Register />
-                        <div id="clickToCloseRegisterPopup">
-                            <Button onClick={() => {closeModal(); handleNoBlurBackground()}}>Close</Button>
-                        </div>
-                    </Popup>
-                </div>
+                <Suspense fallback={<div>Loading...</div>}>
+                    {openPopup ? <div id="modal">
+                        <Popup open ={openPopup} closeOnDocumentClick={false} onClose={closeModal}
+                        >
+                            <Register />
+                            <div id="clickToCloseRegisterPopup">
+                                <Button onClick={() => {closeModal(); handleNoBlurBackground()}}>Close</Button>
+                            </div>
+                        </Popup>
+                    </div>: null}
+                </Suspense>
             </div>
         </div>
     );

@@ -4,6 +4,9 @@ import {DesktopDatePicker, LocalizationProvider, TimePicker} from "@mui/x-date-p
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, {Dayjs} from "dayjs";
 import "../CSS/Popup/RoomInformation.css";
+import {DeleteButton} from "../Button/DeleteButton";
+
+"../Button/DeleteButton"
 import {AssignmentTurnedIn} from "@mui/icons-material";
 
 
@@ -178,9 +181,7 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                         </TextField>
                     </div>
 
-                <div id="clickToDeleteBooking">
-                    <Button onClick={deleteRoom} variant="contained">Buchung Löschen</Button>
-                </div>
+                <DeleteButton />
             </div>
         </div>
     )
