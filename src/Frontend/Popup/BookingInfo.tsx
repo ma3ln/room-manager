@@ -6,7 +6,6 @@ import dayjs, {Dayjs} from "dayjs";
 import "../CSS/Popup/RoomInformation.css";
 import {DeleteButton} from "../Button/DeleteButton";
 
-"../Button/DeleteButton"
 import {AssignmentTurnedIn} from "@mui/icons-material";
 
 
@@ -45,24 +44,6 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
     }
 
     const [selectedClass, setSelectedClass] = React.useState({className: ''})
-
-    function deleteRoom() {
-        var _id = ((document.getElementById("bookingRoomId")! as HTMLInputElement).innerHTML)
-
-        const formdata = new FormData();
-        formdata.append("idToDelete", _id);
-
-        fetch("http://localhost:8081/deleteBooked", {
-            method: 'POST',
-            body: formdata,
-        })
-            .then(response => {
-                console.log("result", response)
-            })
-            .catch(error => {
-                console.log("Error", error)
-            });
-    }
 
 
     return(

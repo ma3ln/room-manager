@@ -1,6 +1,6 @@
 import React, {Suspense, useEffect, useState} from "react";
 import "./CSS/App/NewRooms.css";
-import {Button, IconButton, Menu, MenuItem, Toolbar, Tooltip} from "@mui/material";
+import {Button, MenuItem} from "@mui/material";
 import {PersonAddAlt, Category, HouseSiding} from "@mui/icons-material";
 import TextField from "@mui/material/TextField";
 import dayjs, {Dayjs} from "dayjs";
@@ -95,15 +95,15 @@ function NewRooms() {
         (document.getElementById("root")! as HTMLElement).style.filter = 'none'
     }
 
-    function handleStartTimeChange(newValue: Dayjs | null) {
+    function handleStartTimeChange(newValue: Dayjs | null | undefined) {
         setStartTime(newValue);
     }
 
-    function handleEndTimeChange(newValue: Dayjs | null) {
+    function handleEndTimeChange(newValue: Dayjs | null | undefined) {
         setEndTime(newValue);
     }
 
-    function handleDateChange(newValue: Dayjs | null) {
+    function handleDateChange(newValue: Dayjs | null | undefined) {
         setDate(newValue);
     }
 
@@ -268,8 +268,6 @@ function NewRooms() {
                                             <div className="rightBoxFilter">
                                                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                                                     <TimePicker
-                                                        minTime={dayjs("08:00", "hh:mm")}
-                                                        maxTime={dayjs("17:00", "hh:mm")}
                                                         label="Start Time"
                                                         className="startTime"
                                                         onChange={(e) => {handleStartTimeChange(e); handleAbleEndTimePicker()}}
@@ -281,11 +279,10 @@ function NewRooms() {
                                             <div className="rightBoxFilter">
                                                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                                                     <TimePicker
-                                                        minTime={dayjs(startTime, "hh:mm")}
                                                         disabled={disabled}
-                                                        maxTime={dayjs("18:00", "hh:mm")}
                                                         label="End Time"
                                                         className="endTime"
+                                                        minTime={dayjs(startTime)}
                                                         onChange={handleEndTimeChange}
                                                         value={endTime}
                                                         renderInput={(params) => <TextField id="endTime" {...params} sx={{width: '100%'}}/>}

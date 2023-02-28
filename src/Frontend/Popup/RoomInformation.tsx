@@ -4,19 +4,16 @@ import {DesktopDatePicker, LocalizationProvider, TimePicker} from "@mui/x-date-p
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, {Dayjs} from "dayjs";
 import "../CSS/Popup/RoomInformation.css";
-import Popup from "reactjs-popup";
-import myClass from "../resources/myClass.json";
-import bookedRooms from "../resources/bookedRooms.json";
+
 import {useParams} from "react-router-dom";
+import BookRoomButton from "../Button/BookRoomButton";
 
 
 
 // @ts-ignore
 const RoomInformation = ({ onBookingRoomItem}) => {
 
-    //const [bookedRoom, setBookedRoom] = React.useState({ID: '', Name: '', StartTime: '', EndTime: '', Date: '', Capacity: '', Attribut: '', Haus: '', Ebene: '', Class: '', Modul: ''})
     const {roomId} = useParams();
-    const [selectedRoom, setSelectedRoom] = React.useState(null);
     const [startTime, setStartTime] = React.useState<Dayjs | null>(
 
     )
@@ -41,15 +38,15 @@ const RoomInformation = ({ onBookingRoomItem}) => {
 
     )
 
-    function handleStartTimeChange(newValue: Dayjs | null) {
+    function handleStartTimeChange(newValue: Dayjs | null | undefined) {
         setStartTime(newValue);
     }
 
-    function handleEndTimeChange(newValue: Dayjs | null) {
+    function handleEndTimeChange(newValue: Dayjs | null | undefined) {
         setEndTime(newValue);
     }
 
-    function handleDateChange(newValue: Dayjs | null) {
+    function handleDateChange(newValue: Dayjs | null | undefined) {
         setDate(newValue);
     }
 
@@ -57,43 +54,6 @@ const RoomInformation = ({ onBookingRoomItem}) => {
         setSelectedClass({className: e.target.value})
     }
 
-    function bookRoom() {
-        console.log(onBookingRoomItem)
-
-        var user = localStorage.getItem("username") as string
-        var roomID = ((document.getElementById("bookingRoomId")! as HTMLInputElement).innerHTML)
-        var name = ((document.getElementById("bookingRoomName")! as HTMLInputElement).innerHTML)
-        var selectClass = ((document.getElementById("selectClass")! as HTMLInputElement).innerHTML)
-        var module = ((document.getElementById("selectModul")! as HTMLInputElement).innerHTML)
-        var date = ((document.getElementById("bookingRoomDate")! as HTMLInputElement).value)
-        var startTime =  ((document.getElementById("bookingRoomStartTime")! as HTMLInputElement).value)
-        var endTime = ((document.getElementById("bookingRoomEndTime")! as HTMLInputElement).value)
-
-        console.log(roomID)
-        const formdata = new FormData();
-        formdata.append("username", user);
-        formdata.append("roomID", roomID);
-        formdata.append("name", name);
-        formdata.append("class", selectClass);
-        formdata.append("module", module);
-        formdata.append("date", date);
-        formdata.append("startTime", startTime);
-        formdata.append("endTime", endTime);
-
-
-            fetch("http://localhost:8081/bookRoom", {
-                method: 'POST',
-                body: formdata,
-            })
-                .then(response => {
-                    console.log("result", response)
-                })
-                .catch(error => {
-                    console.log("Error", error)
-                });
-
-
-    }
 
     function handleDisabledModule() {
         setDisabled(false);
@@ -168,6 +128,7 @@ const RoomInformation = ({ onBookingRoomItem}) => {
                                     label="Datum"
                                     className="rightBoxesRoomBooking"
                                     inputFormat="MM/DD/YYYY"
+                                    disablePast
                                     onChange={handleDateChange}
                                     value={date}
                                     renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomDate"
@@ -175,8 +136,6 @@ const RoomInformation = ({ onBookingRoomItem}) => {
                             </LocalizationProvider>
                             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                                 <TimePicker
-                                    minTime={dayjs("08:00", "hh:mm")}
-                                    maxTime={dayjs("17:00", "hh:mm")}
                                     label="Start Time"
                                     className="rightBoxesRoomBooking"
                                     onChange={(e) => {handleStartTimeChange(e); handleAbleEndTimePicker()}}
@@ -188,8 +147,7 @@ const RoomInformation = ({ onBookingRoomItem}) => {
                                 <TimePicker
                                     label="End Time"
                                     disabled={disabled}
-                                    minTime={dayjs("09:00", "hh:mm")}
-                                    maxTime={dayjs("18:00", "hh:mm")}
+                                    minTime={dayjs(startTime)}
                                     className="rightBoxesRoomBooking"
                                     onChange={handleEndTimeChange}
                                     value={endTime}
@@ -200,40 +158,23 @@ const RoomInformation = ({ onBookingRoomItem}) => {
                     </div>
                     <div id="classSelection">
                         <TextField
-                            select
                             className="classBoxes"
                             label="Klasse"
                             id="selectClass"
                             onChange={ (e) => {handleSelectedClass(e); handleDisabledModule()}}
                             sx={{width: '40%'}}
                         >
-                            {myClass.map((option) => (
-                                <MenuItem key={option.class} value={option.class} >
-                                    {option.class}
-                                </MenuItem>
-                            ))}
                         </TextField>
                         <TextField
-                            select
                             disabled={disabled}
                             className="classBoxes"
                             label="Modul"
                             id="selectModul"
                             sx={{width: '40%'}}
                         >
-                            {myClass.map((option, index) => {
-                                    return option.class === selectedClass.className ?
-                                        (<MenuItem key={index} value={option.module_1}>
-                                                {option.module_1}
-                                            </MenuItem>
-                                        ) : null
-                                }
-                            )}
                         </TextField>
                     </div>
-                    <div id="clickToBookRoom">
-                        <Button onClick={bookRoom} variant="contained">Raum buchen</Button>
-                    </div>
+                    <BookRoomButton />
                 </div>
             </div>
     )
