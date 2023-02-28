@@ -226,7 +226,6 @@ function NewRooms() {
                                                 label="Location"
                                                 sx={{width: '100%'}}
                                                 select
-                                                onChange={handleLocationChange}
                                             >
                                                 {location.map((option) => (
                                                     <MenuItem key={option.location} value={option.location}>
@@ -237,11 +236,10 @@ function NewRooms() {
                                         </div>
                                         <div className="leftBoxFilter">
                                             <TextField
-                                                id="bulding"
+                                                id="building"
                                                 label="Haus"
                                                 sx={{width: '100%'}}
                                                 select
-                                                onChange={handleHausChange}
                                             >
                                                 {haus.map((option) => (
                                                     <MenuItem key={option.haus} value={option.haus}>
@@ -256,10 +254,9 @@ function NewRooms() {
                                                 label="Ebene"
                                                 sx={{width: '100%'}}
                                                 select
-                                                onChange={handleFloorChange}
                                             >
                                                 {ebene.map((option) => (
-                                                    <MenuItem key={option.ebene} defaultValue={"floor"} value={option.ebene}>
+                                                    <MenuItem key={option.ebene} value={option.ebene}>
                                                         {option.ebene}
                                                     </MenuItem>
                                                 ))}

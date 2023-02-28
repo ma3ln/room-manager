@@ -14,6 +14,7 @@ import (
 	dbcon "room-manager/src/Backend"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type Termin struct {
@@ -70,7 +71,17 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 	startTime := r.FormValue("startTime")
 	endTime := r.FormValue("endTime")
 	capacity := 0
-
+	if date == "" {
+		timedate := time.Now()
+		date = timedate.Format("01/02/2006")
+	}
+	if startTime == "" {
+		time := time.Now()
+		startTime = time.Format("15:04")
+	}
+	if endTime == "" {
+		endTime = time.Now().Format("15:04")
+	}
 	fmt.Println(date, startTime, endTime)
 
 	if rcapacity != "" {
@@ -120,6 +131,44 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	timefilter := bson.M{}
+	timefilter["date"] = date
+	//timefilter["startTime"] = startTime
+	//timefilter["endTime"] = endTime
+
+	fmt.Println(timefilter)
+	fmt.Println(result)
+
+	client, ctx = dbcon.Dbconect()
+
+	roommanager = client.Database("roomManager")
+	userColl = roommanager.Collection("Reservation")
+
+	var results []bson.M
+	cur, err = userColl.Find(ctx, timefilter)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	defer cur.Close(ctx)
+
+	for cur.Next(ctx) {
+		var reservation bson.M
+		if err := cur.Decode(&reservation); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		results = append(results, reservation)
+	}
+
+	if err := cur.Err(); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Println(results)
+
 	/*for _, doc := range result {
 		// Extract the "_id" field as a primitive.ObjectID
 		id := doc["_id"].(primitive.ObjectID)
@@ -136,7 +185,7 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}*/
-	fmt.Println(result)
+
 }
 
 func getRooms(w http.ResponseWriter, r *http.Request) {
