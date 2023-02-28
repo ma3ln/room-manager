@@ -112,6 +112,7 @@ function Dashboard(){
                                                     <AssignmentTurnedIn />
                                                         <span><strong>{bookedRoom.name}</strong></span>
                                                         <p>Date: {roomReserv.date}</p>
+                                                        <p>Zeit: {roomReserv.startTime}</p>
                                                     </li>
                                                     ))
 

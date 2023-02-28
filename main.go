@@ -260,9 +260,7 @@ func getBookedRooms(w http.ResponseWriter, r *http.Request) {
 
 	var user bson.M
 	err := userColl.FindOne(ctx, bson.M{"username": userID}, opts).Decode(&user)
-
 	fmt.Println(userID)
-
 	pipeline := bson.A{
 		bson.M{
 			"$lookup": bson.M{
@@ -281,6 +279,9 @@ func getBookedRooms(w http.ResponseWriter, r *http.Request) {
 			"$match": bson.M{
 				"reservations.userID": user["_id"].(primitive.ObjectID),
 			},
+		},
+		bson.D{
+			{"$sort", bson.M{"date": 1}},
 		},
 	}
 
