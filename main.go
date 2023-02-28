@@ -84,8 +84,6 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(date, startTime, endTime)
 
-	fmt.Println(date, startTime, endTime)
-
 	if rcapacity != "" {
 		capacity, _ = strconv.Atoi(r.FormValue("capacity"))
 		filter["capacity"] = bson.M{"$gt": capacity - 1}
@@ -132,17 +130,6 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
-	/*for _, doc := range result {
-		// Extract the "_id" field as a primitive.ObjectID
-		id := doc["_id"].(primitive.ObjectID)
-
-		// Compare the ObjectIDs
-		if id == targetID {
-			// do something...
-		}
-	}*/
-
 
 	timefilter := bson.M{}
 	timefilter["date"] = date
@@ -199,7 +186,6 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 		return
 	}*/
 	fmt.Println(result)
-
 }
 
 func getRooms(w http.ResponseWriter, r *http.Request) {
