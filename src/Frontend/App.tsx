@@ -3,6 +3,7 @@ import './CSS/App/App.css';
 import Login from './Login';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import { Outlet } from "react-router-dom";
+import "./CSS/Background/LoaderForRendering.css"
 
 const Dashboard = React.lazy(() => import("./Dashboard"))
 const NewRooms = React.lazy(() => import("./NewRooms"))
@@ -49,17 +50,17 @@ function App() {
                         <Route path={"/"} element={<Login/>} />
                             <Route element={<AppLayout/>} >
                                 <Route path={"/dashboard"} element={
-                                    <Suspense fallback={<div>Loading...</div>}>
+                                    <Suspense fallback={<div className="loader"></div>}>
                                         <Dashboard />
                                     </Suspense>
                                     }></Route>
                                 <Route path={"/newrooms"} element={
-                                    <Suspense fallback={<div>Loading...</div>}>
+                                    <Suspense fallback={<div className="loader"></div>}>
                                         <NewRooms />
                                     </Suspense>
                                     }></Route>
                                 <Route path={"/addroom"} element={
-                                    <Suspense fallback={<div>Loading...</div>}>
+                                    <Suspense fallback={<div className="loader"></div>}>
                                         <AddRoom />
                                     </Suspense>}></Route>
                             </Route>

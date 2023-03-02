@@ -1,7 +1,8 @@
 import {Button, Modal} from "@mui/material";
 import React, {Suspense} from "react";
+import "../CSS/Background/LoaderForRendering.css"
 
-const SuccessBookedRoom = React.lazy(() => import("../Popup/SuccessBookedRoom"))
+const SuccessRoom = React.lazy(() => import("../Popup/SuccessRoom"))
 export function BookRoomButton() {
 
     const [successBook, setSuccessBook] = React.useState(false);
@@ -44,11 +45,11 @@ export function BookRoomButton() {
     return (
         <div id="clickToBookRoom">
             <Button onClick={bookRoom} variant="contained">Raum buchen</Button>
-            <Suspense>
+            <Suspense fallback={<div className="loader"></div>}>
                 { successBook ? <Modal
                     open={successBook}
                     onClose={() => setSuccessBook(false)}>
-                    <SuccessBookedRoom />
+                    <SuccessRoom />
                 </Modal> : null
                 }
             </Suspense>

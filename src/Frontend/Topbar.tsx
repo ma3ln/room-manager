@@ -29,7 +29,7 @@ export function Topbar() {
 
     return (
         <div className="headerDashboard">
-                <img src="./images/Icon.png"/>
+                <img src="./images/Icon.png" alt="Logo"/>
                 <div id="rightAlignToolbarButtons">
                     <IconButton
                         id="iconButtonHelp"

@@ -2,9 +2,8 @@ import React from "react";
 import Box from "@mui/material/Box";
 import "../CSS/Popup/SuccessAddedRoom.css"
 import {CheckCircleRounded} from "@mui/icons-material";
-import {width} from "dom-helpers";
 
-function SuccessAddedRoom() {
+function SuccessRoom() {
     return (
         <Box className="popoverSuccessAdd">
             <CheckCircleRounded sx={{ fontSize: '400%', color: '#32CD32' }}/>
@@ -13,4 +12,4 @@ function SuccessAddedRoom() {
     );
 }
 
-export default SuccessAddedRoom
+export default SuccessRoom

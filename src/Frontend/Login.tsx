@@ -4,11 +4,13 @@ import {Button, Modal, Popover} from "@mui/material";
 import {Md5} from 'ts-md5';
 import {useNavigate} from "react-router-dom";
 import Popup from "reactjs-popup";
+import "./CSS/Background/LoaderForRendering.css"
 
 import LoginInput from "./Input/LoginInput";
-import NoInputError from "./Popup/NoInputError";
 import CirclesLogin from "./Background/CirclesLogin";
-import WrongLogin from "./Popup/WrongLogin";
+
+const WrongLogin = React.lazy(() => import("./Popup/WrongLogin"))
+const NoInputError = React.lazy(() => import("./Popup/NoInputError"))
 const Register = React.lazy(() => import("./Popup/Register"))
 
 
@@ -100,17 +102,19 @@ function Login() {
                 <LoginInput />
                 <div className="elementLogin">
                     <Button onClick={handleLogin} className="loginButton" sx={{ backgroundColor: '#365D73',  width: '45%', padding: 1, margin: 2}} variant="contained">Login</Button>
-                    {show && <Modal
-                        open={show}
-                        onClose={()  => setShow(false)}>
-                        {showNoInputError ? < NoInputError/> : <WrongLogin/>  }
-                    </Modal>}
+                    <Suspense fallback={<div className="loader"></div>}>
+                        {show && <Modal
+                            open={show}
+                            onClose={()  => setShow(false)}>
+                            {showNoInputError ? < NoInputError/> : <WrongLogin/>  }
+                        </Modal>}
+                    </Suspense>
                 </div>
                 <p id="hr-lines"></p>
                 <div className="registerElement">
                     <Button onClick={() => {setOpen(true); handleBackgroundBlur()}} className="registerButton" sx={{backgroundColor: '#365D73',  width: '45%', padding: 1, margin: 2}} variant="contained">Register</Button>
                 </div>
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<div className="loader"></div>}>
                     {openPopup ? <div id="modal">
                         <Popup open ={openPopup} closeOnDocumentClick={false} onClose={closeModal}
                         >

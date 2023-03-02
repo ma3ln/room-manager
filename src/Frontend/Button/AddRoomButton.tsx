@@ -1,7 +1,7 @@
 import {Button, Modal, Popover} from "@mui/material";
 import React, {Suspense} from "react";
 
-const SuccessAddedRoom = React.lazy(() => import("../Popup/SuccessAddedRoom"))
+const SuccessRoom = React.lazy(() => import("../Popup/SuccessRoom"))
 const NotAllInputAddRoomError = React.lazy(() => import("../Popup/NotAllInputAddRoomError"))
 export function AddRoomButton() {
 
@@ -74,7 +74,7 @@ export function AddRoomButton() {
             <div id="addRoomButton">
                 <Button onClick={() => {addRoom() ; setInputToZero()}}>Add A New Room</Button>
             </div>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div className="loader"></div>}>
                 { noInput ? <Modal
                     open={noInput}
                     onClose={() => setNoInput(false)}>
@@ -84,7 +84,7 @@ export function AddRoomButton() {
                         open={successAdd}
                         onClose={() => setSuccessAdd(false)}
                         >
-                    <SuccessAddedRoom />
+                    <SuccessRoom />
                 </Modal>: null}
             </Suspense>
         </div>

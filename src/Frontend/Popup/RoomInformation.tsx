@@ -74,14 +74,17 @@ const RoomInformation = ({ onBookingRoomItem}) => {
                         </div>
                     ))}
                         <div id="bookingInfoPreSelected">
-                            {onBookingRoomItem.map((selectedRoom: {_id: string, capacity: number, attribut: string, haus: string, ebene: number}) => (
+                            {onBookingRoomItem.map((selectedRoom: {_id: string, capacity: number, attribut: string, haus: string, ebene: number, location: string}) => (
                                 <div id="leftBookingInfoPopup" key={selectedRoom._id}>
                                     <TextField
                                         className="leftBoxesRoomBooking"
                                         id="bookingRoomCapacity"
                                         disabled
                                         label="Kapazität"
-                                        sx={{width: '80%', marginBottom: '3%'}}
+                                        sx={{width: '80%', marginBottom: '3%', "& .MuiInputBase-input.Mui-disabled": {
+                                                WebkitTextFillColor: "#000000",
+                                                color: "#000000"
+                                            }}}
                                         defaultValue={selectedRoom.capacity}
                                         InputProps={{
                                             readOnly: true,
@@ -92,7 +95,10 @@ const RoomInformation = ({ onBookingRoomItem}) => {
                                         id="bookingRoomAttribut"
                                         disabled
                                         label="Attribut"
-                                        sx={{width: '80%', marginBottom: '3%'}}
+                                        sx={{width: '80%', marginBottom: '3%', "& .MuiInputBase-input.Mui-disabled": {
+                                                WebkitTextFillColor: "#000000",
+                                                color: "#000000"
+                                            }}}
                                         defaultValue={selectedRoom.attribut}
                                         InputProps={{
                                             readOnly: true,
@@ -103,7 +109,10 @@ const RoomInformation = ({ onBookingRoomItem}) => {
                                         id="bookingRoomHaus"
                                         disabled
                                         label="Haus"
-                                        sx={{width: '80%', marginBottom: '3%'}}
+                                        sx={{width: '80%', marginBottom: '3%', "& .MuiInputBase-input.Mui-disabled": {
+                                                WebkitTextFillColor: "#000000",
+                                                color: "#000000"
+                                            }}}
                                         defaultValue={selectedRoom.haus}
                                         InputProps={{
                                             readOnly: true,
@@ -111,10 +120,27 @@ const RoomInformation = ({ onBookingRoomItem}) => {
                                     />
                                     <TextField
                                         className="leftBoxesRoomBooking"
+                                        id="bookingRoomLocation"
+                                        disabled
+                                        label="Location"
+                                        sx={{width: '80%', marginBottom: '3%', "& .MuiInputBase-input.Mui-disabled": {
+                                                WebkitTextFillColor: "#000000",
+                                                color: "#000000"
+                                            }}}
+                                        defaultValue={selectedRoom.location}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                        />
+                                    <TextField
+                                        className="leftBoxesRoomBooking"
                                         id="bookingRoomEbene"
                                         disabled
                                         label="Ebene"
-                                        sx={{width: '80%', marginBottom: '3%'}}
+                                        sx={{width: '80%', marginBottom: '3%', "& .MuiInputBase-input.Mui-disabled": {
+                                                WebkitTextFillColor: "#000000",
+                                                color: "#000000"
+                                            }}}
                                         defaultValue={selectedRoom.ebene}
                                         InputProps={{
                                             readOnly: true,

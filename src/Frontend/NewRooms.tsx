@@ -1,5 +1,6 @@
 import React, {Suspense, useEffect, useState} from "react";
 import "./CSS/App/NewRooms.css";
+import "./CSS/Background/LoaderForRendering.css"
 import {Button, MenuItem} from "@mui/material";
 import {PersonAddAlt, Category, HouseSiding} from "@mui/icons-material";
 import TextField from "@mui/material/TextField";
@@ -321,7 +322,7 @@ function NewRooms() {
                                     </li>
                                 ))}
                             </ul>
-                            <Suspense fallback={<div>Loading...</div>}>
+                            <Suspense fallback={<div className="loader"></div>}>
                                 {openRoomPopup ? <div id="modal">
                                     <Popup open ={openRoomPopup}  closeOnDocumentClick={false}>
                                         <RoomInformation onBookingRoomItem={selectedRoom} />

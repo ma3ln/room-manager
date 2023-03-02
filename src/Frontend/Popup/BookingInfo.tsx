@@ -15,6 +15,10 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
 
     const [bookedRoom, setBookedRoom] = React.useState({ID: '', Name: '', StartTime: '', EndTime: '', Date: '', Capacity: '', Attribut: '', Haus: '', Ebene: '', Class: '', Modul: ''})
 
+    const fontColor = {
+        style: { color: '#000000'}
+    }
+
     const [startTime, setStartTime] = React.useState<Dayjs | null>(
 
     )
@@ -56,14 +60,17 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                         </div>
                 ))}
                 <div id="bookingInfoPreSelected">
-                    {onBookedRoomItem.map((selecBRoom: {_id: string, capacity: number, attribut: string, haus: string, ebene: number}) => (
+                    {onBookedRoomItem.map((selecBRoom: {_id: string, capacity: number, attribut: string, haus: string, ebene: number, location: string}) => (
                         <div id="leftBookingInfoPopup" key={selecBRoom._id}>
                             <TextField
                                 className="leftBoxesRoomBooking"
                                 id="dashboardBookingRoomCapacity"
                                 disabled
                                 label="Kapazität"
-                                sx={{width: '80%', marginBottom: '3%'}}
+                                sx={{width: '80%', marginBottom: '3%', "& .MuiInputBase-input.Mui-disabled": {
+                                        WebkitTextFillColor: "#000000",
+                                        color: "#000000"
+                                    }}}
                                 defaultValue={selecBRoom.capacity}
                                 InputProps={{
                                     readOnly: true,
@@ -74,7 +81,10 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                                 id="dashboardBookingRoomAttribut"
                                 disabled
                                 label="Attribut"
-                                sx={{width: '80%', marginBottom: '3%'}}
+                                sx={{width: '80%', marginBottom: '3%', "& .MuiInputBase-input.Mui-disabled": {
+                                        WebkitTextFillColor: "#000000",
+                                        color: "#000000"
+                                    }}}
                                 defaultValue={selecBRoom.attribut}
                                 InputProps={{
                                     readOnly: true,
@@ -85,7 +95,10 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                                 id="dashboardBookingRoomHaus"
                                 disabled
                                 label="Haus"
-                                sx={{width: '80%', marginBottom: '3%'}}
+                                sx={{width: '80%', marginBottom: '3%', "& .MuiInputBase-input.Mui-disabled": {
+                                        WebkitTextFillColor: "#000000",
+                                        color: "#000000"
+                                    }}}
                                 defaultValue={selecBRoom.haus}
                                 InputProps={{
                                     readOnly: true,
@@ -93,10 +106,27 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                             />
                             <TextField
                                 className="leftBoxesRoomBooking"
+                                id="dashboardBookingRoomLocation"
+                                disabled
+                                label="Location"
+                                sx={{width: '80%', marginBottom: '3%', "& .MuiInputBase-input.Mui-disabled": {
+                                        WebkitTextFillColor: "#000000",
+                                        color: "#000000"
+                                    }}}
+                                defaultValue={selecBRoom.location}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                                />
+                            <TextField
+                                className="leftBoxesRoomBooking"
                                 id="dashboardBookingRoomEbene"
                                 disabled
                                 label="Ebene"
-                                sx={{width: '80%', marginBottom: '3%'}}
+                                sx={{width: '80%', marginBottom: '3%', "& .MuiInputBase-input.Mui-disabled": {
+                                        WebkitTextFillColor: "#000000",
+                                        color: "#000000"
+                                    }}}
                                 defaultValue={selecBRoom.ebene}
                                 InputProps={{
                                     readOnly: true,
@@ -113,7 +143,10 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                                     disabled
                                     onChange={handleDateChange}
                                     value={dayjs(onSelectedReservation.date, "MM/DD/YYYY")}
-                                    renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomDate"
+                                    renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%', "& .MuiInputBase-input.Mui-disabled": {
+                                            WebkitTextFillColor: "#000000",
+                                            color: "#000000"
+                                        }}} id="bookingRoomDate"
                                 />} />
                             </LocalizationProvider>
                             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
@@ -124,7 +157,10 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                                     disabled
                                     inputFormat="hh:mm"
                                     value={dayjs(onSelectedReservation.startTime, "hh:mm")}
-                                    renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomStartTime"/>}
+                                    renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%', "& .MuiInputBase-input.Mui-disabled": {
+                                            WebkitTextFillColor: "#000000",
+                                            color: "#000000"
+                                        }}} id="bookingRoomStartTime"/>}
                                 />
                             </LocalizationProvider>
                             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
@@ -135,7 +171,10 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                                     disabled
                                     onChange={handleEndTimeChange}
                                     value={dayjs(onSelectedReservation.endTime, "hh:mm")}
-                                    renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%'}} id="bookingRoomEndTime"/>}
+                                    renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%', "& .MuiInputBase-input.Mui-disabled": {
+                                            WebkitTextFillColor: "#000000",
+                                            color: "#000000"
+                                        }}} id="bookingRoomEndTime"/>}
                                 />
                             </LocalizationProvider>
                         </div>
@@ -148,7 +187,10 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                             id="dashboardSelectClass"
                             defaultValue={onSelectedReservation.class}
                             onChange={ (e) => {handleSelectedClass(e)}}
-                            sx={{width: '40%'}}
+                            sx={{width: '40%', "& .MuiInputBase-input.Mui-disabled": {
+                                    WebkitTextFillColor: "#000000",
+                                    color: "#000000"
+                                }}}
                         >
                         </TextField>
                         <TextField
@@ -157,7 +199,10 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                             defaultValue={onSelectedReservation.module}
                             label="Modul"
                             id="dashboardSelectModul"
-                            sx={{width: '40%'}}
+                            sx={{width: '40%', "& .MuiInputBase-input.Mui-disabled": {
+                                    WebkitTextFillColor: "#000000",
+                                    color: "#000000"
+                                }}}
                         >
                         </TextField>
                     </div>

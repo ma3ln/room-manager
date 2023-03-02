@@ -1,5 +1,6 @@
 import "./CSS/App/Dashboard.css"
 import "./CSS/App/DashboardBuchungen.css"
+import "./CSS/Background/LoaderForRendering.css"
 import React, {Suspense, useEffect, useState} from "react";
 import {AssignmentTurnedIn} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
@@ -118,7 +119,7 @@ function Dashboard(){
 
                                             ))}
                                 </ul>
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<div className="loader"></div>}>
                                     {openBookingPopup ? <div id="modal">
                                         <Popup open={openBookingPopup}  closeOnDocumentClick={false}>
                                             <BookingInfo onBookedRoomItem={selectedBookedRoom} onSelectedReservation={selectedReservation} />
