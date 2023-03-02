@@ -1,11 +1,13 @@
-import {Button, Popover} from "@mui/material";
+import {Button, Modal, Popover} from "@mui/material";
 import React, {Suspense} from "react";
 
+const SuccessAddedRoom = React.lazy(() => import("../Popup/SuccessAddedRoom"))
 const NotAllInputAddRoomError = React.lazy(() => import("../Popup/NotAllInputAddRoomError"))
 export function AddRoomButton() {
 
     const [myError, setMyError] = React.useState(false);
     const [noInput, setNoInput] = React.useState(false);
+    const [successAdd, setSuccessAdd] = React.useState(false);
 
     function addRoom() {
         var name = ((document.getElementById("newRoomName")! as HTMLInputElement).value)
@@ -31,6 +33,7 @@ export function AddRoomButton() {
             || ((document.getElementById("newRoomCapacity")! as HTMLInputElement).value === "")
             || ((document.getElementById("newRoomLocation")! as HTMLInputElement).innerHTML === "")){
             setNoInput(true);
+            setSuccessAdd(false);
             console.log("Error: You have to put in values")
         } else {
             setMyError(false);
@@ -40,9 +43,11 @@ export function AddRoomButton() {
             })
                 .then(response => {
                     console.log("result", response)
+                    setSuccessAdd(true)
                 })
                 .catch(error => {
                     console.log("Error", error)
+                    setSuccessAdd(false);
                 });
         }
     }
@@ -70,21 +75,17 @@ export function AddRoomButton() {
                 <Button onClick={() => {addRoom() ; setInputToZero()}}>Add A New Room</Button>
             </div>
             <Suspense fallback={<div>Loading...</div>}>
-                { noInput ? <Popover
-                    anchorReference="anchorPosition"
-                    anchorPosition={{ top: 0, left: 1000 }}
-                    anchorOrigin={{
-                        vertical: 'center',
-                        horizontal: 'center',
-                    }}
-                    transformOrigin={{
-                        vertical: 'center',
-                        horizontal: 'center',
-                    }}
+                { noInput ? <Modal
                     open={noInput}
                     onClose={() => setNoInput(false)}>
                     <NotAllInputAddRoomError />
-                </Popover>   : null}
+                </Modal>   :
+                    successAdd ? <Modal
+                        open={successAdd}
+                        onClose={() => setSuccessAdd(false)}
+                        >
+                    <SuccessAddedRoom />
+                </Modal>: null}
             </Suspense>
         </div>
     );

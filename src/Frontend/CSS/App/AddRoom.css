@@ -1,7 +1,4 @@
 
-
-
-
 .mainAddRoom {
     display: flex;
     flex-direction: row;
@@ -16,7 +13,12 @@
 
 
 #placeholderStyle {
-
+    width: 100%;
+    height: 40%;
+    border-radius: 15px;
+    background-color: #7890a0;
+    border: #365D73 dotted 3px;
+    margin-top: 10%;
 }
 
 #layoutAddRoomContent {

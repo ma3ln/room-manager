@@ -44,17 +44,40 @@
 }
 
 #aboutBoxWelcome {
+    width: 0;
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: 0.05em solid orange; /* The typwriter cursor */
+    white-space: nowrap;
     margin-top: 5%;
-    margin-bottom: 5%;
+    letter-spacing: .10em; /* Adjust as needed */
+    animation:
+            typing 3.5s forwards,
+            blink-caret .75s step-end infinite;
+}
+
+#containerWelcomeText {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 #welcome-text {
     opacity: 0.6;
     font-size: 100%;
-    margin-top: 2%;
-    margin-bottom: 0;
+    display: flex;
+    flex-wrap: wrap;
     font-family: Roboto, serif;
     padding-top: 3%;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: orange; }
 }
 
 .pic {

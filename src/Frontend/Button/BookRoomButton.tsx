@@ -1,7 +1,10 @@
-import {Button} from "@mui/material";
-import React from "react";
+import {Button, Modal} from "@mui/material";
+import React, {Suspense} from "react";
 
+const SuccessBookedRoom = React.lazy(() => import("../Popup/SuccessBookedRoom"))
 export function BookRoomButton() {
+
+    const [successBook, setSuccessBook] = React.useState(false);
 
     function bookRoom() {
         var user = localStorage.getItem("username") as string
@@ -30,6 +33,7 @@ export function BookRoomButton() {
             body: formdata,
         })
             .then(response => {
+                setSuccessBook(true)
                 console.log("result", response)
             })
             .catch(error => {
@@ -40,6 +44,14 @@ export function BookRoomButton() {
     return (
         <div id="clickToBookRoom">
             <Button onClick={bookRoom} variant="contained">Raum buchen</Button>
+            <Suspense>
+                { successBook ? <Modal
+                    open={successBook}
+                    onClose={() => setSuccessBook(false)}>
+                    <SuccessBookedRoom />
+                </Modal> : null
+                }
+            </Suspense>
         </div>
     );
 }

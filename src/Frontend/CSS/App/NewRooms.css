@@ -180,6 +180,7 @@
     background-size: cover;
     opacity: 0.6;
     background: linear-gradient(rgba(54, 93, 115,.5), rgba(114, 141, 157,.5)), url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRCDvmu5WA17GNPWOtZDk3F0S9A2QYdtIJcg&usqp=CAU);
+    background-size: cover;
 }
 
 #textRoomName {

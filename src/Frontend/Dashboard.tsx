@@ -91,7 +91,8 @@ function Dashboard(){
                         <div id="personal-information">
                             <div id="personaleInformation">
                                 <div id="dashboardWelcome">
-                                    <h1>Welcome {username}!</h1>
+                                    <h1 id="welcomeInUserWelcomeText">Welcome</h1>
+                                    <h1 id="welcomeUserInfoText">{username}!</h1>
                                 </div>
                                 <UserInformation />
                             </div>
@@ -111,8 +112,7 @@ function Dashboard(){
                                                     <li id={roomReserv._id} className="oneBuchungItem" onClick={event => {setOpenBookingPopup(true); handleBackgroundBlur(); newSelectedRoom(bookedRoom); setSelectedReservation(roomReserv)}}>
                                                     <AssignmentTurnedIn />
                                                         <span><strong>{bookedRoom.name}</strong></span>
-                                                        <p>Date: {roomReserv.date}</p>
-                                                        <p>Zeit: {roomReserv.startTime}</p>
+                                                        <p>{roomReserv.date} {roomReserv.startTime}</p>
                                                     </li>
                                                     ))
 

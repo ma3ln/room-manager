@@ -1,6 +1,6 @@
 import React, {Suspense, useState} from 'react';
 import "./CSS/App/Login.css";
-import {Button, Popover} from "@mui/material";
+import {Button, Modal, Popover} from "@mui/material";
 import {Md5} from 'ts-md5';
 import {useNavigate} from "react-router-dom";
 import Popup from "reactjs-popup";
@@ -100,21 +100,11 @@ function Login() {
                 <LoginInput />
                 <div className="elementLogin">
                     <Button onClick={handleLogin} className="loginButton" sx={{ backgroundColor: '#365D73',  width: '45%', padding: 1, margin: 2}} variant="contained">Login</Button>
-                    {show && <Popover
-                        anchorReference="anchorPosition"
-                        anchorPosition={{ top: 0, left: 1000 }}
-                        anchorOrigin={{
-                            vertical: 'center',
-                            horizontal: 'center',
-                        }}
-                        transformOrigin={{
-                            vertical: 'center',
-                            horizontal: 'center',
-                        }}
-                        open={openPopover}
-                        onClose={handleClose}>
+                    {show && <Modal
+                        open={show}
+                        onClose={()  => setShow(false)}>
                         {showNoInputError ? < NoInputError/> : <WrongLogin/>  }
-                    </Popover>}
+                    </Modal>}
                 </div>
                 <p id="hr-lines"></p>
                 <div className="registerElement">

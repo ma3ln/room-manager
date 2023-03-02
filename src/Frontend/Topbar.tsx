@@ -29,14 +29,7 @@ export function Topbar() {
 
     return (
         <div className="headerDashboard">
-                <IconButton
-                    size="large"
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{position: 'relative', mr: 2}}
-                >
-                    <MenuIcon />
-                </IconButton>
+                <img src="./images/Icon.png"/>
                 <div id="rightAlignToolbarButtons">
                     <IconButton
                         id="iconButtonHelp"
@@ -60,11 +53,6 @@ export function Topbar() {
                             }
                             }
                             keepMounted
-                            transformOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'center',
-                            }
-                            }
                             open={Boolean(anchorUser)}
                             onClose={handleUserMenuClose}
 

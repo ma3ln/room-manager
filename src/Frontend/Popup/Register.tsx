@@ -109,10 +109,10 @@ function Register()  {
     return (
         <div id="registerBox">
             <div id="aboutBox">
-                <div id="welcome-text">
+                <div>
                     <h1 id="aboutBoxWelcome">Welcome!</h1>
                 </div>
-                <div>
+                <div id="containerWelcomeText">
                     <p id="welcome-text">
                         <b>Thank you for considering to use this Application and making an Account. For further
                             information on the people who made this Application, you can hover over the pictures

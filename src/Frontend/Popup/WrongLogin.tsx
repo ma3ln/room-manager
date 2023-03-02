@@ -1,11 +1,15 @@
 import React from "react";
-import {Typography} from "@mui/material";
+import "../CSS/Popup/FailureRoomAddInput.css"
+import Box from "@mui/material/Box";
+import {ReportRounded} from "@mui/icons-material";
 
 function WrongLogin() {
     return (
-        <div className="popoverBox">
-            <Typography id="errorLogin" sx={{ p : 10}}>Can't Login. Your Password or Username is Wrong</Typography>
-        </div>
+        <Box className="popoverFailureAdd">
+            <ReportRounded sx={{ fontSize: '400%', color: '#FF0000' }}/>
+            <h1 id="failureLoginRoom">Fail!!</h1>
+            <p>Can't Login without a password or a username</p>
+        </Box>
     );
 }
 
