@@ -16,6 +16,10 @@ import attributes from"./resources/attributes.json";
 import location from "./resources/location.json";
 import ebene from "./resources/ebene.json";
 
+import {Simulate} from "react-dom/test-utils";
+import rooms from "./resources/rooms.json";
+import load = Simulate.load;
+import {log} from "util";
 const RoomInformation = React.lazy(() => import("./Popup/RoomInformation"))
 
 
@@ -76,38 +80,6 @@ function NewRooms() {
         console.log(disabled)
     }
 
-    const [startTime, setStartTime] = React.useState<Dayjs | null>(
-
-    )
-
-    const [date, setDate] = React.useState<Dayjs | null>(
-
-    )
-
-    const [endTime, setEndTime] = React.useState<Dayjs | null>(
-
-    )
-
-    function handleBackgroundBlur() {
-        (document.getElementById("root")! as HTMLElement).style.filter = 'blur(5px)'
-    }
-
-    function handleNoBlurBackground() {
-        (document.getElementById("root")! as HTMLElement).style.filter = 'none'
-    }
-
-    function handleStartTimeChange(newValue: Dayjs | null | undefined) {
-        setStartTime(newValue);
-    }
-
-    function handleEndTimeChange(newValue: Dayjs | null | undefined) {
-        setEndTime(newValue);
-    }
-
-    function handleDateChange(newValue: Dayjs | null | undefined) {
-        setDate(newValue);
-    }
-
     function SelectedRoom(room: { _id: string; name: string; capacity: number; attribut: string; location: string }) {
         setSelectedRoom(loadedRooms.filter((selecRoom: { _id: string }) => (
             selecRoom._id === room._id
@@ -126,36 +98,54 @@ function NewRooms() {
         console.log(house)
         console.log(floor)
 
+        var dateString = date?.format("MM/DD/YYYY");
+        var startTimeString = startTime?.format('HH:mm')
+        var endTimeString = endTime?.format('HH:mm')
+
         const formdata = new FormData();
         formdata.append("capacity", capacity)
         formdata.append("attribut", attribut)
         formdata.append("location", loc)
         formdata.append("house", house)
         formdata.append("floor", floor)
+        if(dateString != undefined)
+            formdata.append("date", dateString.toString())
+        if(endTimeString != undefined)
+            formdata.append("endTime", endTimeString.toString())
+        if(startTimeString != undefined)
+            formdata.append("startTime", startTimeString.toString())
 
         console.log(formdata)
 
-        fetch("http://localhost:8081/filterroom", {
+        fetch("http://localhost:8081/filterroom",{
             method: 'POST',
             body: formdata,
         })
             .then(response => {
-                console.log("result", response)
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then(loadedRooms => {
+                if (loadedRooms != null) {
+                    console.log("LoadedRoom", loadedRooms);
+                    console.log(loadedRooms[0].name)
+                    console.log(loadedRooms.map((room: { name: string; _id: string }) =>
+                        room._id
+                    ))
+                    console.log(loadedRooms[0]._id);
+                    console.log(loadedRooms.filter((room: { name: any; }) =>
+                        room.name === "R20"
+                    ))
+                    setLoadedRooms(loadedRooms)
+                }else{
+                    setLoadedRooms([])
+                }
             })
             .catch(error => {
-                console.log("Error", error)
+                console.error(error);
             });
-    }
-
-    const [house, setSelectedHaus] = useState('');
-    const [loc, setSelectedLoc] = useState('');
-    const [attribut, setSelectedAttribut] = useState('');
-    const [floor, setSelectedFloor] = useState('');
-
-    function handleHausChange(event: React.ChangeEvent<{ value: unknown }>) {
-        if (typeof event.target.value === 'string') {
-            setSelectedHaus(event.target.value);
-        }
     }
 
     function handleLocationChange(event: React.ChangeEvent<{ value: unknown }>) {
@@ -174,6 +164,43 @@ function NewRooms() {
         if (typeof event.target.value === 'string') {
             setSelectedFloor(event.target.value);
         }
+    }
+
+    const [startTime, setStartTime] = React.useState<Dayjs | null>()
+    const [date, setDate] = React.useState<Dayjs | null>()
+    const [endTime, setEndTime] = React.useState<Dayjs | null>()
+    const [house, setSelectedHaus] = useState('');
+    const [loc, setSelectedLoc] = useState('');
+    const [attribut, setSelectedAttribut] = useState('');
+    const [floor, setSelectedFloor] = useState('');
+
+
+
+    function handleHausChange(event: React.ChangeEvent<{ value: unknown }>) {
+        if (typeof event.target.value === 'string') {
+            setSelectedHaus(event.target.value);
+        }
+    }
+
+
+    function handleBackgroundBlur() {
+        (document.getElementById("root")! as HTMLElement).style.filter = 'blur(5px)'
+    }
+
+    function handleNoBlurBackground() {
+        (document.getElementById("root")! as HTMLElement).style.filter = 'none'
+    }
+
+    function handleStartTimeChange(newValue: Dayjs | null | undefined) {
+        setStartTime(newValue);
+    }
+
+    function handleEndTimeChange(newValue: Dayjs | null) {
+        setEndTime(newValue);
+    }
+
+    function handleDateChange(newValue: Dayjs | null) {
+        setDate(newValue);
     }
 
     return(
@@ -230,7 +257,7 @@ function NewRooms() {
                                         </div>
                                         <div className="leftBoxFilter">
                                             <TextField
-                                                id="bulding"
+                                                id="building"
                                                 label="Haus"
                                                 sx={{width: '100%'}}
                                                 select
@@ -252,7 +279,7 @@ function NewRooms() {
                                                 onChange={handleFloorChange}
                                             >
                                                 {ebene.map((option) => (
-                                                    <MenuItem key={option.ebene} defaultValue={"floor"} value={option.ebene}>
+                                                    <MenuItem key={option.ebene} value={option.ebene}>
                                                         {option.ebene}
                                                     </MenuItem>
                                                 ))}

@@ -13,6 +13,7 @@ import (
 	"net/http"
 	dbcon "room-manager/src/Backend"
 	"strconv"
+	"time"
 )
 
 type Termin struct {
@@ -57,34 +58,53 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
-	f := bson.M{}
+	filter := bson.M{}
 
-	f["capacity"] = bson.M{"$gt": 0}
+	filter["capacity"] = bson.M{"$gt": 0}
 	attribut := r.FormValue("attribut")
 	location := r.FormValue("location")
 	house := r.FormValue("house")
 	floor := r.FormValue("floor")
 	rcapacity := r.FormValue("capacity")
+	date := r.FormValue("date")
+	startTime, _ := time.Parse("15:04", r.FormValue("startTime"))
+	endTime, _ := time.Parse("15:04", r.FormValue("endTime"))
 	capacity := 0
+	if date == "" {
+		timedate := time.Now()
+		date = timedate.Format("01/02/2006")
+	}
+	if startTime.IsZero() {
+		startTime = time.Now()
+	}
+	if endTime.IsZero() {
+		endTime = time.Now()
+	}
+
+	//startTime = time.Date(1, 1, 1, startTime.Hour(), startTime.Minute(), 0, 0, time.UTC)
+	//endTime = time.Date(1, 1, 1, endTime.Hour(), endTime.Minute(), 0, 0, time.UTC)
+
+	//fmt.Println(date, startTime, endTime)
 
 	if rcapacity != "" {
 		capacity, _ = strconv.Atoi(r.FormValue("capacity"))
-		f["capacity"] = bson.M{"$gt": capacity - 1}
+		filter["capacity"] = bson.M{"$gt": capacity - 1}
 	}
 	if attribut != "" {
-		f["attribut"] = attribut
+		filter["attribut"] = attribut
 	}
+	fmt.Println(location)
 	if location != "" {
-		f["location"] = location
+		filter["location"] = location
 	}
 	if house != "" {
-		f["haus"] = house
+		filter["haus"] = house
 	}
 	if floor != "" {
-		f["ebene"] = floor
+		filter["ebene"] = floor
 	}
 
-	fmt.Println(f)
+	fmt.Println(filter)
 
 	client, ctx := dbcon.Dbconect()
 
@@ -92,7 +112,7 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 	userColl := roommanager.Collection("Room")
 
 	var result []bson.M
-	cur, err := userColl.Find(ctx, f)
+	cur, err := userColl.Find(ctx, filter)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -113,13 +133,80 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	// Convert the results to JSON and write the response
-	/*jsonBytes, err := json.Marshal(result)
+
+	fmt.Println(result)
+
+	timefilter := bson.M{
+		"$or": []bson.M{
+			bson.M{"date": date, "startTime": bson.M{"$gt": startTime, "$lt": endTime}},
+			bson.M{"date": date, "endTime": bson.M{"$gt": startTime, "$lt": endTime}},
+			bson.M{"date": date, "endTime": startTime},
+			bson.M{"date": date, "startTime": endTime},
+			bson.M{"date": date, "endTime": endTime},
+			bson.M{"date": date, "startTime": startTime},
+		},
+	}
+	//timefilter["startTime"] = bson.M{"$gt": startTime, "$lt": endTime}
+	//timefilter["endTime"] = bson.M{"$gt": startTime, "$lt": endTime}
+
+	//fmt.Println("\n", timefilter, "\n")
+
+	client, ctx = dbcon.Dbconect()
+
+	roommanager = client.Database("roomManager")
+	userColl = roommanager.Collection("Reservation")
+
+	var results []bson.M
+	cur, err = userColl.Find(ctx, timefilter)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
-	}*/
-	fmt.Println(result)
+	}
+
+	defer cur.Close(ctx)
+
+	for cur.Next(ctx) {
+		var reservation bson.M
+		if err := cur.Decode(&reservation); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		results = append(results, reservation)
+	}
+
+	if err := cur.Err(); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	//fmt.Println(results)
+
+	var filteredResults []map[string]interface{}
+
+	for _, obj1 := range result {
+		found := false
+		// Iterate through the second slice of maps
+		for _, obj2 := range results {
+			// Compare the ObjectIds
+			if obj1["_id"].(primitive.ObjectID).Hex() == obj2["roomID"].(primitive.ObjectID).Hex() {
+				found = true
+				break
+			}
+		}
+		// If the ObjectId was not found, print the map
+		if !found {
+			filteredResults = append(filteredResults, obj1)
+		}
+	}
+
+	fmt.Println("\n", filteredResults)
+
+	jsonBytes, err := json.Marshal(filteredResults)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Write(jsonBytes)
 
 }
 
@@ -160,7 +247,6 @@ func getRooms(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Println(jsonBytes)
 	w.Write(jsonBytes)
 }
 
@@ -197,8 +283,8 @@ func bookRoom(w http.ResponseWriter, r *http.Request) {
 	class := r.FormValue("class")
 	module := r.FormValue("module")
 	date := r.FormValue("date")
-	startTime := r.FormValue("startTime")
-	endTime := r.FormValue("endTime")
+	startTime, _ := time.Parse("15:04", r.FormValue("startTime"))
+	endTime, _ := time.Parse("15:04", r.FormValue("endTime"))
 	username := r.FormValue("username")
 
 	fmt.Println(roomIDstr, name, date, startTime, endTime)
@@ -368,10 +454,6 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	arr := BsonMapToArray(result)
-
-	fmt.Println(arr)
-
 	jsonBytes, err := json.Marshal(result)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -418,7 +500,6 @@ func register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(mailFiltered) > 0 || len(userFiltered) > 0 {
-		fmt.Println("fail")
 		http.Error(w, "Fehler!!!", http.StatusBadRequest)
 	} else {
 		_, err := userColl.InsertOne(ctx, bson.D{
