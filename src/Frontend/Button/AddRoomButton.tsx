@@ -1,5 +1,6 @@
 import {Button, Modal, Popover} from "@mui/material";
 import React, {Suspense} from "react";
+import RoomAlreadyExistingRoomError from "../Popup/RoomAlreadyExistingRoomError";
 
 const SuccessRoom = React.lazy(() => import("../Popup/SuccessRoom"))
 const NotAllInputAddRoomError = React.lazy(() => import("../Popup/NotAllInputAddRoomError"))
@@ -7,6 +8,7 @@ export function AddRoomButton() {
 
     const [myError, setMyError] = React.useState(false);
     const [noInput, setNoInput] = React.useState(false);
+    const [roomAlreadyExisting, setRoomAlreadyExisting] = React.useState(false);
     const [successAdd, setSuccessAdd] = React.useState(false);
 
     function addRoom() {
@@ -42,8 +44,13 @@ export function AddRoomButton() {
                 body: formdata,
             })
                 .then(response => {
-                    console.log("result", response)
-                    setSuccessAdd(true)
+                    if (response.status == 409){
+                        console.log("fail100", response)
+                        setRoomAlreadyExisting(true);
+                    }else{
+                        console.log("result", response)
+                        setSuccessAdd(true)
+                    }
                 })
                 .catch(error => {
                     console.log("Error", error)
@@ -80,6 +87,11 @@ export function AddRoomButton() {
                     onClose={() => setNoInput(false)}>
                     <NotAllInputAddRoomError />
                 </Modal>   :
+                    roomAlreadyExisting ? <Modal
+                            open={roomAlreadyExisting}
+                            onClose={() => setRoomAlreadyExisting(false)}>
+                            <RoomAlreadyExistingRoomError />
+                        </Modal>   :
                     successAdd ? <Modal
                         open={successAdd}
                         onClose={() => setSuccessAdd(false)}

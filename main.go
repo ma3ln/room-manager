@@ -457,17 +457,31 @@ func room(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 	}
 
-	_, err := userColl.InsertOne(ctx, bson.D{
-		{Key: "name", Value: name},
-		{Key: "capacity", Value: capacity},
-		{Key: "attribut", Value: attribut},
-		{Key: "location", Value: location},
-		{Key: "haus", Value: haus},
-		{Key: "ebene", Value: ebene},
-	})
+	roomCursor, err := userColl.Find(ctx, bson.M{"name": name})
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		log.Fatal(err)
+	}
+	var roomFiltered []bson.M
+	if err = roomCursor.All(ctx, &roomFiltered); err != nil {
+		log.Fatal(err)
+	}
+
+	if len(roomFiltered) > 0 {
+		fmt.Println("fail")
+		http.Error(w, "Fehler!!!", http.StatusConflict)
+	} else {
+		_, err := userColl.InsertOne(ctx, bson.D{
+			{Key: "name", Value: name},
+			{Key: "capacity", Value: capacity},
+			{Key: "attribut", Value: attribut},
+			{Key: "location", Value: location},
+			{Key: "haus", Value: haus},
+			{Key: "ebene", Value: ebene},
+		})
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 
 }
