@@ -13,7 +13,6 @@ import (
 	"net/http"
 	dbcon "room-manager/src/Backend"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -68,21 +67,24 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 	floor := r.FormValue("floor")
 	rcapacity := r.FormValue("capacity")
 	date := r.FormValue("date")
-	startTime := r.FormValue("startTime")
-	endTime := r.FormValue("endTime")
+	startTime, _ := time.Parse("15:04", r.FormValue("startTime"))
+	endTime, _ := time.Parse("15:04", r.FormValue("endTime"))
 	capacity := 0
 	if date == "" {
 		timedate := time.Now()
 		date = timedate.Format("01/02/2006")
 	}
-	if startTime == "" {
-		time := time.Now()
-		startTime = time.Format("15:04")
+	if startTime.IsZero() {
+		startTime = time.Now()
 	}
-	if endTime == "" {
-		endTime = time.Now().Format("15:04")
+	if endTime.IsZero() {
+		endTime = time.Now()
 	}
-	fmt.Println(date, startTime, endTime)
+
+	//startTime = time.Date(1, 1, 1, startTime.Hour(), startTime.Minute(), 0, 0, time.UTC)
+	//endTime = time.Date(1, 1, 1, endTime.Hour(), endTime.Minute(), 0, 0, time.UTC)
+
+	//fmt.Println(date, startTime, endTime)
 
 	if rcapacity != "" {
 		capacity, _ = strconv.Atoi(r.FormValue("capacity"))
@@ -91,6 +93,7 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 	if attribut != "" {
 		filter["attribut"] = attribut
 	}
+	fmt.Println(location)
 	if location != "" {
 		filter["location"] = location
 	}
@@ -131,13 +134,22 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	timefilter := bson.M{}
-	timefilter["date"] = date
-	//timefilter["startTime"] = startTime
-	//timefilter["endTime"] = endTime
-
-	fmt.Println(timefilter)
 	fmt.Println(result)
+
+	timefilter := bson.M{
+		"$or": []bson.M{
+			bson.M{"date": date, "startTime": bson.M{"$gt": startTime, "$lt": endTime}},
+			bson.M{"date": date, "endTime": bson.M{"$gt": startTime, "$lt": endTime}},
+			bson.M{"date": date, "endTime": startTime},
+			bson.M{"date": date, "startTime": endTime},
+			bson.M{"date": date, "endTime": endTime},
+			bson.M{"date": date, "startTime": startTime},
+		},
+	}
+	//timefilter["startTime"] = bson.M{"$gt": startTime, "$lt": endTime}
+	//timefilter["endTime"] = bson.M{"$gt": startTime, "$lt": endTime}
+
+	//fmt.Println("\n", timefilter, "\n")
 
 	client, ctx = dbcon.Dbconect()
 
@@ -167,25 +179,35 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println(results)
+	//fmt.Println(results)
 
-	/*for _, doc := range result {
-		// Extract the "_id" field as a primitive.ObjectID
-		id := doc["_id"].(primitive.ObjectID)
+	var filteredResults []map[string]interface{}
 
-		// Compare the ObjectIDs
-		if id == targetID {
-			// do something...
+	for _, obj1 := range result {
+		found := false
+		// Iterate through the second slice of maps
+		for _, obj2 := range results {
+			// Compare the ObjectIds
+			if obj1["_id"].(primitive.ObjectID).Hex() == obj2["roomID"].(primitive.ObjectID).Hex() {
+				found = true
+				break
+			}
 		}
-	}*/
+		// If the ObjectId was not found, print the map
+		if !found {
+			filteredResults = append(filteredResults, obj1)
+		}
+	}
 
-	// Convert the results to JSON and write the response
-	/*jsonBytes, err := json.Marshal(result)
+	fmt.Println("\n", filteredResults)
+
+	jsonBytes, err := json.Marshal(filteredResults)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
-	}*/
-	fmt.Println(result)
+	}
+	w.Write(jsonBytes)
+
 }
 
 func getRooms(w http.ResponseWriter, r *http.Request) {
@@ -261,8 +283,8 @@ func bookRoom(w http.ResponseWriter, r *http.Request) {
 	class := r.FormValue("class")
 	module := r.FormValue("module")
 	date := r.FormValue("date")
-	startTime := r.FormValue("startTime")
-	endTime := r.FormValue("endTime")
+	startTime, _ := time.Parse("15:04", r.FormValue("startTime"))
+	endTime, _ := time.Parse("15:04", r.FormValue("endTime"))
 	username := r.FormValue("username")
 
 	fmt.Println(roomIDstr, name, date, startTime, endTime)

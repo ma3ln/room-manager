@@ -16,11 +16,11 @@ import attributes from"./resources/attributes.json";
 import location from "./resources/location.json";
 import ebene from "./resources/ebene.json";
 
-const RoomInformation = React.lazy(() => import("./Popup/RoomInformation"))
-import rooms from "./resources/rooms.json";
 import {Simulate} from "react-dom/test-utils";
+import rooms from "./resources/rooms.json";
 import load = Simulate.load;
 import {log} from "util";
+const RoomInformation = React.lazy(() => import("./Popup/RoomInformation"))
 
 
 function NewRooms() {
@@ -99,8 +99,8 @@ function NewRooms() {
         console.log(floor)
 
         var dateString = date?.format("MM/DD/YYYY");
-        var startTimeString = startTime?.format('HH:mm:ss')
-        var endTimeString = endTime?.format('HH:mm:ss')
+        var startTimeString = startTime?.format('HH:mm')
+        var endTimeString = endTime?.format('HH:mm')
 
         const formdata = new FormData();
         formdata.append("capacity", capacity)
@@ -117,15 +117,34 @@ function NewRooms() {
 
         console.log(formdata)
 
-        fetch("http://localhost:8081/filterroom", {
+        fetch("http://localhost:8081/filterroom",{
             method: 'POST',
             body: formdata,
         })
             .then(response => {
-                console.log("result", response)
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then(loadedRooms => {
+                if (loadedRooms != null) {
+                    console.log("LoadedRoom", loadedRooms);
+                    console.log(loadedRooms[0].name)
+                    console.log(loadedRooms.map((room: { name: string; _id: string }) =>
+                        room._id
+                    ))
+                    console.log(loadedRooms[0]._id);
+                    console.log(loadedRooms.filter((room: { name: any; }) =>
+                        room.name === "R20"
+                    ))
+                    setLoadedRooms(loadedRooms)
+                }else{
+                    setLoadedRooms([])
+                }
             })
             .catch(error => {
-                console.log("Error", error)
+                console.error(error);
             });
     }
 
@@ -171,7 +190,7 @@ function NewRooms() {
         (document.getElementById("root")! as HTMLElement).style.filter = 'none'
     }
 
-    function handleStartTimeChange(newValue: Dayjs | null) {
+    function handleStartTimeChange(newValue: Dayjs | null | undefined) {
         setStartTime(newValue);
     }
 
@@ -360,6 +379,7 @@ function NewRooms() {
                                                 label="Location"
                                                 sx={{width: '100%'}}
                                                 select
+                                                onChange={handleLocationChange}
                                             >
                                                 {location.map((option) => (
                                                     <MenuItem key={option.location} value={option.location}>
@@ -374,6 +394,7 @@ function NewRooms() {
                                                 label="Haus"
                                                 sx={{width: '100%'}}
                                                 select
+                                                onChange={handleHausChange}
                                             >
                                                 {haus.map((option) => (
                                                     <MenuItem key={option.haus} value={option.haus}>
@@ -388,6 +409,7 @@ function NewRooms() {
                                                 label="Ebene"
                                                 sx={{width: '100%'}}
                                                 select
+                                                onChange={handleFloorChange}
                                             >
                                                 {ebene.map((option) => (
                                                     <MenuItem key={option.ebene} value={option.ebene}>
