@@ -148,22 +148,6 @@ function NewRooms() {
             });
     }
 
-    const [startTime, setStartTime] = React.useState<Dayjs | null>()
-    const [date, setDate] = React.useState<Dayjs | null>()
-    const [endTime, setEndTime] = React.useState<Dayjs | null>()
-    const [house, setSelectedHaus] = useState('');
-    const [loc, setSelectedLoc] = useState('');
-    const [attribut, setSelectedAttribut] = useState('');
-    const [floor, setSelectedFloor] = useState('');
-
-
-
-    function handleHausChange(event: React.ChangeEvent<{ value: unknown }>) {
-        if (typeof event.target.value === 'string') {
-            setSelectedHaus(event.target.value);
-        }
-    }
-
     function handleLocationChange(event: React.ChangeEvent<{ value: unknown }>) {
         if (typeof event.target.value === 'string') {
             setSelectedLoc(event.target.value);
@@ -182,123 +166,6 @@ function NewRooms() {
         }
     }
 
-    function handleBackgroundBlur() {
-        (document.getElementById("root")! as HTMLElement).style.filter = 'blur(5px)'
-    }
-
-    function handleNoBlurBackground() {
-        (document.getElementById("root")! as HTMLElement).style.filter = 'none'
-    }
-
-    function handleStartTimeChange(newValue: Dayjs | null | undefined) {
-        setStartTime(newValue);
-    }
-
-    function handleEndTimeChange(newValue: Dayjs | null) {
-        setEndTime(newValue);
-    }
-
-    function handleDateChange(newValue: Dayjs | null) {
-        setDate(newValue);
-    }
-/*
-    function saveSelectedRoomData(name: string) {
-        for ( let i = 0; i< rooms.length; i++) {
-            if(name === rooms[i].name) {
-                bookingName = rooms[i].name;
-                bookingLocation = rooms[i].location;
-                bookingCapacity = rooms[i].capacity;
-                bookingAttribut = rooms[i].attribut;
-                bookingHaus = rooms[i].haus;
-                bookingEbene = rooms[i].ebene;
-                setBookingInfoData({
-                    location: bookingLocation,
-                    attribut: bookingAttribut, capacity: bookingCapacity, ebene: bookingEbene, haus: bookingHaus, name: bookingName})
-            }
-        }
-    }
-*/
-
-    function SelectedRoom(room: { _id: string; name: string; capacity: number; attribut: string; location: string }) {
-        setSelectedRoom(loadedRooms.filter((selecRoom: { _id: string }) => (
-            selecRoom._id === room._id
-        )))
-        console.log(room._id)
-        console.log(selectedRoom)
-    }
-
-    function filterRooms() {
-        // filter through set filters of Attribut/Capacity/Location/Haus/Ebene
-        let newFilteredRooms = rooms.filter(newRooms => {
-            return newRooms.capacity <= parseInt((document.getElementById("numberPeopleInRoom")! as HTMLInputElement).value) &&
-                newRooms.attribut === ((document.getElementById("roomAttributes")! as HTMLInputElement).innerHTML) &&
-                newRooms.location === ((document.getElementById("location")! as HTMLInputElement).innerHTML) &&
-                newRooms.haus === ((document.getElementById("building")! as HTMLInputElement).innerHTML) &&
-                newRooms.ebene === parseInt((document.getElementById("floor")! as HTMLInputElement).innerHTML);
-        });
-        console.log(newFilteredRooms)
-
-        let capacity = (document.getElementById("numberPeopleInRoom")! as HTMLInputElement).value
-        // let attribut = (document.getElementById("roomAttributes")! as HTMLInputElement).innerHTML
-        // let location = (document.getElementById("location")! as HTMLInputElement).innerHTML
-        // let house = (document.getElementById("building")! as HTMLInputElement).innerHTML
-        // let floor = (document.getElementById("floor")! as HTMLInputElement).innerHTML
-
-        console.log(capacity)
-        console.log(attribut)
-        console.log(loc)
-        console.log(house)
-        console.log(floor)
-
-        var dateString = date?.format("MM/DD/YYYY");
-        var startTimeString = startTime?.format('HH:mm:ss')
-        var endTimeString = endTime?.format('HH:mm:ss')
-
-        const formdata = new FormData();
-        formdata.append("capacity", capacity)
-        formdata.append("attribut", attribut)
-        formdata.append("location", loc)
-        formdata.append("house", house)
-        formdata.append("floor", floor)
-        if(dateString != undefined)
-            formdata.append("date", dateString.toString())
-        if(endTimeString != undefined)
-            formdata.append("endTime", endTimeString.toString())
-        if(startTimeString != undefined)
-            formdata.append("startTime", startTimeString.toString())
-
-        console.log(formdata)
-
-        fetch("http://localhost:8081/filterroom", {
-            method: 'POST',
-            body: formdata,
-        })
-            .then(response => {
-                console.log("result", response)
-            })
-            .catch(error => {
-                console.log("Error", error)
-            });
-/*
-        let filterTimeAndDate = newFilteredRooms.filter((attributeFilteredRoom) => {
-            if (attributeFilteredRoom.booked.some(({ date }) => (dayjs(date, "MM/DD/YYYY") === dayjs((document.getElementById("date")! as HTMLInputElement).value, "MM/DD/YYYY")))) {
-                var startAndEndFilterBetween = attributeFilteredRoom.booked.some(({ startTime, endTime }) => (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isAfter(dayjs(startTime, "hh:mm"))
-                    && (dayjs((document.getElementById("endTime")! as HTMLInputElement).value, "hh:mm")).isBefore(dayjs(endTime, "hh:mm")))
-                var startFilter = attributeFilteredRoom.booked.some(({ startTime, endTime }) => (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isAfter(dayjs(startTime, "hh:mm"))
-                    && (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isBefore(dayjs(endTime, "hh:mm")))
-                var endFilter = attributeFilteredRoom.booked.some(({ endTime }) => (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isAfter(dayjs(endTime, "hh:mm"))
-                    && (dayjs((document.getElementById("endTime")! as HTMLInputElement).value, "hh:mm")).isBefore(dayjs(endTime, "hh:mm")))
-                var startAndEndFilterBeforeAndAfter = attributeFilteredRoom.booked.some(({ startTime, endTime }) => (dayjs((document.getElementById("startTime")! as HTMLInputElement).value, "hh:mm")).isBefore(dayjs(startTime, "hh:mm"))
-                    && (dayjs((document.getElementById("endTime")! as HTMLInputElement).value, "hh:mm")).isAfter(dayjs(endTime, "hh:mm")))
-                if(startFilter && startAndEndFilterBetween && startAndEndFilterBeforeAndAfter && endFilter) {
-                    return null;
-                }
-                return attributeFilteredRoom
-            }
-            return attributeFilteredRoom
-        }) */
-    }
-
     const [startTime, setStartTime] = React.useState<Dayjs | null>()
     const [date, setDate] = React.useState<Dayjs | null>()
     const [endTime, setEndTime] = React.useState<Dayjs | null>()
@@ -324,7 +191,7 @@ function NewRooms() {
         (document.getElementById("root")! as HTMLElement).style.filter = 'none'
     }
 
-    function handleStartTimeChange(newValue: Dayjs | null) {
+    function handleStartTimeChange(newValue: Dayjs | null | undefined) {
         setStartTime(newValue);
     }
 
