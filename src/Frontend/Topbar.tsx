@@ -1,14 +1,17 @@
-import {Button, IconButton, Menu, MenuItem, Toolbar} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import {Button, IconButton, Menu, MenuItem, Modal} from "@mui/material";
 import {AccountCircle, QuestionMark} from "@mui/icons-material";
 import React from "react";
 import {useNavigate} from "react-router-dom";
 import "./CSS/App/Topbar.css"
+import "./CSS/Popup/RoomInformation.css"
+
+const ExplanantionApp = React.lazy(() => import("./Popup/ExplanationApp"));
 
 export function Topbar() {
 
     const username = localStorage.getItem("username");
     const navigate = useNavigate();
+    const [explanation, setExplanation] = React.useState(false)
     const [anchorUser, setAnchorUser] = React.useState<null | HTMLElement>(null)
 
     const handleUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -20,6 +23,7 @@ export function Topbar() {
     }
 
 
+
     function handleLogout() {
         localStorage.setItem("isLoggedIn", "null")
         localStorage.setItem("isLoggegIn", "null")
@@ -29,7 +33,7 @@ export function Topbar() {
 
     return (
         <div className="headerDashboard">
-                <img src="/roomscape_logo.png" alt="Logo"  width="80" height="80" />
+                <img src="/roomscape_logo.png" alt="Logo"  width="3%" height="80%" />
                 <div id="rightAlignToolbarButtons">
                     <IconButton
                         id="iconButtonHelp"
@@ -38,10 +42,18 @@ export function Topbar() {
                         aria-label="Help"
                         aria-haspopup="true"
                         aria-controls="menu-appbar"
+                        onClick={() => setExplanation(true)}
                         sx={{ mr: 2, display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}
                     >
                         <QuestionMark/>
                     </IconButton>
+                    {
+                        explanation ? <Modal
+                        open={explanation}
+                        onClose={()  => setExplanation(false)}>
+                            <ExplanantionApp />
+                        </Modal> : null
+                    }
                     <div>
                         <Button onClick={handleUserMenu} sx={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}} id="usernameToolbar" color="inherit" startIcon={<AccountCircle />}>{username}</Button>
                         <Menu

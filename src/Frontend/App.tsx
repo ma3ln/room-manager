@@ -1,9 +1,9 @@
 import React, {Suspense} from 'react';
 import './CSS/App/App.css';
-import Login from './Login';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import "./CSS/Background/LoaderForRendering.css"
+import FrontPage from "./FrontPage";
 
 const Dashboard = React.lazy(() => import("./Dashboard"))
 const NewRooms = React.lazy(() => import("./NewRooms"))
@@ -11,6 +11,8 @@ const AddRoom = React.lazy(() => import("./AddRoom"))
 const Sidebars = React.lazy(() => import("./Sidebars"))
 const Footer = React.lazy(() => import("./Footer"))
 const Topbar = React.lazy(() => import("./Topbar"))
+const Login = React.lazy(() => import("./Login"))
+const FilterForStudent = React.lazy(() => import("./FilterForStudent"))
 
 function App() {
 
@@ -47,22 +49,31 @@ function App() {
         <BrowserRouter>
                 <div id="content">
                     <Routes>
-                        <Route path={"/"} element={<Login/>} />
-                            <Route element={<AppLayout/>} >
-                                <Route path={"/dashboard"} element={
-                                    <Suspense fallback={<div className="loader"></div>}>
-                                        <Dashboard />
-                                    </Suspense>
-                                    }></Route>
-                                <Route path={"/newrooms"} element={
-                                    <Suspense fallback={<div className="loader"></div>}>
-                                        <NewRooms />
-                                    </Suspense>
-                                    }></Route>
-                                <Route path={"/addroom"} element={
-                                    <Suspense fallback={<div className="loader"></div>}>
-                                        <AddRoom />
-                                    </Suspense>}></Route>
+                        <Route path={"/"} element={<FrontPage />}/>
+                            <Route path={"/login"} element={
+                                <Suspense fallback={<div className="loader"></div>}>
+                                    <Login/>
+                                </Suspense>
+                                } />
+                            <Route path={"/student"} element={
+                                <Suspense fallback={<div className="loader"></div>}>
+                                    <FilterForStudent />
+                                </Suspense>}></Route>
+                                <Route element={<AppLayout/>} >
+                                    <Route path={"/dashboard"} element={
+                                        <Suspense fallback={<div className="loader"></div>}>
+                                            <Dashboard />
+                                        </Suspense>
+                                        }></Route>
+                                    <Route path={"/newrooms"} element={
+                                        <Suspense fallback={<div className="loader"></div>}>
+                                            <NewRooms />
+                                        </Suspense>
+                                        }></Route>
+                                    <Route path={"/addroom"} element={
+                                        <Suspense fallback={<div className="loader"></div>}>
+                                            <AddRoom />
+                                        </Suspense>}></Route>
                             </Route>
                     </Routes>
                 </div>

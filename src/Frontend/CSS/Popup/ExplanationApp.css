@@ -1,0 +1,19 @@
+.popoverExplanationApp {
+    width: auto;
+    height: auto;
+    padding: 2% 2%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 1px 0 17px 0 #606060;
+    position: absolute;
+    background-color: #f6fcfe;
+    border-radius: 20px;
+    border: #7890a0 4px dashed;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+}

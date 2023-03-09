@@ -54,6 +54,74 @@ func BsonMapToArray(m bson.M) map[string]string {
 	return arr
 }
 
+func getStudentFilteredRooms(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	filter := bson.M{}
+
+	class := r.FormValue("class")
+	module := r.FormValue("module")
+	if class != "" {
+		filter["class"] = class
+	}
+	if module != "" {
+		filter["module"] = module
+	}
+
+	fmt.Println(filter)
+
+	client, ctx := dbcon.Dbconect()
+
+	roommanager := client.Database("roomManager")
+	userColl := roommanager.Collection("Reservation")
+
+	pipeline := bson.A{
+		bson.M{
+			"$match": filter,
+		},
+		bson.M{
+			"$addFields": bson.M{
+				"week": bson.M{"$week": bson.M{"$toDate": "$date"}},
+			},
+		},
+	}
+
+	var result []bson.M
+	cur, err := userColl.Aggregate(ctx, pipeline)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		fmt.Println(err.Error())
+		return
+	}
+
+	fmt.Println(result)
+
+	defer cur.Close(ctx)
+
+	for cur.Next(ctx) {
+		var room bson.M
+		if err := cur.Decode(&room); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		result = append(result, room)
+	}
+
+	if err := cur.Err(); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	jsonBytes, err := json.Marshal(result)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Write(jsonBytes)
+
+}
+
 func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -287,13 +355,44 @@ func bookRoom(w http.ResponseWriter, r *http.Request) {
 	endTime, _ := time.Parse("15:04", r.FormValue("endTime"))
 	username := r.FormValue("username")
 
-	fmt.Println(roomIDstr, name, date, startTime, endTime)
+	fmt.Println(roomIDstr, name, date, startTime, endTime, class, module)
 
 	client, ctx := dbcon.Dbconect()
 
 	roommanager := client.Database("roomManager")
 	reservColl := roommanager.Collection("Reservation")
 	userColl := roommanager.Collection("User")
+
+	roomID, err := primitive.ObjectIDFromHex(roomIDstr)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	// Check if a reservation already exists for the given room, date, and time range
+	reservationFilter := bson.M{
+		"roomID": roomID,
+		"date":   date,
+		"$or": []bson.M{
+			bson.M{"date": date, "startTime": bson.M{"$gt": startTime, "$lt": endTime}},
+			bson.M{"date": date, "endTime": bson.M{"$gt": startTime, "$lt": endTime}},
+			bson.M{"date": date, "endTime": startTime},
+			bson.M{"date": date, "startTime": endTime},
+			bson.M{"date": date, "endTime": endTime},
+			bson.M{"date": date, "startTime": startTime},
+		},
+	}
+	count, err := reservColl.CountDocuments(ctx, reservationFilter)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Println(count)
+
+	if count > 0 {
+		http.Error(w, "Reservation already exists", http.StatusNotFound)
+		return
+	}
 
 	projection := bson.M{"_id": 1}
 	opts := options.FindOne().SetProjection(projection)
@@ -303,11 +402,10 @@ func bookRoom(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var user bson.M
-	err := userColl.FindOne(ctx, bson.M{"username": username}, opts).Decode(&user)
-
-	roomID, err := primitive.ObjectIDFromHex(roomIDstr)
+	err = userColl.FindOne(ctx, bson.M{"username": username}, opts).Decode(&user)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(w, "User not found", http.StatusNotFound)
+		return
 	}
 
 	fmt.Println(user)
@@ -328,6 +426,7 @@ func bookRoom(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.WriteHeader(http.StatusOK)
 }
 
 func getBookedRooms(w http.ResponseWriter, r *http.Request) {
@@ -577,6 +676,7 @@ func handleRequests() {
 	http.HandleFunc("/getBookedRooms", getBookedRooms)
 	http.HandleFunc("/deleteBooked", deleteBookedRoom)
 	http.HandleFunc("/filterroom", getFilterdRooms)
+	http.HandleFunc("/student", getStudentFilteredRooms)
 	http.ListenAndServe(":8081", nil)
 }
 

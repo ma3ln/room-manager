@@ -1,0 +1,193 @@
+#contentFilterForStudent {
+    height: 100vh;
+    width: 100vw;
+    background-image: linear-gradient(to right, #365D73 0, #365D73 2%, #F7F7F5 2%, #F7F7F5 98%, #365D73 98%, #365D73 2%);
+}
+
+#contentBoxesFilterForStudent {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+}
+
+#textFilterForStudent {
+    text-align: left;
+    margin-left: 7%;
+}
+
+#newFilterForStudent {
+    margin-left: 5%;
+    width: 45%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+#newFilterForStudentInput {
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+    position: relative;
+    border-top: #365D73 solid 7px;
+    border-radius: 15px;
+    display: flex;
+    height: 60vh;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    overflow-y: scroll;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+#newFilterForStudentInput::-webkit-scrollbar {
+    display: none;
+}
+
+.leftBoxFilter {
+    margin-bottom: 5%;
+}
+
+#boxFilterButton {
+    width: 100%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#newBuchungenBoxes {
+    width: 36vw;
+    height: 100%;
+    margin-bottom: 3%;
+    overflow-y: scroll;
+}
+
+#newBuchungenBoxes::-webkit-scrollbar {
+    display: none;
+}
+
+#filter {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin-top: 5%;
+    margin-bottom: 3%;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: space-around;
+    align-content: center;
+}
+
+.filterForStudent {
+    margin-bottom: 4%;
+}
+
+#roomForStudentFilterDiv {
+    border-radius: 15px;
+    box-shadow: 1px 0 8px 0 #606060;
+    background-color: #FFFFFF;
+    position: relative;
+    width: 35vw;
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: #365D73 solid 7px;
+}
+
+.list-group-student-filter {
+    align-items: center;
+    overflow-y: scroll;
+    display: flex;
+    width: 90%;
+    flex-direction: column;
+}
+
+.list-group-student-filter::-webkit-scrollbar {
+    display: none;
+}
+
+#titleForStudentFilter {
+    font-size: 40px;
+}
+
+.theWeek {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 112%;
+    margin-bottom: 3%;
+    border-bottom: #7890a0 dashed 3px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+#listForStudentFilter {
+    width: 70%;
+    height: 100%;
+}
+
+.infoRoomForCourseReservation:hover {
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+    border: #7890a0 dashed 2px;
+    transition: all .10s ease;
+}
+
+.studentFilterTitleRoom {
+    color: #365D73;
+    font-size: 150%;
+}
+
+.infoRoomForCourseReservation {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    width: 100%;
+    height: 70%;
+    border: #365D73 dashed 1px;
+}
+
+.infoNameDate {
+    align-items: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.infoClassModule {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.infoDateStartTimeEndTime {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.infoStartEnd {
+    position: relative;
+    display: flex;
+    width: -webkit-fill-available;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+}

@@ -1,0 +1,62 @@
+#frontPage {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 100%;
+}
+
+#leftIcon {
+    grid-column: 1/1;
+    background-color: #365D73;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#logoFrontPage {
+    height: 100vh;
+    width: 100vw;
+}
+
+#rightroomscapeToLoginOrStudent {
+    grid-column: 2/2;
+    background-color: #FFFFFF;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#buttonsToNavigate {
+    display: flex;
+    flex-direction: column;
+    height: 20vh;
+    width: 50%;
+    justify-content: space-evenly;
+}
+
+#appTitle {
+    width: 37%;
+    font-size: 60px;
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: .15em solid orange; /* The typwriter cursor */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    letter-spacing: .05em; /* Adjust as needed */
+    animation:
+            typing 2s steps(40, end),
+            blink-caret .75s step-end infinite;
+}
+
+/* The typing effect */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 37% }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: orange; }
+}
