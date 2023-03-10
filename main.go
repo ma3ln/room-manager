@@ -95,8 +95,6 @@ func getStudentFilteredRooms(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println(result)
-
 	defer cur.Close(ctx)
 
 	for cur.Next(ctx) {
@@ -107,6 +105,8 @@ func getStudentFilteredRooms(w http.ResponseWriter, r *http.Request) {
 		}
 		result = append(result, room)
 	}
+
+	fmt.Println(result)
 
 	if err := cur.Err(); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -152,7 +152,7 @@ func getFilterdRooms(w http.ResponseWriter, r *http.Request) {
 	//startTime = time.Date(1, 1, 1, startTime.Hour(), startTime.Minute(), 0, 0, time.UTC)
 	//endTime = time.Date(1, 1, 1, endTime.Hour(), endTime.Minute(), 0, 0, time.UTC)
 
-	//fmt.Println(date, startTime, endTime)
+	fmt.Println(date, startTime, endTime)
 
 	if rcapacity != "" {
 		capacity, _ = strconv.Atoi(r.FormValue("capacity"))

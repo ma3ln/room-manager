@@ -2,10 +2,16 @@ import React from "react";
 import TextField from "@mui/material/TextField";
 import {Button} from "@mui/material";
 import "./CSS/App/FilterForStudent.css";
+import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
 
 
 function FilterForStudent() {
 
+    dayjs.extend(utc)
+    dayjs.extend(timezone)
     const [filteredListForStudent, setFilteredListForStudent] = React.useState([])
 
     function filterStudentRooms() {
@@ -34,6 +40,7 @@ function FilterForStudent() {
                 return response.json();
             })
             .then(filteredListForStudent => {
+                console.log(filteredListForStudent)
                 if (filteredListForStudent != null) {
                     console.log(filteredListForStudent)
                     setFilteredListForStudent(filteredListForStudent)
@@ -98,8 +105,8 @@ function FilterForStudent() {
                                         <div className="infoDateStartTimeEndTime">
                                             <h3>Datum: {room.date}</h3>
                                             <div className="infoStartEnd">
-                                                <h3>Start: {room.startTime}</h3>
-                                                <h3>Ende: {room.endTime}</h3>
+                                                <h3>Start: {dayjs(room.startTime).utc().format('HH:mm')}</h3>
+                                                <h3>Ende: {dayjs(room.endTime).utc().format('HH:mm')}</h3>
                                             </div>
                                         </div>
                                     </div>

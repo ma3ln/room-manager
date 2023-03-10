@@ -5,6 +5,8 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, {Dayjs} from "dayjs";
 import "../CSS/Popup/RoomInformation.css";
 import {DeleteButton} from "../Button/DeleteButton";
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
 import {AssignmentTurnedIn} from "@mui/icons-material";
 
@@ -13,7 +15,11 @@ import {AssignmentTurnedIn} from "@mui/icons-material";
 // @ts-ignore
 const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
 
+
+    dayjs.extend(utc)
+    dayjs.extend(timezone)
     const [bookedRoom, setBookedRoom] = React.useState({ID: '', Name: '', StartTime: '', EndTime: '', Date: '', Capacity: '', Attribut: '', Haus: '', Ebene: '', Class: '', Modul: ''})
+
 
     const fontColor = {
         style: { color: '#000000'}
@@ -155,8 +161,7 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                                     className="rightBoxesRoomBooking"
                                     onChange={handleStartTimeChange}
                                     disabled
-                                    inputFormat="hh:mm"
-                                    value={dayjs(onSelectedReservation.startTime, "hh:mm")}
+                                    value={dayjs(onSelectedReservation.startTime).utc()}
                                     renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%', "& .MuiInputBase-input.Mui-disabled": {
                                             WebkitTextFillColor: "#000000",
                                             color: "#000000"
@@ -167,10 +172,9 @@ const RoomInformation = ({ onBookedRoomItem, onSelectedReservation}) => {
                                 <TimePicker
                                     label="End Time"
                                     className="rightBoxesRoomBooking"
-                                    inputFormat="hh:mm"
                                     disabled
                                     onChange={handleEndTimeChange}
-                                    value={dayjs(onSelectedReservation.endTime, "hh:mm")}
+                                    value={dayjs(onSelectedReservation.endTime).utc()}
                                     renderInput={(params) => <TextField {...params} sx={{width: '80%', marginBottom: '3%', "& .MuiInputBase-input.Mui-disabled": {
                                             WebkitTextFillColor: "#000000",
                                             color: "#000000"
