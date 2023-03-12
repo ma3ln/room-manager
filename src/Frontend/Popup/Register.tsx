@@ -1,5 +1,5 @@
-import React from 'react';
-import {Button, Icon} from "@mui/material";
+import React, {Suspense} from 'react';
+import {Button, Icon, Modal} from "@mui/material";
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import {AccountCircle} from "@mui/icons-material";
@@ -12,12 +12,16 @@ import "../CSS/Popup/AboutBoxRegister.css";
 import "../CSS/Popup/InputBoxRegister.css";
 import "../CSS/Popup/AboutBoxRegister.css";
 import {Md5} from "ts-md5";
+import RoomAlreadyExistingRoomError from "./RoomAlreadyExistingRoomError";
+
+const SuccessLogin = React.lazy(() => import("./SuccessLogin"));
 
 
 function Register()  {
 
     var activeIndex = 0;
     const flipcard = document.getElementsByClassName("flip-card");
+    const [successRegister, setSuccessRegister] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
     const [show, setShow] = React.useState(false);
     const [showNoInputError, setShowNoInputError] = React.useState(false);
@@ -49,6 +53,7 @@ function Register()  {
                 })
                     .then(response => {
                         response.text()
+                        setSuccessRegister(true)
                     })
                     .then(result => console.log("result", result))
                     .catch(error => {
@@ -238,6 +243,13 @@ function Register()  {
                     <div>
                         <Button onClick={handleRegister} id="buttonToRegister" className="registerButton" sx={{ backgroundColor: '#365D73', opacity: 0.8, width: '60%', padding: 1, margin: 2, marginTop: '5%'}} variant="contained" >Register</Button>
                     </div>
+                    <Suspense fallback={<div className="loader"></div>}>
+                        {successRegister ? <Modal
+                            open={successRegister}
+                            onClose={() => setSuccessRegister(false)}>
+                            <SuccessLogin />
+                        </Modal> : null }
+                    </Suspense>
                 </div>
             </div>
         </div>
