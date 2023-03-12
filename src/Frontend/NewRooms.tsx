@@ -70,9 +70,9 @@ function NewRooms() {
 
 
 
-    setInterval(() => {
-        handleLoad();
-    }, 10);
+    // setInterval(() => {
+    //     handleLoad();
+    // }, 10);
 
 
     function handleAbleEndTimePicker() {

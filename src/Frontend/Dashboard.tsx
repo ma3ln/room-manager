@@ -80,9 +80,9 @@ function Dashboard(){
         }
     }
 
-    setInterval(() => {
-        handleLoad();
-    }, 10);
+    // setInterval(() => {
+    //     handleLoad();
+    // }, 10);
 
 
 
