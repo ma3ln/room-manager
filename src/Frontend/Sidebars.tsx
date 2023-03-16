@@ -63,8 +63,8 @@ export default function Sidebars() {
                         sx={{ borderRight: 1, borderColor: 'divider' }}
                     >
                         <Tab sx={{fontSize:'0.8vw'}} onClick={handleDashboard} label="Dashboard" {...a11yProps(0)} />
-                        <Tab sx={{fontSize:'0.8vw'}} onClick={handleNewRooms} label="Meine Raumbuchungen" {...a11yProps(1)} />
-                        <Tab  sx={{fontSize:'0.8vw'}}onClick={handleAddRoom} label="Raumplan" {...a11yProps(2)} />
+                        <Tab sx={{fontSize:'0.8vw'}} onClick={handleNewRooms} label="Raum buchen" {...a11yProps(1)} />
+                        <Tab  sx={{fontSize:'0.8vw'}}onClick={handleAddRoom} label="Räume hinzufügen" {...a11yProps(2)} />
                     </Tabs>
                 </Box>
             </div>

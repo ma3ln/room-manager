@@ -69,6 +69,7 @@ const RoomInformation = ({ onBookingRoomItem}) => {
                 <div id="bodyForBooking">
                     {onBookingRoomItem.map((selectedRoom: {_id: string, name: string}) => (
                         <div id="headBookingInfoPopup" key={selectedRoom._id}>
+                            <h4 id="bookingRoomId">{selectedRoom._id}</h4>
                             <h1 id="bookingRoomName">{selectedRoom.name}</h1>
                         </div>
                     ))}

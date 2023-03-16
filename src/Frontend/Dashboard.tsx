@@ -8,11 +8,17 @@ import {useNavigate} from "react-router-dom";
 import Popup from "reactjs-popup";
 import {Button} from "@mui/material";
 import UserInformation from "./Page/UserInformation";
+import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
 const BookingInfo = React.lazy(() => import("./Popup/BookingInfo"))
 
 function Dashboard(){
 
+
+    dayjs.extend(utc)
+    dayjs.extend(timezone)
     const username = localStorage.getItem("username");
     const [loadBookedRooms, setLoadBooked] = React.useState([]);
     const [selectedReservation, setSelectedReservation] = React.useState({_id: "", roomID: "",  name: "", date: "", startTime: "", endTime: "", class: "", module: ""});
@@ -113,7 +119,8 @@ function Dashboard(){
                                                     <li id={roomReserv._id} className="oneBuchungItem" onClick={event => {setOpenBookingPopup(true); handleBackgroundBlur(); newSelectedRoom(bookedRoom); setSelectedReservation(roomReserv)}}>
                                                     <AssignmentTurnedIn />
                                                         <span><strong>{bookedRoom.name}</strong></span>
-                                                        <p>{roomReserv.date} {roomReserv.startTime}</p>
+                                                        <p>{roomReserv.date}</p>
+                                                        <p>{roomReserv.startTime}</p>
                                                     </li>
                                                     ))
 

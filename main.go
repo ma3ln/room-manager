@@ -443,9 +443,12 @@ func getBookedRooms(w http.ResponseWriter, r *http.Request) {
 	projection := bson.M{"_id": 1}
 	opts := options.FindOne().SetProjection(projection)
 
+	fmt.Println(userID)
+
 	var user bson.M
 	err := userColl.FindOne(ctx, bson.M{"username": userID}, opts).Decode(&user)
-	fmt.Println(userID)
+	objectIDUser := user["_id"].(primitive.ObjectID)
+	fmt.Println(objectIDUser)
 	pipeline := bson.A{
 		bson.M{
 			"$lookup": bson.M{
@@ -457,12 +460,28 @@ func getBookedRooms(w http.ResponseWriter, r *http.Request) {
 		},
 		bson.M{
 			"$match": bson.M{
-				"reservations": bson.M{"$ne": []interface{}{}},
+				"reservations":        bson.M{"$ne": []interface{}{}},
+				"reservations.userID": objectIDUser,
 			},
 		},
 		bson.M{
-			"$match": bson.M{
-				"reservations.userID": user["_id"].(primitive.ObjectID),
+			"$project": bson.M{
+				"name":     1,
+				"capacity": 1,
+				"attribut": 1,
+				"location": 1,
+				"haus":     1,
+				"ebene":    1,
+				"roomID":   "$_id",
+				"reservations": bson.M{
+					"$filter": bson.M{
+						"input": "$reservations",
+						"as":    "reservation",
+						"cond": bson.M{
+							"$eq": bson.A{"$$reservation.userID", objectIDUser},
+						},
+					},
+				},
 			},
 		},
 		bson.D{
@@ -481,6 +500,8 @@ func getBookedRooms(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	fmt.Println(reservations)
 
 	// Convert the results to JSON and write the response
 	jsonBytes, err := json.Marshal(reservations)
